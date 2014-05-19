@@ -103,7 +103,8 @@ mpiexec -n %x_numprocs% %MPI_ACCESSORY_OPTIONS% %MACHINEFILE% -genvlist HOME,PAT
 GOTO END
 
 
-:MSMPI
+:MSMPI2008
+:MSMPI2012
 IF NOT "%MACHINEFILE%" == "" set MACHINEFILE=-machinefile %MACHINEFILE%
 
 @echo on
