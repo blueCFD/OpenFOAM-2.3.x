@@ -112,6 +112,17 @@ Foam::multiphaseMixture::multiphaseMixture
         zeroGradientFvPatchScalarField::typeName
     ),
 
+    nu_
+    (
+        IOobject
+        (
+            "nu",
+            mesh_.time().timeName(),
+            mesh_
+        ),
+        mu()/rho()
+    ),
+
     sigmas_(lookup("sigmas")),
     dimSigma_(1, 0, -2, 0, 0),
     deltaN_
@@ -218,14 +229,14 @@ Foam::multiphaseMixture::muf() const
 Foam::tmp<Foam::volScalarField>
 Foam::multiphaseMixture::nu() const
 {
-    return mu()/rho();
+    return nu_;
 }
 
 
 Foam::tmp<Foam::scalarField>
 Foam::multiphaseMixture::nu(const label patchi) const
 {
-    return mu(patchi)/rho(patchi);
+    return nu_.boundaryField()[patchi];
 }
 
 
@@ -298,10 +309,7 @@ Foam::multiphaseMixture::surfaceTensionForce() const
 
 void Foam::multiphaseMixture::solve()
 {
-    forAllIter(PtrDictionary<phase>, phases_, iter)
-    {
-        iter().correct();
-    }
+    correct();
 
     const Time& runTime = mesh_.time();
 
@@ -343,11 +351,19 @@ void Foam::multiphaseMixture::solve()
     {
         solveAlphas(cAlpha);
     }
+
+    // Update the mixture kinematic viscosity
+    nu_ = mu()/rho();
 }
 
 
 void Foam::multiphaseMixture::correct()
-{}
+{
+    forAllIter(PtrDictionary<phase>, phases_, iter)
+    {
+        iter().correct();
+    }
+}
 
 
 Foam::tmp<Foam::surfaceVectorField> Foam::multiphaseMixture::nHatfv

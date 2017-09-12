@@ -40,12 +40,13 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
+
+    pimpleControl pimple(mesh);
+
     #include "readThermodynamicProperties.H"
     #include "readTransportProperties.H"
     #include "createFields.H"
     #include "initContinuityErrs.H"
-
-    pimpleControl pimple(mesh);
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
         #include "readTimeControls.H"
         #include "compressibleCourantNo.H"
 
-        #include "rhoEqn.H"
+        solve(fvm::ddt(rho) + fvc::div(phi));
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
@@ -108,6 +109,7 @@ int main(int argc, char *argv[])
 
                 phi += pEqn.flux();
 
+                solve(fvm::ddt(rho) + fvc::div(phi));
                 #include "compressibleContinuityErrs.H"
 
                 U -= rAU*fvc::grad(p);

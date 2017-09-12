@@ -46,7 +46,7 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(p, iF),
-    temperatureCoupledBase(patch(), "undefined", "undefined-K"),
+    temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
     TnbrName_("undefined-Tnbr"),
     QrNbrName_("undefined-QrNbr"),
     QrName_("undefined-Qr"),
@@ -70,7 +70,7 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(psf, p, iF, mapper),
-    temperatureCoupledBase(patch(), psf.KMethod(), psf.kappaName()),
+    temperatureCoupledBase(patch(), psf),
     TnbrName_(psf.TnbrName_),
     QrNbrName_(psf.QrNbrName_),
     QrName_(psf.QrName_),
@@ -123,14 +123,12 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
 
         if (thicknessLayers_.size() > 0)
         {
+            // Calculate effective thermal resistance by harmonic averaging
             forAll (thicknessLayers_, iLayer)
             {
-                const scalar l = thicknessLayers_[iLayer];
-                if (l > 0.0)
-                {
-                    contactRes_ += kappaLayers_[iLayer]/l;
-                }
+                contactRes_ += thicknessLayers_[iLayer]/kappaLayers_[iLayer];
             }
+            contactRes_ = 1.0/contactRes_;
         }
     }
 
@@ -161,7 +159,7 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(psf, iF),
-    temperatureCoupledBase(patch(), psf.KMethod(), psf.kappaName()),
+    temperatureCoupledBase(patch(), psf),
     TnbrName_(psf.TnbrName_),
     QrNbrName_(psf.QrNbrName_),
     QrName_(psf.QrName_),
@@ -210,19 +208,18 @@ void turbulentTemperatureRadCoupledMixedFvPatchScalarField::updateCoeffs()
 
 
     // Swap to obtain full local values of neighbour K*delta
-    tmp<scalarField> KDeltaNbr(new scalarField(TcNbr.size(), 0.0));
+    scalarField KDeltaNbr;
     if (contactRes_ == 0.0)
     {
-        // Swap to obtain full local values of neighbour K*delta
-        KDeltaNbr() = nbrField.kappa(nbrField)*nbrPatch.deltaCoeffs();
+        KDeltaNbr = nbrField.kappa(nbrField)*nbrPatch.deltaCoeffs();
     }
     else
     {
-        KDeltaNbr() = contactRes_;
+        KDeltaNbr.setSize(nbrField.size(), contactRes_);
     }
-    mpp.distribute(KDeltaNbr());
+    mpp.distribute(KDeltaNbr);
 
-    scalarField KDelta(kappa(*this)*patch().deltaCoeffs());
+    scalarField KDelta(kappa(Tp)*patch().deltaCoeffs());
 
     scalarField Qr(Tp.size(), 0.0);
     if (QrName_ != "none")
@@ -237,17 +234,15 @@ void turbulentTemperatureRadCoupledMixedFvPatchScalarField::updateCoeffs()
         mpp.distribute(QrNbr);
     }
 
-    scalarField alpha(KDeltaNbr() - (Qr + QrNbr)/Tp);
-
-    valueFraction() = alpha/(alpha + KDelta);
-
-    refValue() = (KDeltaNbr()*TcNbr)/alpha;
+    valueFraction() = KDeltaNbr/(KDeltaNbr + KDelta);
+    refValue() = TcNbr;
+    refGrad() = (Qr + QrNbr)/kappa(Tp);
 
     mixedFvPatchScalarField::updateCoeffs();
 
     if (debug)
     {
-        scalar Q = gSum(kappa(*this)*patch().magSf()*snGrad());
+        scalar Q = gSum(kappa(Tp)*patch().magSf()*snGrad());
 
         Info<< patch().boundaryMesh().mesh().name() << ':'
             << patch().name() << ':'
@@ -257,9 +252,9 @@ void turbulentTemperatureRadCoupledMixedFvPatchScalarField::updateCoeffs()
             << this->dimensionedInternalField().name() << " :"
             << " heat transfer rate:" << Q
             << " walltemperature "
-            << " min:" << gMin(*this)
-            << " max:" << gMax(*this)
-            << " avg:" << gAverage(*this)
+            << " min:" << gMin(Tp)
+            << " max:" << gMax(Tp)
+            << " avg:" << gAverage(Tp)
             << endl;
     }
 
@@ -278,7 +273,7 @@ void turbulentTemperatureRadCoupledMixedFvPatchScalarField::write
     os.writeKeyword("QrNbr")<< QrNbrName_ << token::END_STATEMENT << nl;
     os.writeKeyword("Qr")<< QrName_ << token::END_STATEMENT << nl;
     thicknessLayers_.writeEntry("thicknessLayers", os);
-    thicknessLayers_.writeEntry("kappaLayers", os);
+    kappaLayers_.writeEntry("kappaLayers", os);
 
     temperatureCoupledBase::write(os);
 }

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -108,7 +108,9 @@ atmBoundaryLayerInletEpsilonFvPatchScalarField
 
     forAll (Ustar_, i)
     {
-        Ustar_[i] = kappa_*Uref_/(log((Href_  + z0_[i])/max(z0_[i] , 0.001)));
+        Ustar_[i] =
+            kappa_*Uref_
+           /(log((Href_  + z0_[i])/z0_[i]));
     }
 
     z_ /= mag(z_);

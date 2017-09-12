@@ -6,6 +6,7 @@
 #    \\/     M anipulation  |
 #------------------------------------------------------------------------------
 # 2014-02-21 blueCAPE Lda: Modifications for blueCFD-Core 2.3
+# 2016-03-15 blueCAPE Lda: Modifications for blueCFD-Core 2.4 and 3.0
 #------------------------------------------------------------------------------
 # License
 #     This file is a derivative work of OpenFOAM.
@@ -31,6 +32,7 @@
 #
 #     Modifications made:
 #        - Added environment settings for the MinGW based Gcc cross-compilers.
+#        - Revamped to using MSYS2.
 #
 # File
 #     config/CGAL.sh
@@ -40,11 +42,8 @@
 #     Sourced from OpenFOAM-<VERSION>/etc/bashrc
 #------------------------------------------------------------------------------
 
-boost_version=boost_1_54_0
-cgal_version=CGAL-4.3
-
-export BOOST_ARCH_PATH=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$boost_version
-export CGAL_ARCH_PATH=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$cgal_version
+boost_version=boost-system
+cgal_version=CGAL-system
 
 if [ "$FOAM_VERBOSE" -a "$PS1" ]
 then
@@ -53,16 +52,38 @@ then
     echo "    $boost_version at $BOOST_ARCH_PATH"
 fi
 
-if [ -d "$CGAL_ARCH_PATH" ]
+if [ "$cgal_version" != "CGAL-system" ]
 then
-    _foamAddPath $CGAL_ARCH_PATH/bin
-    _foamAddLib $CGAL_ARCH_PATH/lib
+
+    export CGAL_ARCH_PATH=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$cgal_version
+
+    if [ -d "$CGAL_ARCH_PATH" ]
+    then
+        _foamAddPath $CGAL_ARCH_PATH/bin
+        _foamAddLib $CGAL_ARCH_PATH/lib
+    fi
+
+else
+
+    export CGAL_ARCH_PATH=system
+
 fi
 
-if [ -d "$BOOST_ARCH_PATH" ]
+if [ "$boost_version" != "boost-system" ]
 then
-    _foamAddPath $BOOST_ARCH_PATH/bin
-    _foamAddLib $BOOST_ARCH_PATH/lib
+
+    export BOOST_ARCH_PATH=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$boost_version
+
+    if [ -d "$BOOST_ARCH_PATH" ]
+    then
+        _foamAddPath $BOOST_ARCH_PATH/bin
+        _foamAddLib $BOOST_ARCH_PATH/lib
+    fi
+
+else
+
+    export BOOST_ARCH_PATH=system
+
 fi
 
 unset boost_version cgal_version

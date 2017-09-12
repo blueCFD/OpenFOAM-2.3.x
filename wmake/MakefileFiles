@@ -63,12 +63,16 @@ OFILES  = $(OBJECTS_DIR)/objectFiles
 DFILES  = $(OBJECTS_DIR)/dependencyFiles
 IFILES  = $(OBJECTS_DIR)/includeDeps
 
+VERSIONFILE = $(OBJECTS_DIR)/version_of_build.rc
+
 #------------------------------------------------------------------------------
 # Declare dependecy of all make system files on FILES
 # Causes all derived files to be remade if any are changed or missing
 #------------------------------------------------------------------------------
 
 allFiles : $(FILES) $(SFILES) $(OFILES) $(DFILES) $(IFILES)
+
+versioning : $(VERSIONFILE)
 
 $(FILES) : files
 	@$(CPP) $(GFLAGS) $(FFLAGS) files | sed -e 's@   *@ @g' > $(FILES)
@@ -84,6 +88,8 @@ $(DFILES): files
 
 $(IFILES): files
 	@$(WM_SCRIPTS)/makeDerivedFiles
-
+	
+$(VERSIONFILE): files
+	@$(WM_SCRIPTS)/makeVersionResourceFile
 
 #------------------------------------------------------------------------------

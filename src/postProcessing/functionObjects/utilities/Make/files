@@ -24,6 +24,9 @@ dsmcFields/dsmcFieldsFunctionObject.C
 pressureTools/pressureTools.C
 pressureTools/pressureToolsFunctionObject.C
 
+residuals/residuals.C
+residuals/residualsFunctionObject.C
+
 scalarTransport/scalarTransport.C
 scalarTransport/scalarTransportFunctionObject.C
 
@@ -32,6 +35,9 @@ timeActivatedFileUpdate/timeActivatedFileUpdateFunctionObject.C
 
 turbulenceFields/turbulenceFields.C
 turbulenceFields/turbulenceFieldsFunctionObject.C
+
+vorticity/vorticity.C
+vorticity/vorticityFunctionObject.C
 
 wallShearStress/wallShearStress.C
 wallShearStress/wallShearStressFunctionObject.C

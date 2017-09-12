@@ -8,7 +8,7 @@ if ! onWin; then
 wmakeLnInclude interfacialModels
 wmake libso twoPhaseSystem
 wmake libso interfacialModels
-wmake libso phaseIncompressibleTurbulenceModels
+wmake libso phaseCompressibleTurbulenceModels
 wmake
 
 else
@@ -24,6 +24,9 @@ set +x
     if [ ! -e "$FOAM_LIBBIN/${libitem}.a" ]; then
       cp $FOAM_LIBBIN/libstubLibrary.a $FOAM_LIBBIN/${libitem}.a
     fi
+    if [ -e "$FOAM_LIBBIN/${libitem}.dll" ]; then
+      rm $FOAM_LIBBIN/${libitem}.dll
+    fi
   done
 
   export WM_CONTINUE_ON_ERROR=1
@@ -32,19 +35,19 @@ set +x
   set -x
   wmake libso twoPhaseSystem
   wmake libso interfacialModels
-  wmake libso phaseIncompressibleTurbulenceModels
+  wmake libso phaseCompressibleTurbulenceModels
   set +x
 
   exit 0
 
-) > /dev/null 2>&1
+) 2> /dev/null
 
 # Now going to do the second and final linking step.
 set -x
 
 wmake libso twoPhaseSystem
 wmake libso interfacialModels
-wmake libso phaseIncompressibleTurbulenceModels
+wmake libso phaseCompressibleTurbulenceModels
 
 wmake
 

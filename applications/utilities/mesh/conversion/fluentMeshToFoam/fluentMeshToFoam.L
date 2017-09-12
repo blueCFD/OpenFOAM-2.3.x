@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
  2014-02-21 blueCAPE Lda: Modifications for blueCFD-Core 2.3
@@ -112,7 +112,7 @@ wordList patchNameIDs(maxZoneID);
 // Dummy yywrap to keep yylex happy at compile time.
 // It is called by yylex but is not used as the mechanism to change file.
 // See <<EOF>>
-#if YY_FLEX_SUBMINOR_VERSION < 34
+#if YY_FLEX_MINOR_VERSION < 6 && YY_FLEX_SUBMINOR_VERSION < 34
 extern "C" int yywrap()
 #else
 int yyFlexLexer::yywrap()
@@ -1406,25 +1406,12 @@ int main(int argc, char *argv[])
         label sz = bFaces.size();
         labelList meshFaces(sz,-1);
 
-
-        //make face set and write (seperate from rest for clarity)
-        //internal and external Fluent boundaries
+        // Search faces by point matching
+        forAll(bFaces, j)
         {
-            faceSet pFaceSet(pShapeMesh, patchNames[patchI], sz);
-
-            forAll(bFaces, j)
-            {
-                const face& f = bFaces[j];
-                label cMeshFace = findFace(pShapeMesh, f);
-                meshFaces[j] = cMeshFace;
-                pFaceSet.insert(cMeshFace);
-            }
-            if (writeSets)
-            {
-                Info<< "Writing patch " << patchNames[patchI]
-                    << " of size " << sz << " to faceSet." << endl;
-                pFaceSet.write();
-            }
+            const face& f = bFaces[j];
+            label cMeshFace = findFace(pShapeMesh, f);
+            meshFaces[j] = cMeshFace;
         }
 
 
@@ -1565,6 +1552,31 @@ int main(int argc, char *argv[])
 
     // Set the precision of the points data to 10
     IOstream::defaultPrecision(max(10u, IOstream::defaultPrecision()));
+
+
+    // Re-do face matching to write sets
+    if (writeSets)
+    {
+        forAll(patches, patchI)
+        {
+            const faceList& bFaces = patches[patchI];
+            label sz = bFaces.size();
+
+            faceSet pFaceSet(pShapeMesh, patchNames[patchI], sz);
+
+            forAll(bFaces, j)
+            {
+                const face& f = bFaces[j];
+                label cMeshFace = findFace(pShapeMesh, f);
+                pFaceSet.insert(cMeshFace);
+            }
+            Info<< "Writing patch " << patchNames[patchI]
+                << " of size " << sz << " to faceSet" << endl;
+
+            pFaceSet.instance() = pShapeMesh.instance();
+            pFaceSet.write();
+        }
+    }
 
 
     // Zones

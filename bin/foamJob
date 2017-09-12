@@ -3,7 +3,7 @@
 # =========                 |
 # \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
 #  \\    /   O peration     |
-#   \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+#   \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
 #    \\/     M anipulation  |
 #-------------------------------------------------------------------------------
 # 2014-02-21 blueCAPE Lda: Modifications for blueCFD-Core 2.3
@@ -58,7 +58,7 @@ options:
   -case <dir>       specify alternative case directory, default is the cwd
   -parallel         parallel run of processors
   -screen           also sends output to screen
-  -wait             wait for execution to complete
+  -wait             wait for execution to complete (when not using -screen)
   -version <ver>    specify an alternative OpenFOAM version
   -help             print the usage
 
@@ -285,7 +285,8 @@ then
         done
 
         #
-        # Send FOAM_SETTINGS to parallel processes. so the proper definitions are sent as well.
+        # Send FOAM_SETTINGS to parallel processes, so that the proper
+        # definitions are sent as well.
         #
         ! isMinGW && mpiopts="$mpiopts -x FOAM_SETTINGS"
         ;;
@@ -306,7 +307,8 @@ then
         done
 
         #
-        # Send FOAM_SETTINGS to parallel processes. so the proper definitions are sent as well.
+        # Send FOAM_SETTINGS to parallel processes, so that the proper
+        # definitions are sent as well.
         #
         ! isMinGW && mpiopts="$mpiopts -env FOAM_SETTINGS \"${FOAM_SETTINGS}\""
         ;;
@@ -327,8 +329,12 @@ then
     else
         echo "Executing: $mpirun $mpiopts $APPLICATION $(echoArgs "$@") -parallel > log 2>&1"
         $mpirun $mpiopts $APPLICATION "$@" -parallel > log 2>&1 &
+
         pid=$!
-        if [ "$waitOpt" = true ]; then wait $pid; fi
+        if [ "$waitOpt" = true ]
+        then
+            wait $pid
+        fi
     fi
 elif [ "$parallelOpt" = true -a -n "$MPI_OVERRIDE_PARALLEL" ]
 then
@@ -352,8 +358,12 @@ else
     else
         echo "Executing: $APPLICATION $(echoArgs "$@") > log 2>&1 &"
         $APPLICATION "$@" > log 2>&1 &
+
         pid=$!
-        if [ "$waitOpt" = true ]; then wait $pid; fi
+        if [ "$waitOpt" = true ]
+        then
+            wait $pid
+        fi
     fi
 fi
 

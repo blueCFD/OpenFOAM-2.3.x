@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -56,7 +56,24 @@ class cyclicAMIPolyPatch
 
 private:
 
-    // Private data
+    // Private Member Functions
+
+        //- Return normal of face at max distance from rotation axis
+        vector findFaceNormalMaxRadius(const pointField& faceCentres) const;
+
+        void calcTransforms
+        (
+            const primitivePatch& half0,
+            const pointField& half0Ctrs,
+            const vectorField& half0Areas,
+            const pointField& half1Ctrs,
+            const vectorField& half1Areas
+        );
+
+
+protected:
+
+    // Protected data
 
         //- Name of other half
         mutable word nbrPatchName_;
@@ -97,6 +114,9 @@ private:
         //- Flag to indicate that slave patch should be reversed for AMI
         const bool AMIReverse_;
 
+        //- Flag to indicate that patches should match/overlap
+        bool AMIRequireMatch_;
+
         //- Low weight correction threshold for AMI
         const scalar AMILowWeightCorrection_;
 
@@ -106,23 +126,6 @@ private:
         //- Dictionary used during projection surface construction
         const dictionary surfDict_;
 
-
-    // Private Member Functions
-
-        //- Return normal of face at max distance from rotation axis
-        vector findFaceNormalMaxRadius(const pointField& faceCentres) const;
-
-        void calcTransforms
-        (
-            const primitivePatch& half0,
-            const pointField& half0Ctrs,
-            const vectorField& half0Areas,
-            const pointField& half1Ctrs,
-            const vectorField& half1Areas
-        );
-
-
-protected:
 
     // Protected Member Functions
 
@@ -310,7 +313,7 @@ public:
                 //- Axis of rotation for rotational cyclic AMI
                 inline const vector& rotationAxis() const;
 
-                //- point on axis of rotation for rotational cyclic AMI
+                //- Point on axis of rotation for rotational cyclic AMI
                 inline const point& rotationCentre() const;
 
                 //- Translation vector for translational cyclic AMI
@@ -323,6 +326,20 @@ public:
                 virtual void transformPosition
                 (
                     point& l,
+                    const label faceI
+                ) const;
+
+                //- Transform a patch-based position from this side to nbr side
+                virtual void reverseTransformPosition
+                (
+                    point& l,
+                    const label faceI
+                ) const;
+
+                //- Transform a patch-based direction from this side to nbr side
+                virtual void reverseTransformDirection
+                (
+                    vector& d,
                     const label faceI
                 ) const;
 

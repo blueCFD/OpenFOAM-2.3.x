@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -91,6 +91,7 @@ void Foam::regionCoupledBase::resetAMI() const
                 nbrPatch0,
                 surfPtr(),
                 faceAreaIntersect::tmMesh,
+                true,
                 AMIPatchToPatchInterpolation::imFaceAreaWeight,
                 -1,
                 AMIReverse_
@@ -153,22 +154,7 @@ Foam::regionCoupledBase::regionCoupledBase
     AMIReverse_(dict.lookupOrDefault<bool>("flipNormals", false)),
     surfPtr_(NULL),
     surfDict_(dict.subOrEmptyDict("surface"))
-{
-    if (nbrPatchName_ == patch_.name())
-    {
-        FatalIOErrorIn
-        (
-            "regionCoupledBase::regionCoupledBase"
-            "("
-                "const polyPatch&, "
-                "const dictionary& "
-            ")",
-            dict
-        )   << "Neighbour patch name " << nbrPatchName_
-            << " cannot be the same as this patch " << patch_.name()
-            << exit(FatalIOError);
-    }
-}
+{}
 
 
 Foam::regionCoupledBase::regionCoupledBase
@@ -351,7 +337,7 @@ void Foam::regionCoupledBase::write(Ostream& os) const
 {
     os.writeKeyword("neighbourPatch") << nbrPatchName_
     << token::END_STATEMENT << nl;
-    os.writeKeyword("nbrRegionName") << nbrRegionName_
+    os.writeKeyword("neighbourRegion") << nbrRegionName_
     << token::END_STATEMENT << nl;
 
     if (AMIReverse_)

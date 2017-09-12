@@ -1,11 +1,15 @@
 EXE_INC = \
     -I../interfacialModels/lnInclude \
-    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/transportModels/compressible/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
     -I$(LIB_SRC)/transportModels/incompressible/lnInclude \
     -I$(LIB_SRC)/TurbulenceModels.T/turbulenceModels/lnInclude \
-    -I$(LIB_SRC)/TurbulenceModels.T/incompressible/lnInclude \
-    -I$(LIB_SRC)/TurbulenceModels.T/phaseIncompressible/lnInclude
+    -I$(LIB_SRC)/TurbulenceModels.T/compressible/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels.T/phaseCompressible/lnInclude \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/fvOptions/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/sampling/lnInclude
 
 LIB_LIBS = \
     -lincompressibleTransportModels \
@@ -15,8 +19,9 @@ LIB_LIBS = \
 #if (defined( WIN32 ) || defined( WIN64 ))
 LIB_LIBS += \
     -lfiniteVolume \
+    -lfvOptions \
     -lturbulenceModels \
-    -lincompressibleTurbulenceModels \
-    -lphaseIncompressibleTurbulenceModels \
-    -lcompressibleEulerianInterfacialModels
+    -lcompressibleTurbulenceModels \
+    -lcompressibleEulerianInterfacialModels \
+    -lphaseCompressibleTurbulenceModels
 #endif

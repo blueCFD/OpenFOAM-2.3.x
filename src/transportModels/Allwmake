@@ -28,5 +28,7 @@ wmake $makeType twoPhaseProperties
 fi #onWin
 
 wmake $makeType incompressible
+wmake $makeType compressible
+wmake $makeType immiscibleIncompressibleTwoPhaseMixture
 
 # ----------------------------------------------------------------- end-of-file

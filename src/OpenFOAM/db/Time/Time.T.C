@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -433,7 +433,13 @@ Foam::Time::Time
     graphFormat_("raw"),
     runTimeModifiable_(false),
 
-    functionObjects_(*this, !args.optionFound("noFunctionObjects"))
+    functionObjects_
+    (
+        *this,
+        argList::validOptions.found("withFunctionObjects")
+      ? args.optionFound("withFunctionObjects")
+      : !args.optionFound("noFunctionObjects")
+    )
 {
     libs_.open(controlDict_, "libs");
 

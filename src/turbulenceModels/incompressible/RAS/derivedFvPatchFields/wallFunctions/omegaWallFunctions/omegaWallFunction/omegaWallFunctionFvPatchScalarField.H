@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -42,7 +42,7 @@ Description
         \omega_{log} | omega in logarithmic region
     \endvartable
 
-    Model described by Eq.(15) of:
+    Model described by Eqs.(14, 15) of:
     \verbatim
         Menter, F., Esch, T.
         "Elements of Industrial Heat Transfer Prediction"
@@ -98,6 +98,9 @@ class omegaWallFunctionFvPatchScalarField
 protected:
 
     // Protected data
+
+        //- Tolerance used in weighted calculations
+        static scalar tolerance_;
 
         //- Cmu coefficient
         scalar Cmu_;

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -100,7 +100,8 @@ public:
         {
             FACEPLANES,     // cell bound by planes of faces
             FACECENTRETETS, // tet decomposition using facectr and cellctr
-            FACEDIAGTETS    // tet decomposition using face diagonal and cellctr
+            FACEDIAGTETS,   // tet decomposition using face diagonal and cellctr
+            CELL_TETS       // Cell decomposed into tets
         };
 
 
@@ -393,6 +394,12 @@ public:
 
             //- Return raw points
             virtual const pointField& points() const;
+
+            //- Return true if io is up-to-date with points
+            virtual bool upToDatePoints(const regIOobject& io) const;
+
+            //- Set io to be up-to-date with points
+            virtual void setUpToDatePoints(regIOobject& io) const;
 
             //- Return raw faces
             virtual const faceList& faces() const;
@@ -687,14 +694,14 @@ public:
             (
                 const point&,
                 label cellI,
-                const cellRepresentation = FACEDIAGTETS
+                const cellRepresentation = CELL_TETS
             ) const;
 
             //- Find cell enclosing this location (-1 if not in mesh)
             label findCell
             (
                 const point&,
-                const cellRepresentation = FACEDIAGTETS
+                const cellRepresentation = CELL_TETS
             ) const;
 };
 

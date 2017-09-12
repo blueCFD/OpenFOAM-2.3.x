@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2012 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -24,6 +24,9 @@ License
 Application
     sonicFoam
 
+Group
+    grpCompressibleSolvers
+
 Description
     Transient solver for trans-sonic/supersonic, laminar or turbulent flow
     of a compressible gas.
@@ -34,6 +37,7 @@ Description
 #include "psiThermo.H"
 #include "turbulenceModel.H"
 #include "pimpleControl.H"
+#include "fvIOoptionList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -42,10 +46,12 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
-    #include "createFields.H"
-    #include "initContinuityErrs.H"
 
     pimpleControl pimple(mesh);
+
+    #include "createFields.H"
+    #include "createFvOptions.H"
+    #include "initContinuityErrs.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

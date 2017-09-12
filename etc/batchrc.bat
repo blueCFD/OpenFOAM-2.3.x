@@ -1,36 +1,42 @@
 @echo off
 
-rem ------------------------------------------------------------------------------
-rem  License
-rem     Copyright (C) 2011-2014 blueCAPE Lda
-rem
-rem     This file is part of blueCAPE's unofficial mingw patches for OpenFOAM.
-rem     For more information about these patches, visit:
-rem         http://bluecfd.com/Core
-rem
-rem     This file is an indirect derivative work of OpenFOAM.
-rem
-rem     OpenFOAM is free software: you can redistribute it and/or modify it
-rem     under the terms of the GNU General Public License as published by
-rem     the Free Software Foundation, either version 3 of the License, or
-rem     (at your option) any later version.
-rem
-rem     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-rem     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-rem     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-rem     for more details.
-rem
-rem     You should have received a copy of the GNU General Public License
-rem     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+rem ---------------------------------------------------------------------------
 rem 
+rem   Copyright (C) 2011-2016 blueCAPE Lda
+rem   blueCFD(R) is a registered trade mark of blueCAPE Lda
+rem   OpenFOAM(R) is a registered trade mark of ESI-OpenCFD
+rem
+rem   This file is part of blueCAPE's blueCFD-Core port of OpenFOAM technology
+rem   for Windows and it abides to the same GNU GPL v3 license.
+rem   blueCFD-Core was designed to improve the user experience in using
+rem   OpenFOAM in Windows via MSYS/MSYS2 and Windows command line.
+rem   For more information about blueCFD-Core, visit:
+rem       http://bluecfd.com/Core
+rem 
+rem   OpenFOAM Foundation website: http://www.openfoam.org
+rem   OpenFOAM+ website (ESI-OpenCFD): http://www.openfoam.com
+rem 
+rem   OpenFOAM is free software: you can redistribute it and/or modify it
+rem   under the terms of the GNU General Public License as published by
+rem   the Free Software Foundation, either version 3 of the License, or
+rem   (at your option) any later version.
+rem 
+rem   OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+rem   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+rem   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+rem   for more details.
+rem 
+rem   You should have received a copy of the GNU General Public License
+rem   along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+rem
 rem  Script
 rem      batchrc.bat
 rem 
 rem  Description
-rem      This batch file initializes the OpenFOAM environment for running in the 
-rem    Windows Command Line.
+rem      This batch file initializes the OpenFOAM environment for running in
+rem    the Windows Command Line.
 rem 
-rem ------------------------------------------------------------------------------
+rem ---------------------------------------------------------------------------
 
 rem Isolate blueCFD-Core from other applications
 set PATH=%WINDIR%;%WINDIR%\SYSTEM32

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -35,9 +35,11 @@ Description
 #include "fvCFD.H"
 #include "dynamicFvMesh.H"
 #include "CMULES.H"
+#include "EulerDdtScheme.T.H"
+#include "localEulerDdtScheme.H"
+#include "CrankNicolsonDdtScheme.T.H"
 #include "subCycle.H"
-#include "interfaceProperties.H"
-#include "incompressibleTwoPhaseMixture.H"
+#include "immiscibleIncompressibleTwoPhaseMixture.H"
 #include "turbulenceModel.H"
 #include "pimpleControl.H"
 #include "fvIOoptionList.H"
@@ -50,10 +52,10 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createDynamicFvMesh.H"
-    #include "initContinuityErrs.H"
 
     pimpleControl pimple(mesh);
 
+    #include "initContinuityErrs.H"
     #include "createFields.H"
     #include "readTimeControls.H"
     #include "createPrghCorrTypes.H"
@@ -121,7 +123,7 @@ int main(int argc, char *argv[])
                     // Make the flux relative to the mesh motion
                     fvc::makeRelative(phi, U);
 
-                    interface.correct();
+                    mixture.correct();
                 }
 
                 if (mesh.changing() && checkMeshCourantNo)
@@ -131,11 +133,9 @@ int main(int argc, char *argv[])
             }
 
             #include "alphaControls.H"
-
-            twoPhaseProperties.correct();
-
             #include "alphaEqnSubCycle.H"
-            interface.correct();
+
+            mixture.correct();
 
             #include "UEqn.H"
 

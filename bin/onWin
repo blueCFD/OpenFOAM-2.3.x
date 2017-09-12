@@ -2,13 +2,17 @@
 #------------------------------------------------------------------------------
 # License
 #
-#    Copyright (C) 2011-2014 blueCAPE Lda
+#    Copyright (C) 2011-2016 blueCAPE Lda
 #
-#    This file is part of blueCAPE's unofficial mingw patches for OpenFOAM.
-#    For more information about these patches, visit:
-#         http://bluecfd.com/Core
+#    This file is part of blueCAPE's blueCFD-Core port of OpenFOAM for 
+#    Windows. It was designed to improve the user experience in using OpenFOAM
+#    in Windows via MSYS/MSYS2.
+#    For more information about blueCFD-Core, visit:
+#        http://bluecfd.com/Core
 #
 #    This file is a derivative work of OpenFOAM.
+#
+#    OpenFOAM's official site: http://www.openfoam.org
 #
 #    OpenFOAM is free software: you can redistribute it and/or modify it
 #    under the terms of the GNU General Public License as published by
@@ -31,5 +35,5 @@
 #
 #------------------------------------------------------------------------------
 
-[ -n "`uname -s | grep MINGW`" ] && exit 0
+[ -n "$(uname -s | grep MINGW)" ] && exit 0
 exit 1

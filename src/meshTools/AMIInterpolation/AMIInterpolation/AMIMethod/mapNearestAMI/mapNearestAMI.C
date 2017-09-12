@@ -97,11 +97,13 @@ void Foam::mapNearestAMI<SourcePatch, TargetPatch>::setNextNearestFaces
         }
     }
 
-    forAll(mapFlag, srcFaceI)
+    forAll(mapFlag, faceI)
     {
-        if (!mapFlag[srcFaceI])
+        if (mapFlag[faceI])
         {
-            tgtFaceI = this->findTargetFace(srcFaceI);
+            srcFaceI = faceI;
+            tgtFaceI = this->findTargetFace(faceI);
+
             if (tgtFaceI == -1)
             {
                 const vectorField& srcCf = this->srcPatch_.faceCentres();
@@ -183,7 +185,8 @@ Foam::mapNearestAMI<SourcePatch, TargetPatch>::mapNearestAMI
     const scalarField& srcMagSf,
     const scalarField& tgtMagSf,
     const faceAreaIntersect::triangulationMode& triMode,
-    const bool reverseTarget
+    const bool reverseTarget,
+    const bool requireMatch
 )
 :
     AMIMethod<SourcePatch, TargetPatch>
@@ -193,7 +196,8 @@ Foam::mapNearestAMI<SourcePatch, TargetPatch>::mapNearestAMI
         srcMagSf,
         tgtMagSf,
         triMode,
-        reverseTarget
+        reverseTarget,
+        requireMatch
     )
 {}
 

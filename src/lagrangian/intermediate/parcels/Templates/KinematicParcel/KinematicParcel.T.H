@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -78,6 +78,15 @@ class KinematicParcel
 :
     public ParcelType
 {
+    // Private data
+
+        //- Size in bytes of the fields
+        static const std::size_t sizeofFields_;
+
+        //- Number of particle tracking attempts before we assume that it stalls
+        static label maxTrackAttempts;
+
+
 public:
 
     //- Class to hold kinematic particle constant properties
@@ -105,8 +114,8 @@ public:
             //- Particle density [kg/m3] (constant)
             demandDrivenEntry<scalar> rho0_;
 
-            //- Minimum particle mass [kg]
-            demandDrivenEntry<scalar> minParticleMass_;
+            //- Minimum parcel mass [kg]
+            demandDrivenEntry<scalar> minParcelMass_;
 
 
     public:
@@ -137,8 +146,8 @@ public:
             //- Return const access to the particle density
             inline scalar rho0() const;
 
-            //- Return const access to the minimum particle mass
-            inline scalar minParticleMass() const;
+            //- Return const access to the minimum parcel mass
+            inline scalar minParcelMass() const;
     };
 
 

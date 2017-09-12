@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -25,16 +25,17 @@ Application
     Pe
 
 Description
-    Calculates and writes the Pe number as a surfaceScalarField obtained from
-    field phi.
+    Calculates the Peclet number Pe from the flux phi and writes the maximum
+    value, the surfaceScalarField Pef and volScalarField Pe.
 
-    The -noWrite option just outputs the max/min values without writing
-    the field.
+    With the -noWrite option just outputs the max value without writing
+    the fields.
 
 \*---------------------------------------------------------------------------*/
 
 #include "calc.H"
-#include "fvc.H"
+#include "surfaceInterpolate.H"
+#include "fvcAverage.H"
 
 #include "incompressible/singlePhaseTransportModel/singlePhaseTransportModel.H"
 #include "incompressible/RAS/RASModel/RASModel.H"
@@ -120,10 +121,9 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
                     (
                         IOobject
                         (
-                            "Pe",
+                            "Pef",
                             runTime.timeName(),
-                            mesh,
-                            IOobject::NO_READ
+                            mesh
                         ),
                         mag(phi)
                        /(
@@ -151,10 +151,9 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
                     (
                         IOobject
                         (
-                            "Pe",
+                            "Pef",
                             runTime.timeName(),
-                            mesh,
-                            IOobject::NO_READ
+                            mesh
                         ),
                         mag(phi)
                        /(
@@ -187,10 +186,9 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
                     (
                         IOobject
                         (
-                            "Pe",
+                            "Pef",
                             runTime.timeName(),
-                            mesh,
-                            IOobject::NO_READ
+                            mesh
                         ),
                         mag(phi)
                        /(
@@ -238,10 +236,9 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
                     (
                         IOobject
                         (
-                            "Pe",
+                            "Pef",
                             runTime.timeName(),
-                            mesh,
-                            IOobject::NO_READ
+                            mesh
                         ),
                         mag(phi)
                        /(
@@ -280,10 +277,9 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
                     (
                         IOobject
                         (
-                            "Pe",
+                            "Pef",
                             runTime.timeName(),
-                            mesh,
-                            IOobject::NO_READ
+                            mesh
                         ),
                         mag(phi)
                        /(
@@ -316,10 +312,9 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
                     (
                         IOobject
                         (
-                            "Pe",
+                            "Pef",
                             runTime.timeName(),
-                            mesh,
-                            IOobject::NO_READ
+                            mesh
                         ),
                         mag(phi)
                        /(
@@ -338,19 +333,34 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
                     << abort(FatalError);
         }
 
-        Info<< "Pe max : " << max(PePtr()).value() << endl;
+        Info<< "    Pe max : " << max(PePtr()).value() << endl;
 
         if (writeResults)
         {
+            Info<< "    Writing surfaceScalarField : "
+                << PePtr().name() << endl;
             PePtr().write();
+
+            volScalarField Pe
+            (
+                IOobject
+                (
+                    "Pe",
+                    runTime.timeName(),
+                    mesh
+                ),
+                fvc::average(PePtr())
+            );
+
+            Info<< "    Writing volScalarField : "
+                << Pe.name() << endl;
+            Pe.write();
         }
     }
     else
     {
         Info<< "    No phi" << endl;
     }
-
-    Info<< "\nEnd\n" << endl;
 }
 
 

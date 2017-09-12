@@ -50,12 +50,11 @@
 
     // Apply the diffusion term separately to allow implicit solution
     // and boundedness of the explicit advection
-    if (!MULESCorr)
     {
         fvScalarMatrix alpha1Eqn
         (
             fvm::ddt(alpha1) - fvc::ddt(alpha1)
-          - fvm::laplacian(mut/rho, alpha1)
+          - fvm::laplacian(turbulence->nut(), alpha1)
         );
 
         alpha1Eqn.solve(mesh.solver("alpha1Diffusion"));
@@ -65,11 +64,11 @@
 
         Info<< "Phase-1 volume fraction = "
             << alpha1.weightedAverage(mesh.Vsc()).value()
-            << "  Min(alpha1) = " << min(alpha1).value()
-            << "  Max(alpha1) = " << max(alpha1).value()
+            << "  Min(" << alpha1.name() <<") = " << min(alpha1).value()
+            << "  Max(" << alpha1.name() <<") = " << max(alpha1).value()
             << endl;
     }
 
     rhoPhi = phiAlpha*(rho1 - rho2) + phi*rho2;
-    rho == alpha1*rho1 + alpha2*rho2;
+    rho = mixture.rho();
 }

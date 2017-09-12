@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -48,12 +48,54 @@ namespace Foam
     );
 }
 
+
+// * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * * //
+
+void Foam::localAxesRotation::init
+(
+    const objectRegistry& obr,
+    const List<label>& cells
+)
+{
+    const polyMesh& mesh = refCast<const polyMesh>(obr);
+    const vectorField& cc = mesh.cellCentres();
+
+    if (cells.size())
+    {
+        Rptr_.reset(new tensorField(cells.size()));
+
+        tensorField& R = Rptr_();
+        forAll(cells, i)
+        {
+            label cellI = cells[i];
+            vector dir = cc[cellI] - origin_;
+            dir /= mag(dir) + VSMALL;
+
+            R[i] = axesRotation(e3_, dir).R();
+        }
+    }
+    else
+    {
+        Rptr_.reset(new tensorField(mesh.nCells()));
+
+        tensorField& R = Rptr_();
+        forAll(cc, cellI)
+        {
+            vector dir = cc[cellI] - origin_;
+            dir /= mag(dir) + VSMALL;
+
+            R[cellI] = axesRotation(e3_, dir).R();
+        }
+    }
+}
+
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::localAxesRotation::localAxesRotation
 (
     const dictionary& dict,
-    const objectRegistry& orb
+    const objectRegistry& obr
 )
 :
     Rptr_(),
@@ -69,32 +111,64 @@ Foam::localAxesRotation::localAxesRotation
     // rotation axis
     dict.lookup("e3") >> e3_;
 
-    const polyMesh& mesh = refCast<const polyMesh>(orb);
-
-    Rptr_.reset
-    (
-        new tensorField(mesh.nCells())
-    );
-    init(dict, orb);
+    init(obr);
 }
 
 
 Foam::localAxesRotation::localAxesRotation
 (
-    const dictionary& dict
+    const objectRegistry& obr,
+    const vector& axis,
+    const point& origin
 )
+:
+    Rptr_(),
+    origin_(origin),
+    e3_(axis)
+{
+    init(obr);
+}
+
+
+Foam::localAxesRotation::localAxesRotation
+(
+    const objectRegistry& obr,
+    const vector& axis,
+    const point& origin,
+    const List<label>& cells
+)
+:
+    Rptr_(),
+    origin_(origin),
+    e3_(axis)
+{
+    init(obr, cells);
+}
+
+
+Foam::localAxesRotation::localAxesRotation(const dictionary& dict)
 :
     Rptr_(),
     origin_(),
     e3_()
 {
     FatalErrorIn("localAxesRotation(const dictionary&)")
-        << " localAxesRotation can not be constructed from  dictionary "
+        << " localAxesRotation can not be constructed from dictionary "
         << " use the construtctor : "
            "("
            "    const dictionary&, const objectRegistry&"
            ")"
         << exit(FatalIOError);
+}
+
+
+Foam::localAxesRotation::localAxesRotation(const tensorField& R)
+:
+    Rptr_(),
+    origin_(vector::zero),
+    e3_(vector::zero)
+{
+    Rptr_() = R;
 }
 
 
@@ -109,32 +183,32 @@ void Foam::localAxesRotation::clear()
 }
 
 
-Foam::vector Foam::localAxesRotation::transform(const vector& st) const
+void Foam::localAxesRotation::updateCells
+(
+    const polyMesh& mesh,
+    const labelList& cells
+)
 {
-    notImplemented
-    (
-        "vector localAxesRotation::transform(const vector&) const"
-    );
-    return vector::zero;
-}
+    const vectorField& cc = mesh.cellCentres();
+    tensorField& R = Rptr_();
 
+    forAll(cells, i)
+    {
+        label cellI = cells[i];
+        vector dir = cc[cellI] - origin_;
+        dir /= mag(dir) + VSMALL;
 
-Foam::vector Foam::localAxesRotation::invTransform(const vector& st) const
-{
-    notImplemented
-    (
-        "vector localAxesRotation::invTransform(const vector&) const"
-    );
-    return vector::zero;
+        R[cellI] = axesRotation(e3_, dir).R();
+    }
 }
 
 
 Foam::tmp<Foam::vectorField> Foam::localAxesRotation::transform
 (
-    const vectorField& st
+    const vectorField& vf
 ) const
 {
-    if (Rptr_->size() != st.size())
+    if (Rptr_->size() != vf.size())
     {
         FatalErrorIn
         (
@@ -144,25 +218,65 @@ Foam::tmp<Foam::vectorField> Foam::localAxesRotation::transform
             << abort(FatalError);
     }
 
-    return (Rptr_() & st);
+    return (Rptr_() & vf);
+}
+
+
+Foam::vector Foam::localAxesRotation::transform(const vector& v) const
+{
+    notImplemented
+    (
+        "vector localAxesRotation::transform(const vector&) const"
+    );
+    return vector::zero;
+}
+
+
+Foam::vector Foam::localAxesRotation::transform
+(
+    const vector& v,
+    const label cmptI
+) const
+{
+    return (Rptr_()[cmptI] & v);
 }
 
 
 Foam::tmp<Foam::vectorField> Foam::localAxesRotation::invTransform
 (
-    const vectorField& st
+    const vectorField& vf
 ) const
 {
-    return (Rptr_().T() & st);
+    return (Rptr_().T() & vf);
+}
+
+
+Foam::vector Foam::localAxesRotation::invTransform(const vector& v) const
+{
+    notImplemented
+    (
+        "vector localAxesRotation::invTransform(const vector&) const"
+    );
+    return vector::zero;
+}
+
+
+Foam::vector Foam::localAxesRotation::invTransform
+(
+    const vector& v,
+    const label cmptI
+) const
+{
+    return (Rptr_()[cmptI].T() & v);
 }
 
 
 Foam::tmp<Foam::tensorField> Foam::localAxesRotation::transformTensor
 (
-    const tensorField& st
+    const tensorField& tf
 ) const
 {
-    if (Rptr_->size() != st.size())
+    if (Rptr_->size() != tf.size())
     {
         FatalErrorIn
         (
@@ -174,13 +288,13 @@ Foam::tmp<Foam::tensorField> Foam::localAxesRotation::transformTensor
             << "tensorField st has different size to tensorField Tr"
             << abort(FatalError);
     }
-    return (Rptr_() & st & Rptr_().T());
+    return (Rptr_() & tf & Rptr_().T());
 }
 
 
 Foam::tensor Foam::localAxesRotation::transformTensor
 (
-    const tensor& st
+    const tensor& t
 ) const
 {
     notImplemented
@@ -194,54 +308,57 @@ Foam::tensor Foam::localAxesRotation::transformTensor
 
 Foam::tmp<Foam::tensorField> Foam::localAxesRotation::transformTensor
 (
-    const tensorField& st,
+    const tensorField& tf,
     const labelList& cellMap
 ) const
 {
-    if (cellMap.size() != st.size())
+    if (cellMap.size() != tf.size())
     {
         FatalErrorIn
         (
             "tmp<tensorField> localAxesRotation::transformTensor"
             "("
-                "const tensorField&"
+                "const tensorField&, "
                 "const labelList&"
             ")"
         )
-            << "tensorField st has different size to tensorField Tr"
+            << "tensorField tf has different size to tensorField Tr"
             << abort(FatalError);
     }
 
-    const tensorField Rtr(Rptr_().T());
+    const tensorField& R = Rptr_();
+    const tensorField Rtr(R.T());
     tmp<tensorField> tt(new tensorField(cellMap.size()));
     tensorField& t = tt();
     forAll(cellMap, i)
     {
         const label cellI = cellMap[i];
-        t[i] = Rptr_()[cellI] & st[i] & Rtr[cellI];
+        t[i] = R[cellI] & tf[i] & Rtr[cellI];
     }
+
     return tt;
 }
 
 
 Foam::tmp<Foam::symmTensorField> Foam::localAxesRotation::transformVector
 (
-    const vectorField& st
+    const vectorField& vf
 ) const
 {
-    if (Rptr_->size() != st.size())
+    if (Rptr_->size() != vf.size())
     {
         FatalErrorIn("localAxesRotation::transformVector(const vectorField&)")
-            << "tensorField st has different size to tensorField Tr"
+            << "tensorField vf has different size to tensorField Tr"
             << abort(FatalError);
     }
 
     tmp<symmTensorField> tfld(new symmTensorField(Rptr_->size()));
     symmTensorField& fld = tfld();
 
+    const tensorField& R = Rptr_();
     forAll(fld, i)
     {
-        fld[i] = transformPrincipal(Rptr_()[i], st[i]);
+        fld[i] = transformPrincipal(R[i], vf[i]);
     }
     return tfld;
 }
@@ -249,7 +366,7 @@ Foam::tmp<Foam::symmTensorField> Foam::localAxesRotation::transformVector
 
 Foam::symmTensor Foam::localAxesRotation::transformVector
 (
-    const vector& st
+    const vector& v
 ) const
 {
     notImplemented
@@ -257,25 +374,6 @@ Foam::symmTensor Foam::localAxesRotation::transformVector
         "tensor localAxesRotation::transformVector(const vector&) const"
     );
     return symmTensor::zero;
-}
-
-
-// * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
-
-void Foam::localAxesRotation::init
-(
-    const dictionary& dict,
-    const objectRegistry& obr
-)
-{
-    const polyMesh& mesh = refCast<const polyMesh>(obr);
-    forAll(mesh.cellCentres(), cellI)
-    {
-        vector dir = mesh.cellCentres()[cellI] - origin_;
-        dir /= mag(dir) + VSMALL;
-
-        Rptr_()[cellI] = axesRotation(e3_, dir).R();
-    }
 }
 
 

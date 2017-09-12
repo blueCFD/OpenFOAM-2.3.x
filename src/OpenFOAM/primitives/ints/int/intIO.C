@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -35,6 +35,7 @@ Description
 #include "IOstreams.H"
 
 #include <sstream>
+#include <cerrno>
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -91,9 +92,10 @@ int Foam::readInt(Istream& is)
 bool Foam::readInt(const char* buf, int& s)
 {
     char *endptr = NULL;
+    errno = 0;
     long l = strtol(buf, &endptr, 10);
     s = int(l);
-    return (*endptr == 0);
+    return (*endptr == 0) && (errno == 0) && (l >= INT_MIN) && (l <= INT_MAX);
 }
 
 

@@ -2,10 +2,11 @@
 # =========                 |
 # \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
 #  \\    /   O peration     |
-#   \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+#   \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
 #    \\/     M anipulation  |
 #------------------------------------------------------------------------------
 # 2014-02-21 blueCAPE Lda: Modifications for blueCFD-Core 2.3
+# 2016-03-15 blueCAPE Lda: Modifications for blueCFD-Core 2.4
 #------------------------------------------------------------------------------
 # License
 #     This file is a derivative work of OpenFOAM.
@@ -34,6 +35,7 @@
 #        - Added environment settings for the MinGW based Gcc cross-compilers.
 #        - Upped version of MPICH2.
 #        - Added MPI options for MSMPI 2008R2 and 2012.
+#        - Switched to using MSYS2's software stack.
 #
 # File
 #     etc/config/settings.sh
@@ -166,7 +168,8 @@ Linux)
             export WM_LDFLAGS='-m64'
             ;;
         *)
-            echo "Unknown WM_ARCH_OPTION '$WM_ARCH_OPTION', should be 32 or 64" 1>&2
+            echo "Unknown WM_ARCH_OPTION '$WM_ARCH_OPTION', should be 32 or 64"\
+                 1>&2
             ;;
         esac
         ;;
@@ -271,6 +274,7 @@ export FOAM_USER_LIBBIN=$WM_PROJECT_USER_DIR/platforms/$WM_OPTIONS/lib
 # export FOAM_CODE_TEMPLATES=$WM_PROJECT_DIR/etc/codeTemplates/dynamicCode
 
 # convenience
+export FOAM_ETC=$WM_PROJECT_DIR/etc
 export FOAM_APP=$WM_PROJECT_DIR/applications
 export FOAM_SRC=$WM_PROJECT_DIR/src
 export FOAM_TUTORIALS=$WM_PROJECT_DIR/tutorials
@@ -337,19 +341,10 @@ OpenFOAM | ThirdParty)
         # using clang - not gcc
         export WM_CC='clang'
         export WM_CXX='clang++'
-        clang_version=llvm-3.4
+        clang_version=llvm-3.4.2
         ;;
-    mingw32 | mingw-w32 | mingw-w64 | i686-w64-mingw32 | x86_64-w64-mingw32)
-        export WM_COMPILER_DIR=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/mingw
-        _foamAddPath $WM_COMPILER_DIR/bin
-        _foamAddLib $WM_COMPILER_DIR/mingw/lib
-        if [ -d $WM_COMPILER_DIR/mingw/lib64 ]; then
-          _foamAddLib $WM_COMPILER_DIR/mingw/lib64
-        fi
-
-        # used by boost/CGAL:
-        export MPFR_ARCH_PATH=$WM_COMPILER_DIR
-        export GMP_ARCH_PATH=$WM_COMPILER_DIR
+    mingw32 | mingw-w32 | mingw-w64)
+        : #nothing to be done, when we are in MSYS2
         ;;
     *)
         echo 1>&2
@@ -412,7 +407,8 @@ OpenFOAM | ThirdParty)
             echo 1>&2
             echo "Warning in $WM_PROJECT_DIR/etc/config/settings.sh:" 1>&2
             echo "    Cannot find $clangDir installation." 1>&2
-            echo "    Please install this compiler version or if you wish to use the system compiler," 1>&2
+            echo "    Please install this compiler version or if you wish to" \
+                 " use the system compiler," 1>&2
             echo "    change the 'foamCompiler' setting to 'system'" 1>&2
             echo 1>&2
         }
@@ -433,7 +429,7 @@ esac
 
 
 #
-# add c++0x flags for external programs
+# Add c++0x flags for external programs
 #
 if [ -n "$WM_CXXFLAGS" ]
 then
@@ -538,9 +534,53 @@ HPMPI)
     esac
     ;;
 
-GAMMA)
-    export FOAM_MPI=gamma
-    export MPI_ARCH_PATH=/usr
+SYSTEMMPI)
+    export FOAM_MPI=mpi-system
+
+    if [ -z "$MPI_ROOT" ]
+    then
+        echo 1>&2
+        echo "Warning in $WM_PROJECT_DIR/etc/config/settings.sh:" 1>&2
+        echo "    Please set the environment variable MPI_ROOT to point to" \
+             " the base folder for the system MPI in use." 1>&2
+        echo "    Example:" 1>&2
+        echo 1>&2
+        echo "        export MPI_ROOT=/opt/mpi" 1>&2
+        echo 1>&2
+    else
+        export MPI_ARCH_PATH=$MPI_ROOT
+
+        if [ -z "$MPI_ARCH_FLAGS" ]
+        then
+            echo 1>&2
+            echo "Warning in $WM_PROJECT_DIR/etc/config/settings.sh:" 1>&2
+            echo "    MPI_ARCH_FLAGS is not set. Example:" 1>&2
+            echo 1>&2
+            echo "        export MPI_ARCH_FLAGS=\"-DOMPI_SKIP_MPICXX\"" 1>&2
+            echo 1>&2
+        fi
+
+        if [ -z "$MPI_ARCH_INC" ]
+        then
+            echo 1>&2
+            echo "Warning in $WM_PROJECT_DIR/etc/config/settings.sh:" 1>&2
+            echo "    MPI_ARCH_INC is not set. Example:" 1>&2
+            echo 1>&2
+            echo "        export MPI_ARCH_INC=\"-I\$MPI_ROOT/include\"" 1>&2
+            echo 1>&2
+        fi
+
+        if [ -z "$MPI_ARCH_LIBS" ]
+        then
+            echo 1>&2
+            echo "Warning in $WM_PROJECT_DIR/etc/config/settings.sh:" 1>&2
+            echo "    MPI_ARCH_LIBS is not set. Example:" 1>&2
+            echo 1>&2
+            echo "        export MPI_ARCH_LIBS=\"-L\$MPI_ROOT/lib -lmpi\"" 1>&2
+            echo 1>&2
+        fi
+    fi
+
     ;;
 
 MPI)
@@ -576,7 +616,8 @@ SGIMPI)
     if [ ! -d "$MPI_ROOT" -o -z "$MPI_ARCH_PATH" ]
     then
         echo "Warning in $WM_PROJECT_DIR/etc/config/settings.sh:" 1>&2
-        echo "    MPI_ROOT not a valid mpt installation directory or ending in a '/'." 1>&2
+        echo "    MPI_ROOT not a valid mpt installation directory or ending" \
+             " in a '/'." 1>&2
         echo "    Please set MPI_ROOT to the mpt installation directory." 1>&2
         echo "    MPI_ROOT currently set to '$MPI_ROOT'" 1>&2
     fi
@@ -602,7 +643,8 @@ INTELMPI)
     if [ ! -d "$MPI_ROOT" -o -z "$MPI_ARCH_PATH" ]
     then
         echo "Warning in $WM_PROJECT_DIR/etc/config/settings.sh:" 1>&2
-        echo "    MPI_ROOT not a valid mpt installation directory or ending in a '/'." 1>&2
+        echo "    MPI_ROOT not a valid mpt installation directory or ending" \
+             " in a '/'." 1>&2
         echo "    Please set MPI_ROOT to the mpt installation directory." 1>&2
         echo "    MPI_ROOT currently set to '$MPI_ROOT'" 1>&2
     fi

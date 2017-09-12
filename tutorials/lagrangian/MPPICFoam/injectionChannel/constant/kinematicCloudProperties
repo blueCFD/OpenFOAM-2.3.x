@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.0                                 |
+|  \\    /   O peration     | Version:  2.3.x                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -141,11 +141,17 @@ subModels
                 e    1;
                 mu   0;
             }
+
             walls
             {
                 type rebound;
                 e    1;
                 mu   0;
+            }
+
+            "lowerInlet|upperInlet|outlet"
+            {
+                type escape;
             }
         );
     }

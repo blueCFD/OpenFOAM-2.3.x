@@ -27,7 +27,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "error.H"
-#include "token.H"
+#include "token.T.H"
 
 #include "IOstreams.H"
 #include "scalar.H"

@@ -1,5 +1,5 @@
 volScalarField rAU(1.0/UEqn().A());
-surfaceScalarField rAUf("Dp", fvc::interpolate(rAU));
+surfaceScalarField rAUf("rAUf", fvc::interpolate(rAU));
 
 volVectorField HbyA("HbyA", U);
 HbyA = rAU*UEqn().H();
@@ -16,9 +16,8 @@ surfaceScalarField phiHbyA
   + rAUf*fvc::ddtCorr(U, phi)
 );
 
-adjustPhi(phiHbyA, U, p_gh);
-
 fvOptions.makeRelative(phiHbyA);
+adjustPhi(phiHbyA, U, p_gh);
 
 // Update the fixedFluxPressure BCs to ensure flux consistency
 setSnGrad<fixedFluxPressureFvPatchScalarField>

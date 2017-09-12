@@ -206,32 +206,40 @@ void Foam::AMIInterpolation<SourcePatch, TargetPatch>::normaliseWeights
 )
 {
     // Normalise the weights
-    wghtSum.setSize(wght.size());
+    wghtSum.setSize(wght.size(), 0.0);
     label nLowWeight = 0;
 
     forAll(wght, faceI)
     {
         scalarList& w = wght[faceI];
-        scalar denom = patchAreas[faceI];
 
-        scalar s = sum(w);
-        scalar t = s/denom;
-
-        if (conformal)
+        if (w.size())
         {
-            denom = s;
+            scalar denom = patchAreas[faceI];
+
+            scalar s = sum(w);
+            scalar t = s/denom;
+
+            if (conformal)
+            {
+                denom = s;
+            }
+
+            forAll(w, i)
+            {
+                w[i] /= denom;
+            }
+
+            wghtSum[faceI] = t;
+
+            if (t < lowWeightTol)
+            {
+                nLowWeight++;
+            }
         }
-
-        forAll(w, i)
+        else
         {
-            w[i] /= denom;
-        }
-
-        wghtSum[faceI] = t;
-
-        if (t < lowWeightTol)
-        {
-            nLowWeight++;
+            wghtSum[faceI] = 0;
         }
     }
 
@@ -242,7 +250,8 @@ void Foam::AMIInterpolation<SourcePatch, TargetPatch>::normaliseWeights
 
         if (nFace)
         {
-            IInfo<< "AMI: Patch " << patchName
+            Info<< indent
+                << "AMI: Patch " << patchName
                 << " sum(weights) min/max/average = "
                 << gMin(wghtSum) << ", "
                 << gMax(wghtSum) << ", "
@@ -252,7 +261,8 @@ void Foam::AMIInterpolation<SourcePatch, TargetPatch>::normaliseWeights
 
             if (nLow)
             {
-                IInfo<< "AMI: Patch " << patchName
+                Info<< indent
+                    << "AMI: Patch " << patchName
                     << " identified " << nLow
                     << " faces with weights less than " << lowWeightTol
                     << endl;
@@ -526,62 +536,13 @@ void Foam::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
 }
 
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
 template<class SourcePatch, class TargetPatch>
-Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
+void Foam::AMIInterpolation<SourcePatch, TargetPatch>::constructFromSurface
 (
     const SourcePatch& srcPatch,
     const TargetPatch& tgtPatch,
-    const faceAreaIntersect::triangulationMode& triMode,
-    const interpolationMethod& method,
-    const scalar lowWeightCorrection,
-    const bool reverseTarget
+    const autoPtr<searchableSurface>& surfPtr
 )
-:
-    method_(method),
-    reverseTarget_(reverseTarget),
-    singlePatchProc_(-999),
-    lowWeightCorrection_(lowWeightCorrection),
-    srcAddress_(),
-    srcWeights_(),
-    srcWeightsSum_(),
-    tgtAddress_(),
-    tgtWeights_(),
-    tgtWeightsSum_(),
-    triMode_(triMode),
-    srcMapPtr_(NULL),
-    tgtMapPtr_(NULL)
-{
-    update(srcPatch, tgtPatch);
-}
-
-
-template<class SourcePatch, class TargetPatch>
-Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
-(
-    const SourcePatch& srcPatch,
-    const TargetPatch& tgtPatch,
-    const autoPtr<searchableSurface>& surfPtr,
-    const faceAreaIntersect::triangulationMode& triMode,
-    const interpolationMethod& method,
-    const scalar lowWeightCorrection,
-    const bool reverseTarget
-)
-:
-    method_(method),
-    reverseTarget_(reverseTarget),
-    singlePatchProc_(-999),
-    lowWeightCorrection_(lowWeightCorrection),
-    srcAddress_(),
-    srcWeights_(),
-    srcWeightsSum_(),
-    tgtAddress_(),
-    tgtWeights_(),
-    tgtWeightsSum_(),
-    triMode_(triMode),
-    srcMapPtr_(NULL),
-    tgtMapPtr_(NULL)
 {
     if (surfPtr.valid())
     {
@@ -644,6 +605,134 @@ Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
 }
 
 
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
+template<class SourcePatch, class TargetPatch>
+Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
+(
+    const SourcePatch& srcPatch,
+    const TargetPatch& tgtPatch,
+    const faceAreaIntersect::triangulationMode& triMode,
+    const bool requireMatch,
+    const interpolationMethod& method,
+    const scalar lowWeightCorrection,
+    const bool reverseTarget
+)
+:
+    methodName_(interpolationMethodToWord(method)),
+    reverseTarget_(reverseTarget),
+    requireMatch_(requireMatch),
+    singlePatchProc_(-999),
+    lowWeightCorrection_(lowWeightCorrection),
+    srcAddress_(),
+    srcWeights_(),
+    srcWeightsSum_(),
+    tgtAddress_(),
+    tgtWeights_(),
+    tgtWeightsSum_(),
+    triMode_(triMode),
+    srcMapPtr_(NULL),
+    tgtMapPtr_(NULL)
+{
+    update(srcPatch, tgtPatch);
+}
+
+
+template<class SourcePatch, class TargetPatch>
+Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
+(
+    const SourcePatch& srcPatch,
+    const TargetPatch& tgtPatch,
+    const faceAreaIntersect::triangulationMode& triMode,
+    const bool requireMatch,
+    const word& methodName,
+    const scalar lowWeightCorrection,
+    const bool reverseTarget
+)
+:
+    methodName_(methodName),
+    reverseTarget_(reverseTarget),
+    requireMatch_(requireMatch),
+    singlePatchProc_(-999),
+    lowWeightCorrection_(lowWeightCorrection),
+    srcAddress_(),
+    srcWeights_(),
+    srcWeightsSum_(),
+    tgtAddress_(),
+    tgtWeights_(),
+    tgtWeightsSum_(),
+    triMode_(triMode),
+    srcMapPtr_(NULL),
+    tgtMapPtr_(NULL)
+{
+    update(srcPatch, tgtPatch);
+}
+
+
+template<class SourcePatch, class TargetPatch>
+Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
+(
+    const SourcePatch& srcPatch,
+    const TargetPatch& tgtPatch,
+    const autoPtr<searchableSurface>& surfPtr,
+    const faceAreaIntersect::triangulationMode& triMode,
+    const bool requireMatch,
+    const interpolationMethod& method,
+    const scalar lowWeightCorrection,
+    const bool reverseTarget
+)
+:
+    methodName_(interpolationMethodToWord(method)),
+    reverseTarget_(reverseTarget),
+    requireMatch_(requireMatch),
+    singlePatchProc_(-999),
+    lowWeightCorrection_(lowWeightCorrection),
+    srcAddress_(),
+    srcWeights_(),
+    srcWeightsSum_(),
+    tgtAddress_(),
+    tgtWeights_(),
+    tgtWeightsSum_(),
+    triMode_(triMode),
+    srcMapPtr_(NULL),
+    tgtMapPtr_(NULL)
+{
+    constructFromSurface(srcPatch, tgtPatch, surfPtr);
+}
+
+
+template<class SourcePatch, class TargetPatch>
+Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
+(
+    const SourcePatch& srcPatch,
+    const TargetPatch& tgtPatch,
+    const autoPtr<searchableSurface>& surfPtr,
+    const faceAreaIntersect::triangulationMode& triMode,
+    const bool requireMatch,
+    const word& methodName,
+    const scalar lowWeightCorrection,
+    const bool reverseTarget
+)
+:
+    methodName_(methodName),
+    reverseTarget_(reverseTarget),
+    requireMatch_(requireMatch),
+    singlePatchProc_(-999),
+    lowWeightCorrection_(lowWeightCorrection),
+    srcAddress_(),
+    srcWeights_(),
+    srcWeightsSum_(),
+    tgtAddress_(),
+    tgtWeights_(),
+    tgtWeightsSum_(),
+    triMode_(triMode),
+    srcMapPtr_(NULL),
+    tgtMapPtr_(NULL)
+{
+    constructFromSurface(srcPatch, tgtPatch, surfPtr);
+}
+
+
 template<class SourcePatch, class TargetPatch>
 Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
 (
@@ -652,8 +741,9 @@ Foam::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
     const labelList& targetRestrictAddressing
 )
 :
-    method_(fineAMI.method_),
+    methodName_(fineAMI.methodName_),
     reverseTarget_(fineAMI.reverseTarget_),
+    requireMatch_(fineAMI.requireMatch_),
     singlePatchProc_(fineAMI.singlePatchProc_),
     lowWeightCorrection_(-1.0),
     srcAddress_(),
@@ -790,7 +880,19 @@ void Foam::AMIInterpolation<SourcePatch, TargetPatch>::update
     label srcTotalSize = returnReduce(srcPatch.size(), sumOp<label>());
     label tgtTotalSize = returnReduce(tgtPatch.size(), sumOp<label>());
 
-    IInfo<< "AMI: Creating addressing and weights between "
+    if (srcTotalSize == 0)
+    {
+        if (debug)
+        {
+            Info<< "AMI: no source faces present - no addressing constructed"
+                << endl;
+        }
+
+        return;
+    }
+
+    Info<< indent
+        << "AMI: Creating addressing and weights between "
         << srcTotalSize << " source faces and "
         << tgtTotalSize << " target faces"
         << endl;
@@ -856,13 +958,14 @@ void Foam::AMIInterpolation<SourcePatch, TargetPatch>::update
         (
             AMIMethod<SourcePatch, TargetPatch>::New
             (
-                interpolationMethodToWord(method_),
+                methodName_,
                 srcPatch,
                 newTgtPatch,
                 srcMagSf_,
                 tgtMagSf_,
                 triMode_,
-                reverseTarget_
+                reverseTarget_,
+                requireMatch_
             )
         );
 
@@ -972,13 +1075,14 @@ void Foam::AMIInterpolation<SourcePatch, TargetPatch>::update
         (
             AMIMethod<SourcePatch, TargetPatch>::New
             (
-                interpolationMethodToWord(method_),
+                methodName_,
                 srcPatch,
                 tgtPatch,
                 srcMagSf_,
                 tgtMagSf_,
                 triMode_,
-                reverseTarget_
+                reverseTarget_,
+                requireMatch_
             )
         );
 
@@ -1390,7 +1494,7 @@ const
     forAll(addr, i)
     {
         label srcFaceI = addr[i];
-        const face& f = srcPatch[tgtFaceI];
+        const face& f = srcPatch[srcFaceI];
 
         pointHit ray = f.ray(tgtPoint, n, srcPoints);
 
@@ -1406,7 +1510,7 @@ const
     forAll(addr, i)
     {
         label srcFaceI = addr[i];
-        const face& f = srcPatch[tgtFaceI];
+        const face& f = srcPatch[srcFaceI];
 
         vector nFace(-srcPatch.faceNormals()[srcFaceI]);
         nFace += tgtPatch.faceNormals()[tgtFaceI];

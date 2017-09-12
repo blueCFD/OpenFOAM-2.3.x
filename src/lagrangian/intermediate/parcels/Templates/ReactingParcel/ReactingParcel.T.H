@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -57,6 +57,7 @@ Ostream& operator<<
     const ReactingParcel<ParcelType>&
 );
 
+
 /*---------------------------------------------------------------------------*\
                         Class ReactingParcel Declaration
 \*---------------------------------------------------------------------------*/
@@ -66,9 +67,15 @@ class ReactingParcel
 :
     public ParcelType
 {
+    // Private data
+
+        //- Size in bytes of the fields
+        static const std::size_t sizeofFields_;
+
+
 public:
 
-    //- Class to hold reacting particle constant properties
+    //- Class to hold reacting parcel constant properties
     class constantProperties
     :
         public ParcelType::constantProperties
@@ -151,7 +158,7 @@ protected:
 
         // Parcel properties
 
-            //- Initial particle mass [kg]
+            //- Initial mass [kg]
             scalar mass0_;
 
             //- Mass fractions of mixture []
@@ -183,9 +190,9 @@ protected:
             const label idPhase,       // id of phase involved in phase change
             const scalar YPhase,       // total mass fraction
             const scalarField& YComponents, // component mass fractions
-            scalarField& dMassPC,      // mass transfer - local to particle
-            scalar& Sh,                // explicit particle enthalpy source
-            scalar& N,                 // flux of species emitted from particle
+            scalarField& dMassPC,      // mass transfer - local to parcel
+            scalar& Sh,                // explicit parcel enthalpy source
+            scalar& N,                 // flux of species emitted from parcel
             scalar& NCpW,              // sum of N*Cp*W of emission species
             scalarField& Cs            // carrier conc. of emission species
         );
@@ -308,25 +315,25 @@ public:
 
         // Access
 
-            //- Return const access to initial mass
+            //- Return const access to initial mass [kg]
             inline scalar mass0() const;
 
-            //- Return const access to mass fractions of mixture
+            //- Return const access to mass fractions of mixture []
             inline const scalarField& Y() const;
 
-            //- Return the owner cell pressure
+            //- Return the owner cell pressure [Pa]
             inline scalar pc() const;
 
-            //- Return reference to the owner cell pressure
+            //- Return reference to the owner cell pressure [Pa]
             inline scalar& pc();
 
 
         // Edit
 
-            //- Return access to initial mass
+            //- Return access to initial mass [kg]
             inline scalar& mass0();
 
-            //- Return access to mass fractions of mixture
+            //- Return access to mass fractions of mixture []
             inline scalarField& Y();
 
 

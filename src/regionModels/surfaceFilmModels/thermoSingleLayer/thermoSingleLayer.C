@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -31,6 +31,7 @@ License
 #include "zeroGradientFvPatchFields.H"
 #include "mappedFieldFvPatchField.H"
 #include "mapDistribute.H"
+#include "constants.H"
 
 // Sub-models
 #include "filmThermoModel.H"
@@ -255,24 +256,13 @@ void thermoSingleLayer::updateSubmodels()
 
 tmp<fvScalarMatrix> thermoSingleLayer::q(volScalarField& hs) const
 {
-    dimensionedScalar Tstd("Tstd", dimTemperature, 298.15);
-
-    volScalarField htcst(htcs_->h());
-    volScalarField htcwt(htcw_->h());
-
-    forAll(alpha_, i)
-    {
-        htcst[i] *= max(alpha_[i], ROOTVSMALL);
-        htcwt[i] *= max(alpha_[i], ROOTVSMALL);
-    }
-
-    htcst.correctBoundaryConditions();
-    htcwt.correctBoundaryConditions();
-
     return
     (
-      - fvm::Sp(htcst/Cp_, hs) - htcst*(Tstd - TPrimary_)
-      - fvm::Sp(htcwt/Cp_, hs) - htcwt*(Tstd - Tw_)
+      - fvm::Sp(htcs_->h()/Cp_, hs)
+      - htcs_->h()*(constant::standard::Tstd - TPrimary_)
+
+      - fvm::Sp(htcw_->h()/Cp_, hs)
+      - htcw_->h()*(constant::standard::Tstd - Tw_)
     );
 }
 
@@ -552,8 +542,24 @@ thermoSingleLayer::thermoSingleLayer
 
         // Update derived fields
         hs_ == hs(T_);
+
         deltaRho_ == delta_*rho_;
-        phi_ = fvc::interpolate(deltaRho_*U_) & regionMesh().Sf();
+
+        surfaceScalarField phi0
+        (
+            IOobject
+            (
+                "phi",
+                time().timeName(),
+                regionMesh(),
+                IOobject::READ_IF_PRESENT,
+                IOobject::AUTO_WRITE,
+                false
+            ),
+            fvc::interpolate(deltaRho_*U_) & regionMesh().Sf()
+        );
+
+        phi_ == phi0;
 
         // evaluate viscosity from user-model
         viscosity_->correct(pPrimary_, T_);
@@ -712,7 +718,7 @@ tmp<volScalarField> thermoSingleLayer::primaryMassTrans() const
 }
 
 
-void thermoSingleLayer::info() const
+void thermoSingleLayer::info()
 {
     kinematicSingleLayer::info();
 

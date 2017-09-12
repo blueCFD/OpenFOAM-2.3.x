@@ -25,7 +25,7 @@ License
 
 #include "List.T.H"
 #include "Istream.T.H"
-#include "token.H"
+#include "token.T.H"
 #include "SLList.H"
 #include "contiguous.H"
 

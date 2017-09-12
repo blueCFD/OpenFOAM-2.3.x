@@ -33,7 +33,7 @@ if isMinGW; then
   if [ "$WM_PSTREAMLINK" = "LINKTOPSTREAM" ]; then
     buildMode=$makeType
   else
-    buildMode="libo"
+    buildMode="lib"
   fi
 fi
 
@@ -48,9 +48,6 @@ case "$WM_MPLIB" in
     wmakeMpiLib mpi
     ;;
 
-#GAMMA)
-#    wmake $makeType gamma
-#    ;;
 esac
 
 

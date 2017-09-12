@@ -44,7 +44,7 @@ SourceFiles
 #define Istream_H
 
 #include "IOstream.H"
-#include "token.H"
+#include "token.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

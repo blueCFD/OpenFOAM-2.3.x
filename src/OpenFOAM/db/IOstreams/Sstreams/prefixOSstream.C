@@ -25,7 +25,7 @@ License
 
 #include "prefixOSstream.H"
 #include "Pstream.T.H"
-#include "token.H"
+#include "token.T.H"
 
 // * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * * //
 

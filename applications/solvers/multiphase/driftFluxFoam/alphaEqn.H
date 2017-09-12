@@ -19,21 +19,12 @@
             ).fvmDiv(phi, alpha1)
         );
 
-        solve
-        (
-            alpha1Eqn
-          - fv::gaussLaplacianScheme<scalar, scalar>
-            (
-                mesh,
-                linear<scalar>(mesh),
-                fv::uncorrectedSnGrad<scalar>(mesh)
-            ).fvmLaplacian(fvc::interpolate(mut/rho), alpha1)
-        );
+        solve(alpha1Eqn);
 
         Info<< "Phase-1 volume fraction = "
             << alpha1.weightedAverage(mesh.Vsc()).value()
-            << "  Min(alpha1) = " << min(alpha1).value()
-            << "  Max(alpha1) = " << max(alpha1).value()
+            << "  Min(" << alpha1.name() <<") = " << min(alpha1).value()
+            << "  Max(" << alpha1.name() <<") = " << max(alpha1).value()
             << endl;
 
         tmp<surfaceScalarField> tphiAlphaUD(alpha1Eqn.flux());
@@ -42,10 +33,25 @@
         if (alphaApplyPrevCorr && tphiAlphaCorr0.valid())
         {
             Info<< "Applying the previous iteration correction flux" << endl;
+
             #ifdef LTSSOLVE
-            MULES::LTScorrect(alpha1, phiAlpha, tphiAlphaCorr0(), 1, 0);
+            MULES::LTScorrect
+            (
+                alpha1,
+                phiAlpha,
+                tphiAlphaCorr0(),
+                mixture.alphaMax(),
+                0
+            );
             #else
-            MULES::correct(alpha1, phiAlpha, tphiAlphaCorr0(), 1, 0);
+            MULES::correct
+            (
+                alpha1,
+                phiAlpha,
+                tphiAlphaCorr0(),
+                mixture.alphaMax(),
+                0
+            );
             #endif
 
             phiAlpha += tphiAlphaCorr0();
@@ -79,9 +85,23 @@
             volScalarField alpha10(alpha1);
 
             #ifdef LTSSOLVE
-            MULES::LTScorrect(alpha1, tphiAlphaUn(), tphiAlphaCorr(), 1, 0);
+            MULES::LTScorrect
+            (
+                alpha1,
+                tphiAlphaUn(),
+                tphiAlphaCorr(),
+                mixture.alphaMax(),
+                0
+            );
             #else
-            MULES::correct(alpha1, tphiAlphaUn(), tphiAlphaCorr(), 1, 0);
+            MULES::correct
+            (
+                alpha1,
+                tphiAlphaUn(),
+                tphiAlphaCorr(),
+                mixture.alphaMax(),
+                0
+            );
             #endif
 
             // Under-relax the correction for all but the 1st corrector
@@ -100,9 +120,23 @@
             phiAlpha = tphiAlphaUn;
 
             #ifdef LTSSOLVE
-            MULES::explicitLTSSolve(alpha1, phi, phiAlpha, 1, 0);
+            MULES::explicitLTSSolve
+            (
+                alpha1,
+                phi,
+                phiAlpha,
+                mixture.alphaMax(),
+                0
+            );
             #else
-            MULES::explicitSolve(alpha1, phi, phiAlpha, 1, 0);
+            MULES::explicitSolve
+            (
+                alpha1,
+                phi,
+                phiAlpha,
+                mixture.alphaMax(),
+                0
+            );
             #endif
         }
     }
@@ -116,7 +150,7 @@
 
     Info<< "Phase-1 volume fraction = "
         << alpha1.weightedAverage(mesh.Vsc()).value()
-        << "  Min(alpha1) = " << min(alpha1).value()
-        << "  Max(alpha1) = " << max(alpha1).value()
+        << "  Min(" << alpha1.name() <<") = " << min(alpha1).value()
+        << "  Max(" << alpha1.name() <<") = " << max(alpha1).value()
         << endl;
 }

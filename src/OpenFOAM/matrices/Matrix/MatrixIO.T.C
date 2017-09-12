@@ -26,7 +26,7 @@ License
 #include "Matrix.T.H"
 #include "Istream.T.H"
 #include "Ostream.T.H"
-#include "token.H"
+#include "token.T.H"
 #include "contiguous.H"
 
 // * * * * * * * * * * * * * * * Ostream Operator *  * * * * * * * * * * * * //

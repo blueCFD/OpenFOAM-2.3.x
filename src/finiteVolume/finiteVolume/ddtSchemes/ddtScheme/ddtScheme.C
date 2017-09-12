@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -26,6 +26,8 @@ License
 #include "fv.H"
 #include "HashTable.T.H"
 #include "surfaceInterpolate.H"
+#include "fvMatrix.H"
+#include "cyclicAMIFvPatch.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -96,6 +98,45 @@ ddtScheme<Type>::~ddtScheme()
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 template<class Type>
+tmp<GeometricField<Type, fvPatchField, volMesh> > ddtScheme<Type>::fvcDdt
+(
+    const volScalarField& alpha,
+    const volScalarField& rho,
+    const GeometricField<Type, fvPatchField, volMesh>& vf
+)
+{
+    notImplemented("fvmDdt(alpha, rho, psi");
+
+    return tmp<GeometricField<Type, fvPatchField, volMesh> >
+    (
+        GeometricField<Type, fvPatchField, volMesh>::null()
+    );
+}
+
+
+template<class Type>
+tmp<fvMatrix<Type> > ddtScheme<Type>::fvmDdt
+(
+    const volScalarField& alpha,
+    const volScalarField& rho,
+    const GeometricField<Type, fvPatchField, volMesh>& vf
+)
+{
+    notImplemented("fvmDdt(alpha, rho, psi");
+
+    return tmp<fvMatrix<Type> >
+    (
+        new fvMatrix<Type>
+        (
+            vf,
+            alpha.dimensions()*rho.dimensions()
+            *vf.dimensions()*dimVol/dimTime
+        )
+    );
+}
+
+
+template<class Type>
 tmp<surfaceScalarField> ddtScheme<Type>::fvcDdtPhiCoeff
 (
     const GeometricField<Type, fvPatchField, volMesh>& U,
@@ -115,7 +156,11 @@ tmp<surfaceScalarField> ddtScheme<Type>::fvcDdtPhiCoeff
 
     forAll(U.boundaryField(), patchi)
     {
-        if (U.boundaryField()[patchi].fixesValue())
+        if
+        (
+            U.boundaryField()[patchi].fixesValue()
+         || isA<cyclicAMIFvPatch>(mesh().boundary()[patchi])
+        )
         {
             ddtCouplingCoeff.boundaryField()[patchi] = 0.0;
         }

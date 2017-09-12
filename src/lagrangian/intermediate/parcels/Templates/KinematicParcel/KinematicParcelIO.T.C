@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -33,6 +33,14 @@ License
 template<class ParcelType>
 Foam::string Foam::KinematicParcel<ParcelType>::propertyList_ =
     Foam::KinematicParcel<ParcelType>::propertyList();
+
+template<class ParcelType>
+const std::size_t Foam::KinematicParcel<ParcelType>::sizeofFields_
+(
+    offsetof(KinematicParcel<ParcelType>, rhoc_)
+  - offsetof(KinematicParcel<ParcelType>, active_)
+);
+
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -76,20 +84,7 @@ Foam::KinematicParcel<ParcelType>::KinematicParcel
         }
         else
         {
-            is.read
-            (
-                reinterpret_cast<char*>(&active_),
-                sizeof(active_)
-              + sizeof(typeId_)
-              + sizeof(nParticle_)
-              + sizeof(d_)
-              + sizeof(dTarget_)
-              + sizeof(U_)
-              + sizeof(rho_)
-              + sizeof(age_)
-              + sizeof(tTurb_)
-              + sizeof(UTurb_)
-            );
+            is.read(reinterpret_cast<char*>(&active_), sizeofFields_);
         }
     }
 
@@ -251,16 +246,7 @@ Foam::Ostream& Foam::operator<<
         os.write
         (
             reinterpret_cast<const char*>(&p.active_),
-            sizeof(p.active())
-          + sizeof(p.typeId())
-          + sizeof(p.nParticle())
-          + sizeof(p.d())
-          + sizeof(p.dTarget())
-          + sizeof(p.U())
-          + sizeof(p.rho())
-          + sizeof(p.age())
-          + sizeof(p.tTurb())
-          + sizeof(p.UTurb())
+            KinematicParcel<ParcelType>::sizeofFields_
         );
     }
 

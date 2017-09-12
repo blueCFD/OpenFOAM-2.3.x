@@ -7,6 +7,7 @@
 #    \\/     M anipulation  |
 #-------------------------------------------------------------------------------
 # 2014-03-10 blueCAPE Lda: Modifications for blueCFD-Core 2.3
+# 2016-03-15 blueCAPE Lda: Modifications for blueCFD-Core 2.3-2
 #------------------------------------------------------------------------------
 # License
 #     This file is a derivative work of OpenFOAM.
@@ -37,8 +38,6 @@
 #          can more easily create static applications.
 #        - Also added the option "-k" that was suggested by Michael Wild at
 #           http://www.openfoam.org/mantisbt/view.php?id=256
-#        - Added the ability use smart scheduling for Windows, since GNU Make
-#          still can't cope with multicore compiling.
 #
 # Script
 #     wmake
@@ -85,22 +84,6 @@ make="make"
 
 # Use an empty scheduler manager by default
 export WM_SCHEDULER_MANAGER=":"
-
-# But if on Windows:
-if onWin; then
-
-    # Use csmake
-    make="csmake"
-
-    # On Windows, check if we should switch to smart multi-core, if need be
-    if [ -n "$WM_NCOMPPROCS" ] && [ $WM_NCOMPPROCS -gt 1 ]; then
-      export WM_SCHEDULER=$(which smartSchedulerCompiler)
-      export WM_SCHEDULER_MANAGER=$(which smartSchedulerManager)
-      export WM_NCOMPPROCS_SCHEDULE=$WM_NCOMPPROCS
-      unset WM_NCOMPPROCS
-    fi
-
-fi
 
 # parse options
 while [ "$#" -gt 0 ]
@@ -208,9 +191,9 @@ fi
 
 if isMinGW; then
 
-  if [ "$WM_COMPILE_OPTION" = "Prof" -a "$makeOption" = "libso" ]; then
-    makeOption="libo"
-  fi
+    if [ "$WM_COMPILE_OPTION" = "Prof" -a "$makeOption" = "libso" ]; then
+        makeType="libo"
+    fi
 
 fi
 
@@ -223,43 +206,9 @@ then
     if [ -e Allwmake ]
     then
 
-        # revert to the previous multicore mode, due to conflicts
-        if onWin && [ -n "$WM_NCOMPPROCS_SCHEDULE" ]; then
-          export WM_NCOMPPROCS=$WM_NCOMPPROCS_SCHEDULE
-          unset WM_SCHEDULER
-          unset WM_SCHEDULER_MANAGER
-          unset WM_NCOMPPROCS_SCHEDULE
-        fi
-
         ./Allwmake
         exit $?
-    elif [ ! -d $MakeDir -a -n "$WM_NCOMPPROCS_SCHEDULE" ]
-    then
-        # we use the smart scheduler
-        echo "Working... currently scheduling the folders to be compiled..."
 
-        allFoldersToBuild=""
-        allwmakesSmart=$(find * -name "Allwmake" | grep -v "/Optional")
-        allmakesSmart=$(find * -name "Make" | grep -v "/Optional")
-
-        allmakesSmart2=${allmakesSmart}
-        for p2n in $(echo "$allwmakesSmart" | sed 's=/Allwmake$==g'); do
-          allmakesSmart2=$(echo "${allmakesSmart2}" | grep -v "$p2n")
-        done
-
-        for line in $(echo "$allwmakesSmart" | sed 's=/Allwmake$==g'); do
-          echo "${line}/Allwmake" > "${line}/smart.make"
-          allFoldersToBuild="${allFoldersToBuild} ${line}/smart.make"
-        done
-
-        for line in $(echo "$allmakesSmart2" | sed 's=/Make$==g'); do
-          echo "wmake all ${line}" > "${line}/smart.make"
-          allFoldersToBuild="${allFoldersToBuild} ${line}/smart.make"
-        done
-
-        smartSchedulerManager ${allFoldersToBuild}
-        exit $?
-    
     elif [ ! -d $MakeDir ]
     then
         # FOAM_APPS=$(find . -maxdepth 1 \( -type d -a ! -name "." -a ! -name Optional -a ! -name Make \)  -printf "%f ")
@@ -353,6 +302,14 @@ fi
     unset MAKEFLAGS
     make -s -f $WM_DIR/MakefileOptions
     make -s -f $WM_DIR/MakefileFiles allFiles
+
+    if isMinGW && \
+       [ "$makeType" = "libso" -o "$makeType" = "all" -o \
+         "$makeType" = "dep" -o -z "$makeType" ]
+    then
+        make -s -f $WM_DIR/MakefileFiles versioning
+    fi
+
 )
 
 

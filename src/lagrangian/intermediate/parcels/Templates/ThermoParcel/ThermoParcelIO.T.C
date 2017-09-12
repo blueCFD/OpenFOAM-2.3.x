@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -32,6 +32,13 @@ template<class ParcelType>
 Foam::string Foam::ThermoParcel<ParcelType>::propertyList_ =
     Foam::ThermoParcel<ParcelType>::propertyList();
 
+template<class ParcelType>
+const std::size_t Foam::ThermoParcel<ParcelType>::sizeofFields_
+(
+    offsetof(ThermoParcel<ParcelType>, Tc_)
+  - offsetof(ThermoParcel<ParcelType>, T_)
+);
+
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -58,12 +65,7 @@ Foam::ThermoParcel<ParcelType>::ThermoParcel
         }
         else
         {
-            is.read
-            (
-                reinterpret_cast<char*>(&T_),
-              + sizeof(T_)
-              + sizeof(Cp_)
-            );
+            is.read(reinterpret_cast<char*>(&T_), sizeofFields_);
         }
     }
 
@@ -152,7 +154,7 @@ Foam::Ostream& Foam::operator<<
         os.write
         (
             reinterpret_cast<const char*>(&p.T_),
-            sizeof(p.T()) + sizeof(p.Cp())
+            ThermoParcel<ParcelType>::sizeofFields_
         );
     }
 

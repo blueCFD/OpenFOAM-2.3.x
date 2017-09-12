@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2012-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2012-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -27,6 +27,7 @@ License
 #include "volFields.H"
 #include "directFvPatchFieldMapper.H"
 #include "calculatedFvPatchField.H"
+#include "weightedFvPatchFieldMapper.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -347,10 +348,35 @@ void Foam::meshToMesh::mapSrcToTgt
         label srcPatchI = srcPatchID_[i];
         label tgtPatchI = tgtPatchID_[i];
 
-        const Field<Type>& srcField = field.boundaryField()[srcPatchI];
-        Field<Type>& tgtField = result.boundaryField()[tgtPatchI];
+        const fvPatchField<Type>& srcField = field.boundaryField()[srcPatchI];
+        fvPatchField<Type>& tgtField = result.boundaryField()[tgtPatchI];
 
-        tgtField = pTraits<Type>::zero;
+        // 2.3 does not do distributed mapping yet so only do if
+        // running on single processor
+        if (AMIList[i].singlePatchProc() != -1)
+        {
+            // Clone and map (since rmap does not do general mapping)
+            tmp<fvPatchField<Type> > tnewTgt
+            (
+                fvPatchField<Type>::New
+                (
+                    srcField,
+                    tgtField.patch(),
+                    result.dimensionedInternalField(),
+                    weightedFvPatchFieldMapper
+                    (
+                        AMIList[i].tgtAddress(),
+                        AMIList[i].tgtWeights()
+                    )
+                )
+            );
+
+            // Transfer all mapped quantities (value and e.g. gradient) onto
+            // tgtField. Value will get overwritten below.
+            tgtField.rmap(tnewTgt(), identity(tgtField.size()));
+        }
+
+        tgtField == pTraits<Type>::zero;
 
         AMIList[i].interpolateToTarget
         (
@@ -386,7 +412,7 @@ Foam::meshToMesh::mapSrcToTgt
     const typename fieldType::GeometricBoundaryField& srcBfld =
         field.boundaryField();
 
-    wordList patchTypes(tgtBm.size(), calculatedFvPatchField<Type>::typeName);
+    PtrList<fvPatchField<Type> > tgtPatchFields(tgtBm.size());
 
     // constuct tgt boundary patch types as copy of 'field' boundary types
     // note: this will provide place holders for fields with additional
@@ -396,7 +422,43 @@ Foam::meshToMesh::mapSrcToTgt
         label srcPatchI = srcPatchID_[i];
         label tgtPatchI = tgtPatchID_[i];
 
-        patchTypes[tgtPatchI] = srcBfld[srcPatchI].type();
+        if (!tgtPatchFields.set(tgtPatchI))
+        {
+            tgtPatchFields.set
+            (
+                tgtPatchI,
+                fvPatchField<Type>::New
+                (
+                    srcBfld[srcPatchI],
+                    tgtMesh.boundary()[tgtPatchI],
+                    DimensionedField<Type, volMesh>::null(),
+                    directFvPatchFieldMapper
+                    (
+                        labelList(tgtMesh.boundary()[tgtPatchI].size(), -1)
+                    )
+                )
+            );
+        }
+    }
+
+    // Any unset tgtPatchFields become calculated
+    forAll(tgtPatchFields, tgtPatchI)
+    {
+        if (!tgtPatchFields.set(tgtPatchI))
+        {
+            // Note: use factory New method instead of direct generation of
+            //       calculated so we keep constraints
+            tgtPatchFields.set
+            (
+                tgtPatchI,
+                fvPatchField<Type>::New
+                (
+                    calculatedFvPatchField<Type>::typeName,
+                    tgtMesh.boundary()[tgtPatchI],
+                    DimensionedField<Type, volMesh>::null()
+                )
+            );
+        }
     }
 
     tmp<fieldType> tresult
@@ -412,8 +474,9 @@ Foam::meshToMesh::mapSrcToTgt
                 IOobject::NO_WRITE
             ),
             tgtMesh,
-            dimensioned<Type>("0", field.dimensions(), pTraits<Type>::zero),
-            patchTypes
+            field.dimensions(),
+            Field<Type>(tgtMesh.nCells(), pTraits<Type>::zero),
+            tgtPatchFields
         )
     );
 
@@ -474,10 +537,35 @@ void Foam::meshToMesh::mapTgtToSrc
         label srcPatchI = srcPatchID_[i];
         label tgtPatchI = tgtPatchID_[i];
 
-        Field<Type>& srcField = result.boundaryField()[srcPatchI];
-        const Field<Type>& tgtField = field.boundaryField()[tgtPatchI];
+        fvPatchField<Type>& srcField = result.boundaryField()[srcPatchI];
+        const fvPatchField<Type>& tgtField = field.boundaryField()[tgtPatchI];
 
-        srcField = pTraits<Type>::zero;
+        // 2.3 does not do distributed mapping yet so only do if
+        // running on single processor
+        if (AMIList[i].singlePatchProc() != -1)
+        {
+            // Clone and map (since rmap does not do general mapping)
+            tmp<fvPatchField<Type> > tnewSrc
+            (
+                fvPatchField<Type>::New
+                (
+                    tgtField,
+                    srcField.patch(),
+                    result.dimensionedInternalField(),
+                    weightedFvPatchFieldMapper
+                    (
+                        AMIList[i].srcAddress(),
+                        AMIList[i].srcWeights()
+                    )
+                )
+            );
+
+            // Transfer all mapped quantities (value and e.g. gradient) onto
+            // srcField. Value will get overwritten below
+            srcField.rmap(tnewSrc(), identity(srcField.size()));
+        }
+
+        srcField == pTraits<Type>::zero;
 
         AMIList[i].interpolateToSource
         (
@@ -512,7 +600,7 @@ Foam::meshToMesh::mapTgtToSrc
     const typename fieldType::GeometricBoundaryField& tgtBfld =
         field.boundaryField();
 
-    wordList patchTypes(srcBm.size(), calculatedFvPatchField<Type>::typeName);
+    PtrList<fvPatchField<Type> > srcPatchFields(srcBm.size());
 
     // constuct src boundary patch types as copy of 'field' boundary types
     // note: this will provide place holders for fields with additional
@@ -522,7 +610,43 @@ Foam::meshToMesh::mapTgtToSrc
         label srcPatchI = srcPatchID_[i];
         label tgtPatchI = tgtPatchID_[i];
 
-        patchTypes[srcPatchI] = tgtBfld[tgtPatchI].type();
+        if (!srcPatchFields.set(tgtPatchI))
+        {
+            srcPatchFields.set
+            (
+                srcPatchI,
+                fvPatchField<Type>::New
+                (
+                    tgtBfld[srcPatchI],
+                    srcMesh.boundary()[tgtPatchI],
+                    DimensionedField<Type, volMesh>::null(),
+                    directFvPatchFieldMapper
+                    (
+                        labelList(srcMesh.boundary()[srcPatchI].size(), -1)
+                    )
+                )
+            );
+        }
+    }
+
+    // Any unset srcPatchFields become calculated
+    forAll(srcPatchFields, srcPatchI)
+    {
+        if (!srcPatchFields.set(srcPatchI))
+        {
+            // Note: use factory New method instead of direct generation of
+            //       calculated so we keep constraints
+            srcPatchFields.set
+            (
+                srcPatchI,
+                fvPatchField<Type>::New
+                (
+                    calculatedFvPatchField<Type>::typeName,
+                    srcMesh.boundary()[srcPatchI],
+                    DimensionedField<Type, volMesh>::null()
+                )
+            );
+        }
     }
 
     tmp<fieldType> tresult
@@ -538,8 +662,9 @@ Foam::meshToMesh::mapTgtToSrc
                 IOobject::NO_WRITE
             ),
             srcMesh,
-            dimensioned<Type>("0", field.dimensions(), pTraits<Type>::zero),
-            patchTypes
+            field.dimensions(),
+            Field<Type>(srcMesh.nCells(), pTraits<Type>::zero),
+            srcPatchFields
         )
     );
 

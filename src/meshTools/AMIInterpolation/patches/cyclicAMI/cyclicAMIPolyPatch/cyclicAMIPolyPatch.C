@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -24,13 +24,9 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "cyclicAMIPolyPatch.H"
-#include "transformField.H"
 #include "SubField.T.H"
-#include "polyMesh.H"
 #include "Time.T.H"
 #include "addToRunTimeSelectionTable.H"
-#include "faceAreaIntersect.H"
-#include "ops.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -151,43 +147,43 @@ void Foam::cyclicAMIPolyPatch::calcTransforms
                     -rotationAxis_.y(), rotationAxis_.x(), 0
                 );
 
-                tensor RPos
+                tensor revTPos
                 (
                     T
-                  + cos(rotationAngle_)*(tensor::I + T)
+                  + cos(rotationAngle_)*(tensor::I - T)
                   + sin(rotationAngle_)*S
                 );
-                tensor RNeg
+
+                tensor revTNeg
                 (
                     T
-                  + cos(-rotationAngle_)*(tensor::I + T)
+                  + cos(-rotationAngle_)*(tensor::I - T)
                   + sin(-rotationAngle_)*S
                 );
 
-                // check - assume correct angle when difference in face areas
+                // Check - assume correct angle when difference in face areas
                 // is the smallest
-                vector transformedAreaPos = sum(half0Areas & RPos);
-                vector transformedAreaNeg = sum(half0Areas & RNeg);
-                vector area1 = sum(half1Areas);
-                reduce(transformedAreaPos, sumOp<vector>());
-                reduce(transformedAreaNeg, sumOp<vector>());
-                reduce(area1, sumOp<vector>());
+                vector transformedAreaPos = gSum(half1Areas & revTPos);
+                vector transformedAreaNeg = gSum(half1Areas & revTNeg);
+                vector area0 = gSum(half0Areas);
 
-                scalar errorPos = mag(transformedAreaPos - area1);
-                scalar errorNeg = mag(transformedAreaNeg - area1);
+                // Areas have opposite sign, so sum should be zero when
+                // correct rotation applied
+                scalar errorPos = mag(transformedAreaPos + area0);
+                scalar errorNeg = mag(transformedAreaNeg + area0);
 
                 if (errorPos < errorNeg)
                 {
-                    revT = RPos;
+                    revT = revTPos;
                 }
                 else
                 {
-                    revT = RNeg;
+                    revT = revTNeg;
                     rotationAngle_ *= -1;
                 }
 
                 scalar areaError =
-                    min(errorPos, errorNeg)/(mag(area1) + ROOTVSMALL);
+                    min(errorPos, errorNeg)/(mag(area0) + ROOTVSMALL);
 
                 if (areaError > matchTolerance())
                 {
@@ -357,7 +353,7 @@ void Foam::cyclicAMIPolyPatch::resetAMI
             meshTools::writeOBJ(os, neighbPatch().localFaces(), nbrPoints);
         }
 
-        // transform neighbour patch to local system
+        // Transform neighbour patch to local system
         transformPosition(nbrPoints);
         primitivePatch nbrPatch0
         (
@@ -388,6 +384,7 @@ void Foam::cyclicAMIPolyPatch::resetAMI
                 nbrPatch0,
                 surfPtr(),
                 faceAreaIntersect::tmMesh,
+                AMIRequireMatch_,
                 AMIMethod,
                 AMILowWeightCorrection_,
                 AMIReverse_
@@ -462,6 +459,7 @@ void Foam::cyclicAMIPolyPatch::movePoints
 void Foam::cyclicAMIPolyPatch::initUpdateMesh(PstreamBuffers& pBufs)
 {
     polyPatch::initUpdateMesh(pBufs);
+    AMIPtr_.clear();
 }
 
 
@@ -501,6 +499,7 @@ Foam::cyclicAMIPolyPatch::cyclicAMIPolyPatch
     separationVector_(vector::zero),
     AMIPtr_(NULL),
     AMIReverse_(false),
+    AMIRequireMatch_(true),
     AMILowWeightCorrection_(-1.0),
     surfPtr_(NULL),
     surfDict_(fileName("surface"))
@@ -530,6 +529,7 @@ Foam::cyclicAMIPolyPatch::cyclicAMIPolyPatch
     separationVector_(vector::zero),
     AMIPtr_(NULL),
     AMIReverse_(dict.lookupOrDefault<bool>("flipNormals", false)),
+    AMIRequireMatch_(true),
     AMILowWeightCorrection_(dict.lookupOrDefault("lowWeightCorrection", -1.0)),
     surfPtr_(NULL),
     surfDict_(dict.subOrEmptyDict("surface"))
@@ -613,7 +613,7 @@ Foam::cyclicAMIPolyPatch::cyclicAMIPolyPatch
         }
         default:
         {
-            // no additional info required
+            // No additional info required
         }
     }
 
@@ -639,6 +639,7 @@ Foam::cyclicAMIPolyPatch::cyclicAMIPolyPatch
     separationVector_(pp.separationVector_),
     AMIPtr_(NULL),
     AMIReverse_(pp.AMIReverse_),
+    AMIRequireMatch_(pp.AMIRequireMatch_),
     AMILowWeightCorrection_(pp.AMILowWeightCorrection_),
     surfPtr_(NULL),
     surfDict_(pp.surfDict_)
@@ -669,6 +670,7 @@ Foam::cyclicAMIPolyPatch::cyclicAMIPolyPatch
     separationVector_(pp.separationVector_),
     AMIPtr_(NULL),
     AMIReverse_(pp.AMIReverse_),
+    AMIRequireMatch_(pp.AMIRequireMatch_),
     AMILowWeightCorrection_(pp.AMILowWeightCorrection_),
     surfPtr_(NULL),
     surfDict_(pp.surfDict_)
@@ -713,6 +715,7 @@ Foam::cyclicAMIPolyPatch::cyclicAMIPolyPatch
     separationVector_(pp.separationVector_),
     AMIPtr_(NULL),
     AMIReverse_(pp.AMIReverse_),
+    AMIRequireMatch_(pp.AMIRequireMatch_),
     AMILowWeightCorrection_(pp.AMILowWeightCorrection_),
     surfPtr_(NULL),
     surfDict_(pp.surfDict_)
@@ -915,6 +918,64 @@ void Foam::cyclicAMIPolyPatch::transformPosition
 }
 
 
+void Foam::cyclicAMIPolyPatch::reverseTransformPosition
+(
+    point& l,
+    const label faceI
+) const
+{
+    if (!parallel())
+    {
+        const tensor& T =
+        (
+            reverseT().size() == 1
+          ? reverseT()[0]
+          : reverseT()[faceI]
+        );
+
+        if (transform() == ROTATIONAL)
+        {
+            l = Foam::transform(T, l - rotationCentre_) + rotationCentre_;
+        }
+        else
+        {
+            l = Foam::transform(T, l);
+        }
+    }
+    else if (separated())
+    {
+        const vector& s =
+        (
+            separation().size() == 1
+          ? separation()[0]
+          : separation()[faceI]
+        );
+
+        l += s;
+    }
+}
+
+
+void Foam::cyclicAMIPolyPatch::reverseTransformDirection
+(
+    vector& d,
+    const label faceI
+) const
+{
+    if (!parallel())
+    {
+        const tensor& T =
+        (
+            reverseT().size() == 1
+          ? reverseT()[0]
+          : reverseT()[faceI]
+        );
+
+        d = Foam::transform(T, d);
+    }
+}
+
+
 void Foam::cyclicAMIPolyPatch::calcGeometry
 (
     const primitivePatch& referPatch,
@@ -959,7 +1020,6 @@ bool Foam::cyclicAMIPolyPatch::order
     rotation.setSize(pp.size());
     rotation = 0;
 
-    // do nothing
     return false;
 }
 
@@ -971,28 +1031,43 @@ Foam::label Foam::cyclicAMIPolyPatch::pointFace
     point& p
 ) const
 {
+    point prt(p);
+    reverseTransformPosition(prt, faceI);
+
+    vector nrt(n);
+    reverseTransformDirection(nrt, faceI);
+
+    label nbrFaceI = -1;
+
     if (owner())
     {
-        return AMI().tgtPointFace
+        nbrFaceI = AMI().tgtPointFace
         (
             *this,
             neighbPatch(),
-            n,
+            nrt,
             faceI,
-            p
+            prt
         );
     }
     else
     {
-        return neighbPatch().AMI().srcPointFace
+        nbrFaceI = neighbPatch().AMI().srcPointFace
         (
             neighbPatch(),
             *this,
-            n,
+            nrt,
             faceI,
-            p
+            prt
         );
     }
+
+    if (nbrFaceI >= 0)
+    {
+        p = prt;
+    }
+
+    return nbrFaceI;
 }
 
 
@@ -1035,7 +1110,7 @@ void Foam::cyclicAMIPolyPatch::write(Ostream& os) const
         }
         default:
         {
-            // no additional info to write
+            // No additional info to write
         }
     }
 

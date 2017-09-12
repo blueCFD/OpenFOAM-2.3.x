@@ -30,13 +30,13 @@
 
 
     Info<< "Reading transportProperties\n" << endl;
-    incompressibleTwoPhaseMixture twoPhaseProperties(U, phi);
+    immiscibleIncompressibleTwoPhaseMixture mixture(U, phi);
 
-    volScalarField& alpha1(twoPhaseProperties.alpha1());
-    volScalarField& alpha2(twoPhaseProperties.alpha2());
+    volScalarField& alpha1(mixture.alpha1());
+    volScalarField& alpha2(mixture.alpha2());
 
-    const dimensionedScalar& rho1 = twoPhaseProperties.rho1();
-    const dimensionedScalar& rho2 = twoPhaseProperties.rho2();
+    const dimensionedScalar& rho1 = mixture.rho1();
+    const dimensionedScalar& rho2 = mixture.rho2();
 
 
     // Need to store rho for ddt(rho, U)
@@ -70,27 +70,13 @@
     );
 
 
-    // Construct interface from alpha1 distribution
-    interfaceProperties interface(alpha1, U, twoPhaseProperties);
-
-
     // Construct incompressible turbulence model
     autoPtr<incompressible::turbulenceModel> turbulence
     (
-        incompressible::turbulenceModel::New(U, phi, twoPhaseProperties)
+        incompressible::turbulenceModel::New(U, phi, mixture)
     );
 
     #include "readGravitationalAcceleration.H"
-
-    /*
-    dimensionedVector g0(g);
-
-    // Read the data file and initialise the interpolation table
-    interpolationTable<vector> timeSeriesAcceleration
-    (
-        runTime.path()/runTime.caseConstant()/"acceleration.dat"
-    );
-    */
 
     Info<< "Calculating field g.h\n" << endl;
     volScalarField gh("gh", g & mesh.C());
@@ -115,7 +101,7 @@
     (
         p,
         p_rgh,
-        mesh.solutionDict().subDict("PIMPLE"),
+        pimple.dict(),
         pRefCell,
         pRefValue
     );
@@ -131,7 +117,23 @@
         p_rgh = p - rho*gh;
     }
 
+
     fv::IOoptionList fvOptions(mesh);
 
 
+    // MULES flux from previous time-step
+    surfaceScalarField phiAlpha
+    (
+        IOobject
+        (
+            "phiAlpha",
+            runTime.timeName(),
+            mesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        phi*fvc::interpolate(alpha1)
+    );
+
+    // MULES Correction
     tmp<surfaceScalarField> tphiAlphaCorr0;

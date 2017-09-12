@@ -46,7 +46,7 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(p, iF),
-    temperatureCoupledBase(patch(), "undefined", "undefined-K"),
+    temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
     TnbrName_("undefined-Tnbr"),
     thicknessLayers_(0),
     kappaLayers_(0),
@@ -68,7 +68,7 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(ptf, p, iF, mapper),
-    temperatureCoupledBase(patch(), ptf.KMethod(), ptf.kappaName()),
+    temperatureCoupledBase(patch(), ptf),
     TnbrName_(ptf.TnbrName_),
     thicknessLayers_(ptf.thicknessLayers_),
     kappaLayers_(ptf.kappaLayers_),
@@ -117,14 +117,12 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 
         if (thicknessLayers_.size() > 0)
         {
+            // Calculate effective thermal resistance by harmonic averaging
             forAll (thicknessLayers_, iLayer)
             {
-                const scalar l = thicknessLayers_[iLayer];
-                if (l > 0.0)
-                {
-                    contactRes_ += kappaLayers_[iLayer]/l;
-                }
+                contactRes_ += thicknessLayers_[iLayer]/kappaLayers_[iLayer];
             }
+            contactRes_ = 1.0/contactRes_;
         }
     }
 
@@ -155,7 +153,7 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(wtcsf, iF),
-    temperatureCoupledBase(patch(), wtcsf.KMethod(), wtcsf.kappaName()),
+    temperatureCoupledBase(patch(), wtcsf),
     TnbrName_(wtcsf.TnbrName_),
     thicknessLayers_(wtcsf.thicknessLayers_),
     kappaLayers_(wtcsf.kappaLayers_),
@@ -280,7 +278,7 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::write
     os.writeKeyword("Tnbr")<< TnbrName_
         << token::END_STATEMENT << nl;
     thicknessLayers_.writeEntry("thicknessLayers", os);
-    thicknessLayers_.writeEntry("kappaLayers", os);
+    kappaLayers_.writeEntry("kappaLayers", os);
 
     temperatureCoupledBase::write(os);
 }

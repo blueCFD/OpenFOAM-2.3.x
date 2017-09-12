@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -26,17 +26,22 @@ Class
 
 Description
     A local coordinate rotation.
-    Each rotational tensor is defined with two vectors (dir and e3)
-    where dir =  cellC - origin and e3 is the rotation axis.
-    Per each cell an axesRotation type of rotation is created
+    The cell based rotational field can be created in two ways:
 
-    \verbatim
-        localAxesRotation
-        {
-            type        localAxes;
-            e3          (0 0 1);
-        }
-    \endverbatim
+    1)  Each rotational tensor is defined with two vectors (dir and e3)
+        where dir =  cellC - origin and e3 is the rotation axis.
+        Per each cell an axesRotation type of rotation is created
+        (cylindrical coordinates)
+
+        \verbatim
+            localAxesRotation
+            {
+                type        localAxes;
+                e3          (0 0 1);
+            }
+        \endverbatim
+
+    2) The rotational tensor field is provided at construction
 
 \*---------------------------------------------------------------------------*/
 
@@ -74,8 +79,12 @@ class localAxesRotation
 
     // Private members
 
-        //- Init transformation tensor
-        void init(const dictionary& dict, const objectRegistry& obr);
+        //- Init transformation tensor field
+        void init
+        (
+            const objectRegistry& obr,
+            const List<label>& cells = List<label>()
+        );
 
 
 public:
@@ -88,8 +97,28 @@ public:
         //- Construct from dictionary and objectRegistry
         localAxesRotation(const dictionary&, const objectRegistry&);
 
+        //- Construct from components for all cells
+        localAxesRotation
+        (
+            const objectRegistry&,
+            const vector& axis,
+            const point& origin
+        );
+
+        //- Construct from components for list of cells
+        localAxesRotation
+        (
+            const objectRegistry&,
+            const vector& axis,
+            const point& origin,
+            const List<label>& cells
+        );
+
         //- Construct from dictionary
         localAxesRotation(const dictionary&);
+
+        //- Construct from tensor Field
+        localAxesRotation(const tensorField&);
 
         //- Return clone
         autoPtr<localAxesRotation> clone() const
@@ -107,6 +136,9 @@ public:
 
         //- Reset rotation to an identity rotation
         virtual void clear();
+
+        //- Update the rotation for a list of cells
+        virtual void updateCells(const polyMesh& mesh, const labelList& cells);
 
         //- Return local-to-global transformation tensor
         virtual const tensor& R() const
@@ -148,16 +180,22 @@ public:
         }
 
         //- Transform vectorField using transformation tensor field
-        virtual tmp<vectorField> transform(const vectorField& st) const;
+        virtual tmp<vectorField> transform(const vectorField& tf) const;
 
         //- Transform vector using transformation tensor
-        virtual vector transform(const vector& st) const;
+        virtual vector transform(const vector& v) const;
+
+        //- Transform vector using transformation tensor for component
+        virtual vector transform(const vector& v, const label cmptI) const;
 
         //- Inverse transform vectorField using transformation tensor field
-        virtual tmp<vectorField> invTransform(const vectorField& st) const;
+        virtual tmp<vectorField> invTransform(const vectorField& vf) const;
 
         //- Inverse transform vector using transformation tensor
-        virtual vector invTransform(const vector& st) const;
+        virtual vector invTransform(const vector& v) const;
+
+        //- Inverse transform vector using transformation tensor for component
+        virtual vector invTransform(const vector& v, const label cmptI) const;
 
         //- Return if the rotation is uniform
         virtual bool uniform() const
@@ -166,15 +204,15 @@ public:
         }
 
         //- Transform tensor field using transformation tensorField
-        virtual tmp<tensorField> transformTensor(const tensorField& st) const;
+        virtual tmp<tensorField> transformTensor(const tensorField& tf) const;
 
         //- Transform tensor using transformation tensorField
-        virtual tensor transformTensor(const tensor& st) const;
+        virtual tensor transformTensor(const tensor& t) const;
 
         //- Transform tensor sub-field using transformation tensorField
         virtual tmp<tensorField> transformTensor
         (
-            const tensorField& st,
+            const tensorField& tf,
             const labelList& cellMap
         ) const;
 
@@ -182,19 +220,18 @@ public:
         // symmetrical tensorField
         virtual tmp<symmTensorField> transformVector
         (
-            const vectorField& st
+            const vectorField& vf
         ) const;
 
         //- Transform vector using transformation tensor and return
         // symmetrical tensor (R & st & R.T())
-        virtual symmTensor transformVector(const vector& st) const;
+        virtual symmTensor transformVector(const vector& v) const;
 
 
     // Write
 
         //- Write
         virtual void write(Ostream&) const;
-
 };
 
 

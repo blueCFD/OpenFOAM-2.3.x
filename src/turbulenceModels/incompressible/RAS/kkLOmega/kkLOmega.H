@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2012 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -31,14 +31,26 @@ Description
     Low Reynolds-number k-kl-omega turbulence model for
     incompressible flows.
 
-    Turbulence model described in:
+    This turbulence model is described in:
     \verbatim
-        D. Keith Walters, Davor Cokljat
-        "A Three-Equation Eddy-Viscosity Model for Reynold-Averaged
-        Navier-Stokes Simulations of Transitional Flow"
+        Walters, D. K., & Cokljat, D. (2008).
+        A three-equation eddy-viscosity model for Reynolds-averaged
+        Navier–Stokes simulations of transitional flow.
+        Journal of Fluids Engineering, 130(12), 121401.
     \endverbatim
 
-    The default model coefficients correspond to the following:
+    however the paper contains several errors which must be corrected for the
+    model to operation correctly as explained in
+
+    \verbatim
+        Furst, J. (2013).
+        Numerical simulation of transitional flows with laminar kinetic energy.
+        Engineering MECHANICS, 20(5), 379-388.
+    \endverbatim
+
+    All these corrections and updates are included in this implementation.
+
+    The default model coefficients are
     \verbatim
         kkLOmegaCoeffs
         {
@@ -110,12 +122,13 @@ class kkLOmega
 
         tmp<volScalarField> Cmu(const volScalarField& S) const;
 
-        tmp<volScalarField> BetaTS(const volScalarField& Rew) const;
+        tmp<volScalarField> BetaTS(const volScalarField& ReOmega) const;
 
         tmp<volScalarField> fTaul
         (
             const volScalarField& lambdaEff,
-            const volScalarField& ktL
+            const volScalarField& ktL,
+            const volScalarField& omega
         ) const;
 
         tmp<volScalarField> alphaT
@@ -131,13 +144,15 @@ class kkLOmega
             const volScalarField& lambdaT
         ) const;
 
-        tmp<volScalarField> gammaBP(const volScalarField& omega) const;
+        tmp<volScalarField> phiBP(const volScalarField& omega) const;
 
-        tmp<volScalarField> gammaNAT
+        tmp<volScalarField> phiNAT
         (
             const volScalarField& ReOmega,
             const volScalarField& fNatCrit
         ) const;
+
+        tmp<volScalarField> D(const volScalarField& k) const;
 
 
 protected:
@@ -178,9 +193,12 @@ protected:
         // Fields
 
             volScalarField kt_;
-            volScalarField omega_;
             volScalarField kl_;
+            volScalarField omega_;
+            volScalarField epsilon_;
             volScalarField nut_;
+
+            //- Wall distance
             wallDist y_;
 
 
@@ -240,7 +258,7 @@ public:
         }
 
         //- Return the turbulence kinetic energy
-        virtual tmp<volScalarField> k() const
+        virtual tmp<volScalarField> kt() const
         {
             return kt_;
         }
@@ -251,8 +269,8 @@ public:
             return omega_;
         }
 
-        //- Return the turbulence kinetic energy dissipation rate
-        virtual tmp<volScalarField> epsilon() const
+        //- Return the total fluctuation kinetic energy
+        virtual tmp<volScalarField> k() const
         {
             return tmp<volScalarField>
             (
@@ -260,14 +278,20 @@ public:
                 (
                     IOobject
                     (
-                        "epsilon",
+                        "k",
                         mesh_.time().timeName(),
                         mesh_
                     ),
-                    kt_*omega_,
+                    kt_ + kl_,
                     omega_.boundaryField().types()
                 )
             );
+        }
+
+        //- Return the total fluctuation kinetic energy dissipation rate
+        virtual tmp<volScalarField> epsilon() const
+        {
+            return epsilon_;
         }
 
         //- Return the Reynolds stress tensor

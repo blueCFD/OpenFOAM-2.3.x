@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
  2011 Symscape: Added hack for 'isAbsolute()' to properly detect absolute
@@ -80,6 +80,20 @@ bool Foam::fileName::isAbsolute() const
 #else
     return !empty() && operator[](0) == '/';
 #endif
+}
+
+
+Foam::fileName& Foam::fileName::toAbsolute()
+{
+    fileName& f = *this;
+
+    if (!f.isAbsolute())
+    {
+        f = cwd()/f;
+        f.clean();
+    }
+
+    return f;
 }
 
 

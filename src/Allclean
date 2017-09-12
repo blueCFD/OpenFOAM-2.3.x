@@ -33,18 +33,22 @@
 cd ${0%/*} || exit 1    # run from this directory
 
 echo "Removing lnInclude folders..."
-find * | grep lnInclude$ | \
+find * -type d | grep lnInclude$ | \
 while read file
 do
   rm -rf $file
 done
 
 echo "Removing $WM_OPTIONS folders..."
-find * | grep $WM_OPTIONS$ | \
+find * -type d | grep Make/$WM_OPTIONS | \
 while read file
 do
   rm -rf $file
 done
 
 echo "Removing dependency files"
-find . -name "*.dep" | xargs rm
+find . -name "*.dep" -type f | \
+while read file
+do
+  rm -f $file
+done

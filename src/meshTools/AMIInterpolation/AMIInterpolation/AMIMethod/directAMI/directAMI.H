@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2013-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -67,9 +67,19 @@ private:
             //- Append to list of src face seed indices
             void appendToDirectSeeds
             (
-                boolList& mapFlag,
+                labelList& mapFlag,
                 labelList& srcTgtSeed,
                 DynamicList<label>& srcSeeds,
+                DynamicList<label>& nonOverlapFaces,
+                label& srcFaceI,
+                label& tgtFaceI
+            ) const;
+
+            //- Restart the advancing front - typically happens for
+            //  disconnected regions
+            void restartAdvancingFront
+            (
+                labelList& mapFlag,
                 DynamicList<label>& nonOverlapFaces,
                 label& srcFaceI,
                 label& tgtFaceI
@@ -102,7 +112,8 @@ public:
             const scalarField& srcMagSf,
             const scalarField& tgtMagSf,
             const faceAreaIntersect::triangulationMode& triMode,
-            const bool reverseTarget = false
+            const bool reverseTarget = false,
+            const bool requireMatch = true
         );
 
 

@@ -1,12 +1,20 @@
 #----------------------------------*-sh-*--------------------------------------
-# License
-#     Copyright (C) 2014 blueCAPE Lda
 #
-#     This file is part of blueCAPE's unofficial mingw patches for OpenFOAM.
-#     For more information about these patches, visit:
+# License
+#
+#     Copyright (C) 2011-2016 blueCAPE Lda
+#     blueCFD(R) is a registered trade mark of blueCAPE Lda
+#     OpenFOAM(R) is a registered trade mark of ESI-OpenCFD
+#
+#     This file is part of blueCAPE's blueCFD-Core port of OpenFOAM technology
+#     for Windows and it abides to the same GNU GPL v3 license.
+#     blueCFD-Core was designed to improve the user experience in using
+#     OpenFOAM in Windows via MSYS/MSYS2 and Windows command line.
+#     For more information about blueCFD-Core, visit:
 #         http://bluecfd.com/Core
 #
-#     This file is a derivative work of OpenFOAM.
+#     OpenFOAM Foundation website: http://www.openfoam.org
+#     OpenFOAM+ website (ESI-OpenCFD): http://www.openfoam.com
 #
 #     OpenFOAM is free software: you can redistribute it and/or modify it
 #     under the terms of the GNU General Public License as published by

@@ -40,8 +40,6 @@ if (pimple.transonic())
             fvOptions(psi, p, rho.name())
         );
 
-        fvOptions.constrain(pEqn);
-
         pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
 
         if (pimple.finalNonOrthogonalIter())
@@ -73,8 +71,6 @@ else
           ==
             fvOptions(psi, p, rho.name())
         );
-
-        fvOptions.constrain(pEqn);
 
         pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
 
@@ -112,5 +108,10 @@ K = 0.5*magSqr(U);
 
 if (thermo.dpdt())
 {
-    dpdt = fvc::ddt(p) - fvc::div(fvc::meshPhi(rho, U), p);
+    dpdt = fvc::ddt(p);
+
+    if (mesh.moving())
+    {
+        dpdt -= fvc::div(fvc::meshPhi(rho, U), p);
+    }
 }

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -921,7 +921,6 @@ Foam::polyMesh::cellTree() const
 }
 
 
-// Add boundary patches. Constructor helper
 void Foam::polyMesh::addPatches
 (
     const List<polyPatch*>& p,
@@ -968,7 +967,6 @@ void Foam::polyMesh::addPatches
 }
 
 
-// Add mesh zones. Constructor helper
 void Foam::polyMesh::addZones
 (
     const List<pointZone*>& pz,
@@ -1047,6 +1045,18 @@ const Foam::pointField& Foam::polyMesh::points() const
 }
 
 
+bool Foam::polyMesh::upToDatePoints(const regIOobject& io) const
+{
+    return io.upToDate(points_);
+}
+
+
+void Foam::polyMesh::setUpToDatePoints(regIOobject& io) const
+{
+    io.eventNo() = points_.eventNo();
+}
+
+
 const Foam::faceList& Foam::polyMesh::faces() const
 {
     if (clearedPrimitives_)
@@ -1072,7 +1082,6 @@ const Foam::labelList& Foam::polyMesh::faceNeighbour() const
 }
 
 
-// Return old mesh motion points
 const Foam::pointField& Foam::polyMesh::oldPoints() const
 {
     if (oldPointsPtr_.empty())
@@ -1117,11 +1126,14 @@ Foam::tmp<Foam::scalarField> Foam::polyMesh::movePoints
 
     points_ = newPoints;
 
+    bool moveError = false;
     if (debug)
     {
         // Check mesh motion
         if (checkMeshMotion(points_, true))
         {
+            moveError = true;
+
             Info<< "tmp<scalarField> polyMesh::movePoints"
                 << "(const pointField&) : "
                 << "Moving the mesh with given points will "
@@ -1132,7 +1144,7 @@ Foam::tmp<Foam::scalarField> Foam::polyMesh::movePoints
 
     points_.writeOpt() = IOobject::AUTO_WRITE;
     points_.instance() = time().timeName();
-
+    points_.eventNo() = getEvent();
 
     tmp<scalarField> sweptVols = primitiveMesh::movePoints
     (
@@ -1163,6 +1175,14 @@ Foam::tmp<Foam::scalarField> Foam::polyMesh::movePoints
     meshObject::movePoints<pointMesh>(*this);
 
     const_cast<Time&>(time()).functionObjects().movePoints(*this);
+
+
+    if (debug && moveError)
+    {
+        // Write mesh to ease debugging. Note we want to avoid calling
+        // e.g. fvMesh::write since meshPhi not yet complete.
+        polyMesh::write();
+    }
 
     return sweptVols;
 }
@@ -1207,7 +1227,6 @@ Foam::label& Foam::polyMesh::comm()
 }
 
 
-// Remove all files and some subdirs (eg, sets)
 void Foam::polyMesh::removeFiles(const fileName& instanceDir) const
 {
     fileName meshFilesPath = thisDb().time().path()/instanceDir/meshDir();
@@ -1437,6 +1456,17 @@ bool Foam::polyMesh::pointInCell
             return true;
         }
         break;
+
+        case CELL_TETS:
+        {
+            label tetFacei;
+            label tetPti;
+
+            findTetFacePt(cellI, p, tetFacei, tetPti);
+
+            return tetFacei != -1;
+        }
+        break;
     }
     return false;
 }
@@ -1448,6 +1478,15 @@ Foam::label Foam::polyMesh::findCell
     const cellRepresentation decompMode
 ) const
 {
+    if (Pstream::parRun() && decompMode == FACEDIAGTETS)
+    {
+        // Force construction of face-diagonal decomposition before testing
+        // for zero cells. If parallel running a local domain might have zero
+        // cells so never construct the face-diagonal decomposition (which
+        // uses parallel transfers)
+        (void)tetBasePtIs();
+    }
+
     if (nCells() == 0)
     {
         return -1;

@@ -32,7 +32,7 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-#include "token.H"
+#include "token.T.H"
 
 #ifndef runTimeSelectionTables_H
 #define runTimeSelectionTables_H

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -24,10 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "fvOptionList.H"
-#include "addToRunTimeSelectionTable.H"
-#include "fvMesh.H"
 #include "surfaceFields.H"
-#include "Time.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -41,6 +38,37 @@ namespace fv
 
 
 // * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
+
+const Foam::dictionary& Foam::fv::optionList::optionsDict
+(
+    const dictionary& dict
+) const
+{
+    if (dict.found("options"))
+    {
+        return dict.subDict("options");
+    }
+    else
+    {
+        return dict;
+    }
+}
+
+
+bool Foam::fv::optionList::readOptions(const dictionary& dict)
+{
+    checkTimeIndex_ = mesh_.time().timeIndex() + 2;
+
+    bool allOk = true;
+    forAll(*this, i)
+    {
+        option& bs = this->operator[](i);
+        bool ok = bs.read(dict.subDict(bs.name()));
+        allOk = (allOk && ok);
+    }
+    return allOk;
+}
+
 
 void Foam::fv::optionList::checkApplied() const
 {
@@ -63,7 +91,7 @@ Foam::fv::optionList::optionList(const fvMesh& mesh, const dictionary& dict)
     mesh_(mesh),
     checkTimeIndex_(mesh_.time().startTimeIndex() + 2)
 {
-    reset(dict);
+    reset(optionsDict(dict));
 }
 
 
@@ -79,13 +107,13 @@ Foam::fv::optionList::optionList(const fvMesh& mesh)
 
 void Foam::fv::optionList::reset(const dictionary& dict)
 {
+    // Count number of active fvOptions
     label count = 0;
     forAllConstIter(dictionary, dict, iter)
     {
-        // safety:
         if (iter().isDict())
         {
-            count ++;
+            count++;
         }
     }
 
@@ -171,16 +199,7 @@ void Foam::fv::optionList::makeAbsolute
 
 bool Foam::fv::optionList::read(const dictionary& dict)
 {
-    checkTimeIndex_ = mesh_.time().timeIndex() + 2;
-
-    bool allOk = true;
-    forAll(*this, i)
-    {
-        option& bs = this->operator[](i);
-        bool ok = bs.read(dict.subDict(bs.name()));
-        allOk = (allOk && ok);
-    }
-    return allOk;
+    return readOptions(optionsDict(dict));
 }
 
 

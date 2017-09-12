@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -40,9 +40,11 @@ Description
 
 #include "fvCFD.H"
 #include "CMULES.H"
+#include "EulerDdtScheme.T.H"
+#include "localEulerDdtScheme.H"
+#include "CrankNicolsonDdtScheme.T.H"
 #include "subCycle.H"
-#include "interfaceProperties.H"
-#include "incompressibleTwoPhaseMixture.H"
+#include "immiscibleIncompressibleTwoPhaseMixture.H"
 #include "turbulenceModel.H"
 #include "IOporosityModelList.H"
 #include "pimpleControl.H"
@@ -56,13 +58,13 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
+
+    pimpleControl pimple(mesh);
+
     #include "initContinuityErrs.H"
     #include "createFields.H"
     #include "createPorousZones.H"
     #include "readTimeControls.H"
-
-    pimpleControl pimple(mesh);
-
     #include "createPrghCorrTypes.H"
     #include "correctPhi.H"
     #include "CourantNo.H"
@@ -87,11 +89,9 @@ int main(int argc, char *argv[])
         while (pimple.loop())
         {
             #include "alphaControls.H"
-
-            twoPhaseProperties.correct();
-
             #include "alphaEqnSubCycle.H"
-            interface.correct();
+
+            mixture.correct();
 
             #include "UEqn.H"
 

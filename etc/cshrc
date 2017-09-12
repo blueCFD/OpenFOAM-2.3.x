@@ -2,7 +2,7 @@
 # =========                 |
 # \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
 #  \\    /   O peration     |
-#   \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+#   \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
 #    \\/     M anipulation  |
 #------------------------------------------------------------------------------
 # License
@@ -57,8 +57,8 @@ set foamInstall = $HOME/$WM_PROJECT
 if ( ! $?FOAM_INST_DIR ) setenv FOAM_INST_DIR $foamInstall
 
 #- Compiler location:
-#    foamCompiler= system | ThirdParty (OpenFOAM)
-set foamCompiler=system
+#    foamCompiler = system | ThirdParty (OpenFOAM)
+setenv foamCompiler system
 
 #- Compiler:
 #    WM_COMPILER = Gcc | Gcc45 | Gcc46 | Gcc47 | Clang | Icc (Intel icc)
@@ -79,9 +79,9 @@ setenv WM_PRECISION_OPTION DP
 setenv WM_COMPILE_OPTION Opt
 
 #- MPI implementation:
-#    WM_MPLIB = SYSTEMOPENMPI | OPENMPI | MPICH | MPICH-GM | HPMPI
-#               | GAMMA | MPI | QSMPI | SGIMPI
-setenv WM_MPLIB OPENMPI
+#    WM_MPLIB = SYSTEMOPENMPI | OPENMPI | SYSTEMMPI | MPICH | MPICH-GM | HPMPI
+#               | MPI | QSMPI | SGIMPI
+setenv WM_MPLIB SYSTEMOPENMPI
 
 #- Operating System:
 #    WM_OSTYPE = POSIX | ???

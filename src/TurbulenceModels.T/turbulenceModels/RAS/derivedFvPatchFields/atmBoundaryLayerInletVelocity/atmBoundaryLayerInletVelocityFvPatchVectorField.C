@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -114,7 +114,9 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
 
     forAll (Ustar_, i)
     {
-        Ustar_[i] = kappa_*Uref_/(log((Href_  + z0_[i])/max(z0_[i] , 0.001)));
+        Ustar_[i] =
+            kappa_*Uref_
+           /(log((Href_  + z0_[i])/z0_[i]));
     }
 
     const vectorField& c = patch().Cf();
@@ -127,7 +129,7 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
         {
             Un[i] =
                 (Ustar_[i]/kappa_)
-              * log((coord[i] - zGround_[i] + z0_[i])/max(z0_[i], 0.001));
+               *log((coord[i] - zGround_[i] + z0_[i])/z0_[i]);
         }
         else
         {

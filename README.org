@@ -1,19 +1,19 @@
 #                            -*- mode: org; -*-
 #
-#+TITLE:          blueCFD-Core README for version 2.3-1
+#+TITLE:          blueCFD-Core README for version 2.3-2
 #+AUTHOR:                      blueCAPE Lda
-#+DATE:                       21st March 2014
+#+DATE:                       20th March 2016
 #+LINK:                  http://bluecfd.com/Core
 #+OPTIONS: author:nil ^:{}
-# Copyright (c) 2013-2014 blueCAPE Lda.
+# Copyright (c) 2013-2016 blueCAPE Lda.
 
 * About blueCFD-Core
-  blueCFD®-Core is a service package provided by blueCAPE Lda, of a high quality
-  build version of OpenFOAM® for up-to-date Windows 7 and 8 64bit, with some 
-  additional tweaks, executables and scripts, in order to maintain usability under
-  a Windows environment.
-  Building for 32 bit and running on Windows XP and Vista should be possible, but
-  it's no longer supported.
+  blueCFD®-Core is a service package provided by blueCAPE Lda, of a high
+  quality build version of OpenFOAM® for up-to-date Windows 7 to 10, all 64bit,
+  with some additional tweaks, executables and scripts, in order to maintain
+  usability under a Windows environment.
+  Building for 32 bit and/or running on Windows XP and Vista should be
+  possible, but it's no longer supported.
 
   OpenFOAM is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
@@ -26,30 +26,31 @@
 
 * Information
   This source code is a patched version of the original OpenFOAM source code.
-  The modifications made are tracked at the blueCFD-SingleCore project:
-      [[http://code.google.com/p/bluecfd-singlecore/]]
+  The modifications made are tracked at the blueCFD project at Github:
+      [[http://github.com/blueCFD]]
 
   The modifications made for the blueCFD-Core project are based on Symscape's
-  modifications to the OpenFOAM source code, which are provided at their website:
-      [[http://www.symscape.com]]
+  modifications to the OpenFOAM source code, which are provided at their
+  website: [[http://www.symscape.com]]
 
 * Disclaimer
-  blueCAPE Lda is responsible for blueCFD®-Core. blueCAPE Lda is in no way associated
-  with OpenCFD (ESI Group), nor holds any copyrights over OpenFOAM®. This offering is 
-  not approved or endorsed by OpenCFD (ESI Group), the producer of the OpenFOAM software
-  and owner of the OPENFOAM® and OpenCFD® trade marks.
+  blueCAPE Lda is responsible for blueCFD®-Core. blueCAPE Lda is in no way
+  associated with OpenCFD (ESI Group), nor holds any copyrights over OpenFOAM®.
+  This offering is not approved or endorsed by OpenCFD (ESI Group), the
+  producer of the OpenFOAM software and owner of the OPENFOAM® and OpenCFD®
+  trade marks.
 
-* Download and installation instructions
-  [[http://code.google.com/p/bluecfd-singlecore/wiki/WikiLobby?tm=6]]
+* Project page
+  [[http://bluecfd.github.io/Core/]]
 
 * Release notes
   [[http://joomla.bluecape.com.pt/files/news/blueCFD-ReleaseNotes-2.3.pdf]]
 
 * Documentation
-  [[http://code.google.com/p/bluecfd-singlecore/wiki/WikiLobby?tm=6]]
+  [[https://github.com/blueCFD/Core/wiki]]
 
 * Support and development contracts related to blueCFD
-  [[http://joomla.bluecape.com.pt/index.php?option=com_contact]]
+  [[http://bluecfd.com/contact]]
 
 * Reporting Bugs in blueCFD
-  [[http://code.google.com/p/bluecfd-singlecore/wiki/IssueTracker?tm=3]]
+  [[https://github.com/blueCFD/Core/issues]]

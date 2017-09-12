@@ -36,6 +36,10 @@ License
 namespace Foam
 {
 
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+
+scalar epsilonWallFunctionFvPatchScalarField::tolerance_ = 1e-5;
+
 // * * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * //
 
 void epsilonWallFunctionFvPatchScalarField::checkType()
@@ -92,17 +96,17 @@ void epsilonWallFunctionFvPatchScalarField::setMaster()
 
 void epsilonWallFunctionFvPatchScalarField::createAveragingWeights()
 {
-    if (initialised_)
-    {
-        return;
-    }
-
     const volScalarField& epsilon =
         static_cast<const volScalarField&>(this->dimensionedInternalField());
 
     const volScalarField::GeometricBoundaryField& bf = epsilon.boundaryField();
 
     const fvMesh& mesh = epsilon.mesh();
+
+    if (initialised_ && !mesh.changing())
+    {
+        return;
+    }
 
     volScalarField weights
     (
@@ -477,17 +481,17 @@ void epsilonWallFunctionFvPatchScalarField::updateCoeffs
 
     scalarField& epsilonf = *this;
 
-    // only set the values if the weights are < 1 - tolerance
+    // only set the values if the weights are > tolerance
     forAll(weights, facei)
     {
         scalar w = weights[facei];
 
-        if (w < 1.0 - 1e-6)
+        if (w > tolerance_)
         {
             label celli = patch().faceCells()[facei];
 
-            G[celli] = w*G[celli] + (1.0 - w)*G0[celli];
-            epsilon[celli] = w*epsilon[celli] + (1.0 - w)*epsilon0[celli];
+            G[celli] = (1.0 - w)*G[celli] + w*G0[celli];
+            epsilon[celli] = (1.0 - w)*epsilon[celli] + w*epsilon0[celli];
             epsilonf[facei] = epsilon[celli];
         }
     }
@@ -523,8 +527,6 @@ void epsilonWallFunctionFvPatchScalarField::manipulateMatrix
         return;
     }
 
-    // filter weights so that we only apply the constraint where the
-    // weight > SMALL
     DynamicList<label> constraintCells(weights.size());
     DynamicList<scalar> constraintEpsilon(weights.size());
     const labelUList& faceCells = patch().faceCells();
@@ -537,8 +539,8 @@ void epsilonWallFunctionFvPatchScalarField::manipulateMatrix
 
     forAll(weights, facei)
     {
-        // only set the values if the weights are < 1 - tolerance
-        if (weights[facei] < (1.0 - 1e-6))
+        // only set the values if the weights are > tolerance
+        if (weights[facei] > tolerance_)
         {
             nConstrainedCells++;
 

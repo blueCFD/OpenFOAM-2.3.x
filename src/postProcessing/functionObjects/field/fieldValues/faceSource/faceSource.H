@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -66,13 +66,16 @@ Description
         type         | type name: faceSource   | yes         |
         log          | write data to standard output | no    | no
         valueOutput  | write the output values | yes         |
+        writeArea    | Write the area of the faceSource | no |
         surfaceFormat | output value format    | no          |
         source       | face source: see below  | yes         |
         sourceName   | name of face source if required  | no |
         operation    | operation to perform    | yes         |
         weightField  | name of field to apply weighting | no |
+        orientedWeightField  | name of oriented field to apply weighting | no |
         scaleFactor  | scale factor            | no          | 1
         fields       | list of fields to operate on | yes    |
+        orientedFields | list of oriented fields to operate on | no |
     \endtable
 
     \linebreak
@@ -109,8 +112,8 @@ Note
     - faces on empty patches get ignored
     - if the field is a volField the \c faceZone can only consist of boundary
       faces
-    - all fields are oriented according to the \c faceZone (so you might
-      e.g. see negative pressure)
+    - the `oriented' entries relate to mesh-oriented fields, such as the
+      flux, phi.  These fields will be oriented according to the face normals.
     - using \c sampledSurfaces:
         - not available for surface fields
         - if interpolate=true they use \c interpolationCellPoint
@@ -128,6 +131,7 @@ SeeAlso
 
 SourceFiles
     faceSource.C
+    faceSourceTemplates.C
 
 \*---------------------------------------------------------------------------*/
 
@@ -211,19 +215,22 @@ private:
         //- Set faces according to sampledSurface
         void sampledSurfaceFaces(const dictionary&);
 
-        //- Combine mesh faces and points from multiple processors 
+        //- Combine mesh faces and points from multiple processors
         void combineMeshGeometry
         (
             faceList& faces,
             pointField& points
         ) const;
 
-        //- Combine surface faces and points from multiple processors 
+        //- Combine surface faces and points from multiple processors
         void combineSurfaceGeometry
         (
             faceList& faces,
             pointField& points
         ) const;
+
+        //- Calculate and return total area of the faceSource: sum(magSf)
+        scalar totalArea() const;
 
 
 protected:
@@ -242,8 +249,20 @@ protected:
         //- Weight field name - optional
         word weightFieldName_;
 
+        //- Flag to indicate if flipMap should be applied to the weight field
+        bool orientWeightField_;
+
+        //- Start index of fields that require application of flipMap
+        label orientedFieldsStart_;
+
         //- Scale factor - optional
         scalar scaleFactor_;
+
+        //- Total area of the faceSource
+        scalar totalArea_;
+
+        //- Optionally write the area of the faceSource
+        bool writeArea_;
 
         //- Global number of faces
         label nFaces_;
@@ -264,7 +283,7 @@ protected:
 
         // If operating on sampledSurface
 
-            //- underlying sampledSurface
+            //- Underlying sampledSurface
             autoPtr<sampledSurface> surfacePtr_;
 
 
@@ -282,7 +301,8 @@ protected:
         tmp<Field<Type> > getFieldValues
         (
             const word& fieldName,
-            const bool mustGet = false
+            const bool mustGet = false,
+            const bool applyOrientation = false
         ) const;
 
         //- Apply the 'operation' to the values. Operation has to
@@ -356,7 +376,12 @@ public:
 
             //- Templated helper function to output field values
             template<class Type>
-            bool writeValues(const word& fieldName);
+            bool writeValues
+            (
+                const word& fieldName,
+                const scalarField& weightField,
+                const bool orient
+            );
 
             //- Filter a surface field according to faceIds
             template<class Type>

@@ -2,7 +2,7 @@
 # =========                 |
 # \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
 #  \\    /   O peration     |
-#   \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+#   \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
 #    \\/     M anipulation  |
 #------------------------------------------------------------------------------
 # License
@@ -172,6 +172,7 @@ setenv FOAM_USER_LIBBIN $WM_PROJECT_USER_DIR/platforms/$WM_OPTIONS/lib
 # setenv FOAM_CODE_TEMPLATES $WM_PROJECT_DIR/etc/codeTemplates/dynamicCode
 
 # convenience
+setenv FOAM_ETC $WM_PROJECT_DIR/etc
 setenv FOAM_APP $WM_PROJECT_DIR/applications
 setenv FOAM_SRC $WM_PROJECT_DIR/src
 setenv FOAM_TUTORIALS $WM_PROJECT_DIR/tutorials
@@ -235,7 +236,7 @@ case ThirdParty:
         # using clang - not gcc
         setenv WM_CC 'clang'
         setenv WM_CXX 'clang++'
-        set clang_version=llvm-3.4
+        set clang_version=llvm-3.4.2
         breaksw
     default:
         echo
@@ -262,7 +263,8 @@ case ThirdParty:
             echo
             echo "Warning in $WM_PROJECT_DIR/etc/config/settings.csh:"
             echo "    Cannot find $gccDir installation."
-            echo "    Please install this compiler version or if you wish to use the system compiler,"
+            echo "    Please install this compiler version or if you wish to" \
+                 " use the system compiler,"
             echo "    change the 'foamCompiler' setting to 'system'"
             echo
         endif
@@ -297,7 +299,8 @@ case ThirdParty:
             echo
             echo "Warning in $WM_PROJECT_DIR/etc/config/settings.csh:"
             echo "    Cannot find $clangDir installation."
-            echo "    Please install this compiler version or if you wish to use the system compiler,"
+            echo "    Please install this compiler version or if you wish to" \
+                 " use the system compiler,"
             echo "    change the 'foamCompiler' setting to 'system'"
             echo
         endif
@@ -424,9 +427,50 @@ case HPMPI:
     endsw
     breaksw
 
-case GAMMA:
-    setenv FOAM_MPI gamma
-    setenv MPI_ARCH_PATH /usr
+case SYSTEMMPI:
+    setenv FOAM_MPI mpi-system
+
+    if ( ! ($?MPI_ROOT) ) then
+        echo
+        echo "Warning in $WM_PROJECT_DIR/etc/config/settings.csh:"
+        echo "    Please set the environment variable MPI_ROOT to point to" \
+             " the base folder for the system MPI in use."
+        echo "    Example:"
+        echo
+        echo "        setenv MPI_ROOT /opt/mpi"
+        echo
+    else
+        setenv MPI_ARCH_PATH $MPI_ROOT
+
+        if ( ! ($?MPI_ARCH_FLAGS) ) then
+            echo
+            echo "Warning in $WM_PROJECT_DIR/etc/config/settings.csh:"
+            echo "    MPI_ARCH_FLAGS is not set. Example:"
+            echo
+            echo '        setenv MPI_ARCH_FLAGS "-DOMPI_SKIP_MPICXX"'
+            echo
+        endif
+
+        if ( ! ($?MPI_ARCH_INC) ) then
+            echo
+            echo "Warning in $WM_PROJECT_DIR/etc/config/settings.csh:"
+            echo "    MPI_ARCH_INC is not set. Example:"
+            echo
+            echo '        setenv MPI_ARCH_INC "-I$MPI_ROOT/include"'
+            echo
+        endif
+
+        if ( ! ($?MPI_ARCH_LIBS) ) then
+            echo
+            echo "Warning in $WM_PROJECT_DIR/etc/config/settings.csh:"
+            echo "    MPI_ARCH_LIBS is not set. Example:"
+            echo
+            echo '        setenv MPI_ARCH_LIBS "-L$MPI_ROOT/lib -lmpi"'
+            echo
+        endif
+
+    endif
+
     breaksw
 
 case MPI:
@@ -542,6 +586,7 @@ endif
 # cleanup environment:
 # ~~~~~~~~~~~~~~~~~~~~
 #- keep _foamAddPath _foamAddLib _foamAddMan
-unset foamCompiler minBufferSize
+unset minBufferSize
+unsetenv foamCompiler
 
 # ----------------------------------------------------------------- end-of-file

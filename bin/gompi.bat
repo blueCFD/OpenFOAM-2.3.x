@@ -61,11 +61,15 @@ GOTO END
 rem simple count
 rem for /D %%a in (processor*) do @set /A x_numprocs=x_numprocs+1
 
-rem read directly from decomposeParDict
+rem read directly from decomposeParDict and break on first find
 setlocal enableextensions enabledelayedexpansion
 FOR /F "eol=» tokens=1,2 delims=; " %%i in (system\decomposeParDict) do (
-  IF "%%i" == "numberOfSubdomains" set x_numprocs=%%j
+  IF "%%i" == "numberOfSubdomains" (
+    set x_numprocs=%%j
+    GOTO :BREAKLOOP
+    )
 )
+:BREAKLOOP
 
 IF EXIST "hostfile" set MACHINEFILE=hostfile
 IF EXIST "machines" set MACHINEFILE=machines

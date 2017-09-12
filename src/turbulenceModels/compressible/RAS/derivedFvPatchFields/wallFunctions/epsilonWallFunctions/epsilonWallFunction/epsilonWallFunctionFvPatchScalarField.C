@@ -38,6 +38,10 @@ namespace Foam
 namespace compressible
 {
 
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+
+scalar epsilonWallFunctionFvPatchScalarField::tolerance_ = 1e-5;
+
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 void epsilonWallFunctionFvPatchScalarField::checkType()
@@ -94,17 +98,17 @@ void epsilonWallFunctionFvPatchScalarField::setMaster()
 
 void epsilonWallFunctionFvPatchScalarField::createAveragingWeights()
 {
-    if (initialised_)
-    {
-        return;
-    }
-
     const volScalarField& epsilon =
         static_cast<const volScalarField&>(this->dimensionedInternalField());
 
     const volScalarField::GeometricBoundaryField& bf = epsilon.boundaryField();
 
     const fvMesh& mesh = epsilon.mesh();
+
+    if (initialised_ && !mesh.changing())
+    {
+        return;
+    }
 
     volScalarField weights
     (
@@ -469,17 +473,17 @@ void epsilonWallFunctionFvPatchScalarField::updateCoeffs
 
     scalarField& epsilonf = *this;
 
-    // only set the values if the weights are < 1 - tolerance
+    // only set the values if the weights are > tolerance
     forAll(weights, faceI)
     {
         scalar w = weights[faceI];
 
-        if (w < 1.0 - 1e-6)
+        if (w > tolerance_)
         {
             label cellI = patch().faceCells()[faceI];
 
-            G[cellI] = w*G[cellI] + (1.0 - w)*G0[cellI];
-            epsilon[cellI] = w*epsilon[cellI] + (1.0 - w)*epsilon0[cellI];
+            G[cellI] = (1.0 - w)*G[cellI] + w*G0[cellI];
+            epsilon[cellI] = (1.0 - w)*epsilon[cellI] + w*epsilon0[cellI];
             epsilonf[faceI] = epsilon[cellI];
         }
     }
@@ -521,16 +525,16 @@ void epsilonWallFunctionFvPatchScalarField::manipulateMatrix
     DynamicList<scalar> constraintEpsilon(weights.size());
     const labelUList& faceCells = patch().faceCells();
 
-    const DimensionedField<scalar, volMesh>& epsilon
-        = dimensionedInternalField();
+    const DimensionedField<scalar, volMesh>& epsilon =
+        dimensionedInternalField();
 
     label nConstrainedCells = 0;
 
 
     forAll(weights, faceI)
     {
-        // only set the values if the weights are < 1 - tolerance
-        if (weights[faceI] < (1.0 - 1e-6))
+        // only set the values if the weights are > tolerance
+        if (weights[faceI] > tolerance_)
         {
             nConstrainedCells++;
 

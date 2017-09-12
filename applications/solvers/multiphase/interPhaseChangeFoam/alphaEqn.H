@@ -5,7 +5,7 @@
     surfaceScalarField phir("phir", phic*interface.nHatf());
 
     Pair<tmp<volScalarField> > vDotAlphal =
-        twoPhaseProperties->vDotAlphal();
+        mixture->vDotAlphal();
     const volScalarField& vDotcAlphal = vDotAlphal[0]();
     const volScalarField& vDotvAlphal = vDotAlphal[1]();
     const volScalarField vDotvmcAlphal(vDotvAlphal - vDotcAlphal);
@@ -33,8 +33,8 @@
 
         Info<< "Phase-1 volume fraction = "
             << alpha1.weightedAverage(mesh.Vsc()).value()
-            << "  Min(alpha1) = " << min(alpha1).value()
-            << "  Max(alpha1) = " << max(alpha1).value()
+            << "  Min(" << alpha1.name() <<") = " << min(alpha1).value()
+            << "  Max(" << alpha1.name() <<") = " << max(alpha1).value()
             << endl;
 
         tphiAlpha = alpha1Eqn.flux();
@@ -117,7 +117,7 @@
 
     Info<< "Liquid phase volume fraction = "
         << alpha1.weightedAverage(mesh.V()).value()
-        << "  Min(alpha1) = " << min(alpha1).value()
-        << "  Max(alpha1) = " << max(alpha1).value()
+        << "  Min(" << alpha1.name() <<") = " << min(alpha1).value()
+        << "  Max(" << alpha1.name() <<") = " << max(alpha1).value()
         << endl;
 }

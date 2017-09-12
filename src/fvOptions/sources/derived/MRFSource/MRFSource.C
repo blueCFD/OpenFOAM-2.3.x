@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2012-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2012-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -44,6 +44,7 @@ namespace fv
     );
 }
 }
+
 
 // * * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * //
 
@@ -89,8 +90,7 @@ Foam::fv::MRFSource::MRFSource
 :
     option(name, modelType, dict, mesh),
     mrfPtr_(NULL),
-    UName_(coeffs_.lookupOrDefault<word>("UName", "U")),
-    rhoName_(coeffs_.lookupOrDefault<word>("rhoName", "rho"))
+    UName_(coeffs_.lookupOrDefault<word>("UName", "U"))
 {
     initialise();
 }
@@ -104,19 +104,26 @@ void Foam::fv::MRFSource::addSup
     const label fieldI
 )
 {
-    if (eqn.dimensions() == dimForce)
-    {
-        const volScalarField& rho =
-            mesh_.lookupObject<volScalarField>(rhoName_);
+    // Update the velocity boundary conditions for changes in rotation speed
+    mrfPtr_->correctBoundaryVelocity(const_cast<volVectorField&>(eqn.psi()));
 
-        // use 'true' flag to add to rhs of equation
-        mrfPtr_->addCoriolis(rho, eqn, true);
-    }
-    else
-    {
-        // use 'true' flag to add to rhs of equation
-        mrfPtr_->addCoriolis(eqn, true);
-    }
+    // Add to rhs of equation
+    mrfPtr_->addCoriolis(eqn, true);
+}
+
+
+void Foam::fv::MRFSource::addSup
+(
+    const volScalarField& rho,
+    fvMatrix<vector>& eqn,
+    const label fieldI
+)
+{
+    // Update the velocity boundary conditions for changes in rotation speed
+    mrfPtr_->correctBoundaryVelocity(const_cast<volVectorField&>(eqn.psi()));
+
+    // Add to rhs of equation
+    mrfPtr_->addCoriolis(rho, eqn, true);
 }
 
 
@@ -173,7 +180,6 @@ bool Foam::fv::MRFSource::read(const dictionary& dict)
     if (option::read(dict))
     {
         coeffs_.readIfPresent("UName", UName_);
-        coeffs_.readIfPresent("rhoName", rhoName_);
 
         initialise();
 

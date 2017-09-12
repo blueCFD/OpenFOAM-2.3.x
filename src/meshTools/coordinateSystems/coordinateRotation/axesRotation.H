@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -88,6 +88,7 @@ class axesRotation
             const axisOrder& order = e3e1
         );
 
+
 public:
 
     //- Runtime type information
@@ -99,11 +100,7 @@ public:
         axesRotation();
 
         //- Construct from 2 axes
-        axesRotation
-        (
-            const vector& axis,
-            const vector& dir
-        );
+        axesRotation(const vector& axis, const vector& dir);
 
         //- Construct from dictionary
         axesRotation(const dictionary&);
@@ -133,6 +130,12 @@ public:
         {
             R_ = sphericalTensor::I;
             Rtr_ = sphericalTensor::I;
+        }
+
+        //- Update the rotation for a list of cells
+        virtual void updateCells(const polyMesh&, const labelList&)
+        {
+            // Do nothing
         }
 
         //- Return local-to-global transformation tensor
@@ -194,14 +197,14 @@ public:
         ) const;
 
         //- Transform vectorField using transformation tensorField and return
-        // symmetrical tensorField
+        //  symmetric tensorField
         virtual tmp<symmTensorField> transformVector
         (
             const vectorField& st
         ) const;
 
         //- Transform vector using transformation tensor and return
-        // symmetrical tensor
+        //  symmetric tensor
         virtual symmTensor transformVector(const vector& st) const;
 
 

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -144,11 +144,14 @@ public:
 
         // Interrogation
 
-             //- Return the file type: FILE, DIRECTORY or UNDEFINED
-             Type type() const;
+            //- Return the file type: FILE, DIRECTORY or UNDEFINED
+            Type type() const;
 
-             //- Return true if file name is absolute
-             bool isAbsolute() const;
+            //- Return true if file name is absolute
+            bool isAbsolute() const;
+
+            //- Convert from relative to absolute
+            fileName& toAbsolute();
 
 
         // Decomposition

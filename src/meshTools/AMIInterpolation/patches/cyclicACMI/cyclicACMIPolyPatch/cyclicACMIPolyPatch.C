@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2013-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2013-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -70,7 +70,7 @@ void Foam::cyclicACMIPolyPatch::resetAMI
 
         initPatchFaceAreas();
 
-        // reset patch face areas based on original patch for AMI calculation
+        // Reset patch face areas based on original patch for AMI calculation
         vectorField::subField Sf = faceAreas();
         vectorField::subField noSf = nonOverlapPatch.faceAreas();
 
@@ -80,7 +80,7 @@ void Foam::cyclicACMIPolyPatch::resetAMI
             noSf[faceI] = faceAreas0_[faceI];
         }
 
-        // calculate the AMI using partial face-area-weighted
+        // Calculate the AMI using partial face-area-weighted
         cyclicAMIPolyPatch::resetAMI
         (
             AMIPatchToPatchInterpolation::imPartialFaceAreaWeight
@@ -100,7 +100,7 @@ void Foam::cyclicACMIPolyPatch::resetAMI
 
         setNeighbourFaceAreas();
 
-        // set the updated flag
+        // Set the updated flag
         updated_ = true;
     }
 }
@@ -114,19 +114,32 @@ void Foam::cyclicACMIPolyPatch::setNeighbourFaceAreas() const
 
     const vectorField& faceAreas0 = cp.faceAreas0();
 
-    vectorField::subField Sf = cp.faceAreas();
-    vectorField::subField noSf = pp.faceAreas();
-
-    forAll(Sf, faceI)
+    if (tgtMask_.size() == cp.size())
     {
-        Sf[faceI] = tgtMask_[faceI]*faceAreas0[faceI];
-        noSf[faceI] = (1.0 - tgtMask_[faceI])*faceAreas0[faceI];
+        vectorField::subField Sf = cp.faceAreas();
+        vectorField::subField noSf = pp.faceAreas();
+
+        forAll(Sf, faceI)
+        {
+            Sf[faceI] = tgtMask_[faceI]*faceAreas0[faceI];
+            noSf[faceI] = (1.0 - tgtMask_[faceI])*faceAreas0[faceI];
+        }
+    }
+    else
+    {
+        WarningIn("cyclicACMIPolyPatch::setNeighbourFaceAreas() const")
+            << "Target mask size differs to that of the neighbour patch\n"
+            << "    May occur when decomposing." << endl;
     }
 }
 
 
 void Foam::cyclicACMIPolyPatch::initGeometry(PstreamBuffers& pBufs)
 {
+    // Initialise the AMI so that base geometry (e.g. cell volumes) are
+    // correctly evaluated
+    resetAMI();
+
     cyclicAMIPolyPatch::initGeometry(pBufs);
 }
 
@@ -208,6 +221,8 @@ Foam::cyclicACMIPolyPatch::cyclicACMIPolyPatch
     tgtMask_(),
     updated_(false)
 {
+    AMIRequireMatch_ = false;
+
     // Non-overlapping patch might not be valid yet so cannot determine
     // associated patchID
 }
@@ -230,6 +245,8 @@ Foam::cyclicACMIPolyPatch::cyclicACMIPolyPatch
     tgtMask_(),
     updated_(false)
 {
+    AMIRequireMatch_ = false;
+
     if (nonOverlapPatchName_ == name)
     {
         FatalIOErrorIn
@@ -267,6 +284,8 @@ Foam::cyclicACMIPolyPatch::cyclicACMIPolyPatch
     tgtMask_(),
     updated_(false)
 {
+    AMIRequireMatch_ = false;
+
     // Non-overlapping patch might not be valid yet so cannot determine
     // associated patchID
 }
@@ -291,6 +310,8 @@ Foam::cyclicACMIPolyPatch::cyclicACMIPolyPatch
     tgtMask_(),
     updated_(false)
 {
+    AMIRequireMatch_ = false;
+
     if (nonOverlapPatchName_ == name())
     {
         FatalErrorIn
@@ -328,7 +349,9 @@ Foam::cyclicACMIPolyPatch::cyclicACMIPolyPatch
     srcMask_(),
     tgtMask_(),
     updated_(false)
-{}
+{
+    AMIRequireMatch_ = false;
+}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //

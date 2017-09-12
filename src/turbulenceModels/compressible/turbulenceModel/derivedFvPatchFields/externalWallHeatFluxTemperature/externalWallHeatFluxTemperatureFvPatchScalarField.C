@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -64,17 +64,20 @@ externalWallHeatFluxTemperatureFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(p, iF),
-    temperatureCoupledBase(patch(), "undefined", "undefined-K"),
+    temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
     mode_(unknown),
     q_(p.size(), 0.0),
     h_(p.size(), 0.0),
     Ta_(p.size(), 0.0),
+    QrPrevious_(p.size()),
+    QrRelaxation_(1),
+    QrName_("undefined-Qr"),
     thicknessLayers_(),
     kappaLayers_()
 {
-    this->refValue() = 0.0;
-    this->refGrad() = 0.0;
-    this->valueFraction() = 1.0;
+    refValue() = 0.0;
+    refGrad() = 0.0;
+    valueFraction() = 1.0;
 }
 
 
@@ -88,11 +91,14 @@ externalWallHeatFluxTemperatureFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(ptf, p, iF, mapper),
-    temperatureCoupledBase(patch(), ptf.KMethod(), ptf.kappaName()),
+    temperatureCoupledBase(patch(), ptf),
     mode_(ptf.mode_),
     q_(ptf.q_, mapper),
     h_(ptf.h_, mapper),
     Ta_(ptf.Ta_, mapper),
+    QrPrevious_(ptf.QrPrevious_, mapper),
+    QrRelaxation_(ptf.QrRelaxation_),
+    QrName_(ptf.QrName_),
     thicknessLayers_(ptf.thicknessLayers_),
     kappaLayers_(ptf.kappaLayers_)
 {}
@@ -112,6 +118,9 @@ externalWallHeatFluxTemperatureFvPatchScalarField
     q_(p.size(), 0.0),
     h_(p.size(), 0.0),
     Ta_(p.size(), 0.0),
+    QrPrevious_(p.size(), 0.0),
+    QrRelaxation_(dict.lookupOrDefault<scalar>("relaxation", 1)),
+    QrName_(dict.lookupOrDefault<word>("Qr", "none")),
     thicknessLayers_(),
     kappaLayers_()
 {
@@ -152,6 +161,11 @@ externalWallHeatFluxTemperatureFvPatchScalarField
 
     fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
 
+    if (dict.found("QrPrevious"))
+    {
+        QrPrevious_ = scalarField("QrPrevious", dict, p.size());
+    }
+
     if (dict.found("refValue"))
     {
         // Full restart
@@ -181,6 +195,9 @@ externalWallHeatFluxTemperatureFvPatchScalarField
     q_(tppsf.q_),
     h_(tppsf.h_),
     Ta_(tppsf.Ta_),
+    QrPrevious_(tppsf.QrPrevious_),
+    QrRelaxation_(tppsf.QrRelaxation_),
+    QrName_(tppsf.QrName_),
     thicknessLayers_(tppsf.thicknessLayers_),
     kappaLayers_(tppsf.kappaLayers_)
 {}
@@ -194,11 +211,14 @@ externalWallHeatFluxTemperatureFvPatchScalarField
 )
 :
     mixedFvPatchScalarField(tppsf, iF),
-    temperatureCoupledBase(patch(), tppsf.KMethod(), tppsf.kappaName()),
+    temperatureCoupledBase(patch(), tppsf),
     mode_(tppsf.mode_),
     q_(tppsf.q_),
     h_(tppsf.h_),
     Ta_(tppsf.Ta_),
+    QrPrevious_(tppsf.QrPrevious_),
+    QrRelaxation_(tppsf.QrRelaxation_),
+    QrName_(tppsf.QrName_),
     thicknessLayers_(tppsf.thicknessLayers_),
     kappaLayers_(tppsf.kappaLayers_)
 {}
@@ -242,17 +262,22 @@ void Foam::externalWallHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
         return;
     }
 
-    scalarField q(size(), 0.0);
-    const scalarField Tc(patchInternalField());
     const scalarField Tp(*this);
-    const scalarField KWall(kappa(Tp));
-    const scalarField KDelta(KWall*patch().deltaCoeffs());
+    scalarField hp(patch().size(), 0.0);
+
+    scalarField Qr(Tp.size(), 0.0);
+    if (QrName_ != "none")
+    {
+        Qr = patch().lookupPatchField<volScalarField, scalar>(QrName_);
+
+        Qr = QrRelaxation_*Qr + (1.0 - QrRelaxation_)*QrPrevious_;
+        QrPrevious_ = Qr;
+    }
 
     switch (mode_)
     {
         case fixedHeatFlux:
         {
-            q = q_;
             break;
         }
         case fixedHeatTransferCoeff:
@@ -269,7 +294,7 @@ void Foam::externalWallHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
                     }
                 }
             }
-            q = (Ta_ - Tp)*(1.0/h_ + totalSolidRes);
+            hp = 1.0/(1.0/h_ + totalSolidRes);
             break;
         }
         default:
@@ -283,27 +308,26 @@ void Foam::externalWallHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
         }
     }
 
-    forAll(*this, i)
+    if (mode_ == fixedHeatFlux)
     {
-        if (q[i] > 0) //in
-        {
-            this->refGrad()[i] = q[i]/KWall[i];
-            this->refValue()[i] = 0.0;
-            this->valueFraction()[i] = 0.0;
-        }
-        else //out
-        {
-            this->refGrad()[i] = 0.0;
-            this->refValue()[i] = q[i]/KDelta[i] + Tc[i];
-            this->valueFraction()[i] = 1.0;
-        }
+        refGrad() =  (q_ + Qr)/kappa(Tp);
+        refValue() =  0.0;
+        valueFraction() = 0.0;
+    }
+    else if (mode_ == fixedHeatTransferCoeff)
+    {
+        Qr /= Tp;
+        refGrad() =  0.0;
+        refValue() =  hp*Ta_/(hp - Qr);
+        valueFraction() =
+            (hp - Qr)/((hp - Qr) + kappa(Tp)*patch().deltaCoeffs());
     }
 
     mixedFvPatchScalarField::updateCoeffs();
 
     if (debug)
     {
-        scalar Q = gSum(KWall*patch().magSf()*snGrad());
+        scalar Q = gSum(kappa(Tp)*patch().magSf()*snGrad());
 
         Info<< patch().boundaryMesh().mesh().name() << ':'
             << patch().name() << ':'
@@ -326,8 +350,14 @@ void Foam::externalWallHeatFluxTemperatureFvPatchScalarField::write
     mixedFvPatchScalarField::write(os);
     temperatureCoupledBase::write(os);
 
+    QrPrevious_.writeEntry("QrPrevious", os);
+    os.writeKeyword("Qr")<< QrName_ << token::END_STATEMENT << nl;
+    os.writeKeyword("relaxation")<< QrRelaxation_
+        << token::END_STATEMENT << nl;
+
     switch (mode_)
     {
+
         case fixedHeatFlux:
         {
             q_.writeEntry("q", os);
@@ -337,10 +367,8 @@ void Foam::externalWallHeatFluxTemperatureFvPatchScalarField::write
         {
             h_.writeEntry("h", os);
             Ta_.writeEntry("Ta", os);
-            os.writeKeyword("thicknessLayers")<< thicknessLayers_
-                << token::END_STATEMENT << nl;
-            os.writeKeyword("kappaLayers")<< kappaLayers_
-                << token::END_STATEMENT << nl;
+            thicknessLayers_.writeEntry("thicknessLayers", os);
+            kappaLayers_.writeEntry("kappaLayers", os);
             break;
         }
         default:

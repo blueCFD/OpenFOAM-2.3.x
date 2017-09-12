@@ -452,6 +452,9 @@ int main(int argc, char *argv[])
         "specify the merge distance relative to the bounding box size "
         "(default 1e-6)"
     );
+    // Include explicit constant options, have zero from time range
+    timeSelector::addOptions();
+
 #   include "setRootCase.H"
 
     if (env("FOAM_SIGFPE"))
@@ -475,6 +478,9 @@ int main(int argc, char *argv[])
     // Make sure we do not use the master-only reading.
     regIOobject::fileModificationChecking = regIOobject::timeStamp;
 #   include "createTime.H"
+    // Allow override of time
+    instantList times = timeSelector::selectIfPresent(runTime, args);
+    runTime.setTime(times[0], 0);
 
     runTime.functionObjects().off();
 

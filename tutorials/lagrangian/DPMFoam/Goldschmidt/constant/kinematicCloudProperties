@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.0                               |
+|  \\    /   O peration     | Version:  2.3.x                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -48,7 +48,7 @@ constantProperties
     parcelTypeId 1;
 
     rhoMin          1e-15;
-    minParticleMass 1e-15;
+    minParcelMass   1e-15;
 
     rho0            2526;
     youngsModulus   1e8;

@@ -35,7 +35,7 @@ Description
 #define PointHit_H
 
 #include "bool.H"
-#include "token.H"
+#include "token.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
