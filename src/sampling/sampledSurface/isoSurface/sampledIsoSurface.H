@@ -39,7 +39,7 @@ SourceFiles
 
 #include "isoSurface.H"
 #include "sampledSurface.H"
-#include "ZoneIDs.H"
+#include "ZoneIDs.T.H"
 #include "fvMeshSubset.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -33,7 +33,7 @@ Description
 #include "fvCFD.H"
 #include "graph.H"
 #include "OFstream.H"
-#include "Kmesh.H"
+#include "Kmesh.T.H"
 #include "turbGen.H"
 #include "calcEk.H"
 

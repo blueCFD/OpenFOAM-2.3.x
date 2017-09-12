@@ -41,9 +41,9 @@ SourceFiles
 #define STLsurfaceFormat_H
 
 #include "STLsurfaceFormatCore.H"
-#include "MeshedSurface.H"
-#include "MeshedSurfaceProxy.H"
-#include "UnsortedMeshedSurface.H"
+#include "MeshedSurface.T.H"
+#include "MeshedSurfaceProxy.T.H"
+#include "UnsortedMeshedSurface.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

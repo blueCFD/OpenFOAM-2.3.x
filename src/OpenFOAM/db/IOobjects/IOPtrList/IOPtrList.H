@@ -35,7 +35,7 @@ SourceFiles
 #ifndef IOPtrList_H
 #define IOPtrList_H
 
-#include "PtrList.H"
+#include "PtrList.T.H"
 #include "regIOobject.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

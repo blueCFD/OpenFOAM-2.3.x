@@ -39,7 +39,7 @@ SourceFiles
 #ifndef UPtrDictionary_H
 #define UPtrDictionary_H
 
-#include "DictionaryBase.H"
+#include "DictionaryBase.T.H"
 #include "DLList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

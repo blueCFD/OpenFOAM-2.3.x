@@ -26,10 +26,10 @@ License
 #include "extendedEdgeMesh.H"
 #include "surfaceFeatures.H"
 #include "triSurface.H"
-#include "Random.H"
-#include "Time.H"
+#include "Random.T.H"
+#include "Time.T.H"
 #include "OBJstream.H"
-#include "DynamicField.H"
+#include "DynamicField.T.H"
 #include "edgeMeshFormatsCore.H"
 #include "IOmanip.H"
 

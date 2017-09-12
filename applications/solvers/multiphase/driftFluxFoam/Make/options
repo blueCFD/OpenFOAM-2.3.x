@@ -19,3 +19,6 @@ EXE_LIBS = \
     -lincompressibleTransportModels \
     -ldriftFluxTransportModels \
     -ldriftFluxRelativeVelocityModels
+
+EXE_LIBS += \
+    -ltwoPhaseMixture

@@ -38,7 +38,7 @@ SourceFiles
 
 #include "polyMeshModifier.H"
 #include "polyPatchID.H"
-#include "ZoneIDs.H"
+#include "ZoneIDs.T.H"
 #include "indirectPrimitivePatch.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

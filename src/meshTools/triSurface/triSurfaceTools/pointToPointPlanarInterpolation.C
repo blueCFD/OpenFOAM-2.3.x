@@ -25,12 +25,12 @@ License
 
 #include "pointToPointPlanarInterpolation.H"
 #include "boundBox.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "vector2D.H"
 #include "triSurface.H"
 #include "triSurfaceTools.H"
 #include "OFstream.H"
-#include "Time.H"
+#include "Time.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

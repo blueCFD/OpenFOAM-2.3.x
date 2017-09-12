@@ -27,9 +27,9 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "polyMesh.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "primitiveMesh.H"
-#include "DynamicList.H"
+#include "DynamicList.T.H"
 #include "indexedOctree.H"
 #include "treeDataCell.H"
 #include "globalMeshData.H"

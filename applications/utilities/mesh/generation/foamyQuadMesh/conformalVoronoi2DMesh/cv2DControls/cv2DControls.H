@@ -36,7 +36,7 @@ SourceFiles
 #ifndef cv2DControls_H
 #define cv2DControls_H
 
-#include "Switch.H"
+#include "Switch.T.H"
 #include "dictionary.H"
 #include "boundBox.H"
 

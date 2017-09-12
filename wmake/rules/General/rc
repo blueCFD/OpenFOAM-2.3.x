@@ -1,0 +1,2 @@
+
+rctoo = $(WM_COMPILER_ARCH)-windres $$SOURCE $@

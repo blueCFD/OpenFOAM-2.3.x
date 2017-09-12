@@ -36,7 +36,7 @@ SourceFiles
 #define AMIMethod_H
 
 #include "className.H"
-#include "DynamicList.H"
+#include "DynamicList.T.H"
 #include "faceAreaIntersect.H"
 #include "indexedOctree.H"
 #include "treeDataPrimitivePatch.H"

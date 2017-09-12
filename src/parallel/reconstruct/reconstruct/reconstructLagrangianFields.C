@@ -24,8 +24,8 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "IOField.H"
-#include "CompactIOField.H"
-#include "Time.H"
+#include "CompactIOField.T.H"
+#include "Time.T.H"
 
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
 

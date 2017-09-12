@@ -29,7 +29,7 @@ Description
 
 #include "uLabel.H"
 #include "IOstreams.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 
 using namespace Foam;
 

@@ -28,9 +28,9 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-#include "List.H"
-#include "ListOps.H"
-#include "face.H"
+#include "List.T.H"
+#include "ListOps.T.H"
+#include "face.T.H"
 #include "circulator.H"
 #include "const_circulator.H"
 

@@ -36,7 +36,7 @@ SourceFiles
 #ifndef OSstream_H
 #define OSstream_H
 
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "fileName.H"
 #include <iostream>
 

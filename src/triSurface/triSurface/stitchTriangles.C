@@ -25,7 +25,7 @@ License
 
 #include "triSurface.H"
 #include "mergePoints.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 

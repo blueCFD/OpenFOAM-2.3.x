@@ -70,8 +70,8 @@ SourceFiles
 
 #include "dynamicFvMesh.H"
 #include "hexRef8.H"
-#include "PackedBoolList.H"
-#include "Switch.H"
+#include "PackedBoolList.T.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "polynomial.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //

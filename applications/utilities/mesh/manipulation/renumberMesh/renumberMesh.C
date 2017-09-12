@@ -37,14 +37,14 @@ Description
 #include "IOobjectList.H"
 #include "fvMesh.H"
 #include "polyTopoChange.H"
-#include "ReadFields.H"
+#include "ReadFields.T.H"
 #include "volFields.H"
 #include "surfaceFields.H"
-#include "SortableList.H"
+#include "SortableList.T.H"
 #include "decompositionMethod.H"
 #include "renumberMethod.H"
 #include "zeroGradientFvPatchFields.H"
-#include "CuthillMcKeeRenumber.H"
+#include "CuthillMcKeeRenumber.T.H"
 #include "fvMeshSubset.H"
 
 #ifdef FOAM_USE_ZOLTAN

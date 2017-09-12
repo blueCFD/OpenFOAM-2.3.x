@@ -76,7 +76,7 @@ SourceFiles
 #ifndef dynLagrangian_H
 #define dynLagrangian_H
 
-#include "GenEddyVisc.H"
+#include "GenEddyVisc.T.H"
 #include "simpleFilter.H"
 #include "LESfilter.H"
 

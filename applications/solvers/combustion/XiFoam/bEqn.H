@@ -30,7 +30,7 @@ if (ign.ignited())
     n /= mgb;
 
 
-    #include "StCorr.H"
+    #include "StCorr.T.H"
 
     // Calculate turbulent flame speed flux
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

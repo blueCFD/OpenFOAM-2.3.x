@@ -55,7 +55,7 @@ SourceFiles
 #include "DLList.H"
 #include "fileName.H"
 #include "ITstream.H"
-#include "HashTable.H"
+#include "HashTable.T.H"
 #include "wordList.H"
 #include "className.H"
 

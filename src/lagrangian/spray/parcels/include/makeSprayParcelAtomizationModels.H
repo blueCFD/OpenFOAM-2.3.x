@@ -28,8 +28,8 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "NoAtomization.H"
-#include "BlobsSheetAtomization.H"
+#include "NoAtomization.T.H"
+#include "BlobsSheetAtomization.T.H"
 #include "LISAAtomization.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

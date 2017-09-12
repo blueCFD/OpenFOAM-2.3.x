@@ -33,7 +33,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "polyTopoChange.H"
 #include "polyTopoChanger.H"
 #include "mapPolyMesh.H"

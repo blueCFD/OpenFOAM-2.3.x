@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "PhaseIncompressibleTurbulenceModel.H"
+#include "PhaseIncompressibleTurbulenceModel.T.H"
 #include "phaseModel.H"
 #include "twoPhaseSystem.H"
 #include "addToRunTimeSelectionTable.H"
@@ -56,22 +56,22 @@ makeRASModel(kEpsilon);
 #include "mixtureKEpsilon.H"
 makeRASModel(mixtureKEpsilon);
 
-#include "LaheyKEpsilon.H"
+#include "LaheyKEpsilon.T.H"
 makeRASModel(LaheyKEpsilon);
 
 #include "continuousGasKEpsilon.H"
 makeRASModel(continuousGasKEpsilon);
 
-#include "Smagorinsky.H"
+#include "Smagorinsky.T.H"
 makeLESModel(Smagorinsky);
 
 #include "kEqn.H"
 makeLESModel(kEqn);
 
-#include "SmagorinskyZhang.H"
+#include "SmagorinskyZhang.T.H"
 makeLESModel(SmagorinskyZhang);
 
-#include "NicenoKEqn.H"
+#include "NicenoKEqn.T.H"
 makeLESModel(NicenoKEqn);
 
 #include "continuousGasKEqn.H"

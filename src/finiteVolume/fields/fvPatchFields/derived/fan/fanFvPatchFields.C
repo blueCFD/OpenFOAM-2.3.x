@@ -27,7 +27,7 @@ License
 #include "addToRunTimeSelectionTable.H"
 #include "volFields.H"
 #include "surfaceFields.H"
-#include "Tuple2.H"
+#include "Tuple2.T.H"
 #include "polynomial.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //

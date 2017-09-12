@@ -26,7 +26,7 @@ License
 #include "constantTurbulentDispersionCoefficient.H"
 #include "phasePair.H"
 #include "fvc.H"
-#include "PhaseIncompressibleTurbulenceModel.H"
+#include "PhaseIncompressibleTurbulenceModel.T.H"
 #include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //

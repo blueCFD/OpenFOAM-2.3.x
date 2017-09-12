@@ -25,9 +25,9 @@ License
 
 #include "WRLsurfaceFormat.H"
 
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "OFstream.H"
-#include "ListOps.H"
+#include "ListOps.T.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

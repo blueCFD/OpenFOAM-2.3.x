@@ -35,7 +35,7 @@ SourceFiles
 #ifndef SRFForce_H
 #define SRFForce_H
 
-#include "ParticleForce.H"
+#include "ParticleForce.T.H"
 #include "SRFModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

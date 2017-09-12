@@ -46,9 +46,9 @@ SourceFiles
 #include "autoPtr.H"
 #include "runTimeSelectionTables.H"
 #include "volFieldsFwd.H"
-#include "DimensionedField.H"
+#include "DimensionedField.T.H"
 #include "fvMatricesFwd.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

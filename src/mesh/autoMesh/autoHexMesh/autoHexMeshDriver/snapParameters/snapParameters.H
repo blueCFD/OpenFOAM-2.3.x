@@ -37,7 +37,7 @@ SourceFiles
 
 #include "dictionary.H"
 #include "scalar.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

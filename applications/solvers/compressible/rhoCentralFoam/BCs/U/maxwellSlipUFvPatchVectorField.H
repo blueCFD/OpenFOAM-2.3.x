@@ -37,7 +37,7 @@ SourceFiles
 #define maxwellSlipUFvPatchVectorField_H
 
 #include "mixedFixedValueSlipFvPatchFields.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

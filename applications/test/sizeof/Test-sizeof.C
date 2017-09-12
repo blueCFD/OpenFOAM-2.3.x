@@ -27,8 +27,8 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "bool.H"
-#include "Switch.H"
-#include "string.H"
+#include "Switch.T.H"
+#include "string.T.H"
 #include "dictionary.H"
 #include "nil.H"
 #include "IOstreams.H"

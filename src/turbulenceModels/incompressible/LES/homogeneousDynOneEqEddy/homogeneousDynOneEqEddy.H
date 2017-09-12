@@ -59,7 +59,7 @@ SourceFiles
 #ifndef homogeneousDynOneEqEddy_H
 #define homogeneousDynOneEqEddy_H
 
-#include "GenEddyVisc.H"
+#include "GenEddyVisc.T.H"
 #include "LESfilter.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

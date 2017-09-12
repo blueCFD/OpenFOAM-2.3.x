@@ -26,7 +26,7 @@ License
 #include "error.H"
 
 #include "UList.H"
-#include "ListLoopM.H"
+#include "ListLoopM.T.H"
 #include "contiguous.H"
 
 #include <algorithm>

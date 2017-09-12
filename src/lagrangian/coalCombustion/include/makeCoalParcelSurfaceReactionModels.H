@@ -28,7 +28,7 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "NoSurfaceReaction.H"
+#include "NoSurfaceReaction.T.H"
 #include "COxidationDiffusionLimitedRate.H"
 #include "COxidationKineticDiffusionLimitedRate.H"
 #include "COxidationHurtMitchell.H"

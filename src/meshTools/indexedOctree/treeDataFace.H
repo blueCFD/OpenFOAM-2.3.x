@@ -35,10 +35,10 @@ SourceFiles
 #ifndef treeDataFace_H
 #define treeDataFace_H
 
-#include "face.H"
+#include "face.T.H"
 #include "indexedOctree.H"
 #include "treeBoundBoxList.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include "primitiveMesh.H"
 #include "volumeType.H"
 

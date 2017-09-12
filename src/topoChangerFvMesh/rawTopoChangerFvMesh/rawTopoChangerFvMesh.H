@@ -39,7 +39,7 @@ SourceFiles
 #define rawTopoChangerFvMesh_H
 
 #include "topoChangerFvMesh.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

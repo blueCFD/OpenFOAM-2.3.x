@@ -39,7 +39,7 @@ SourceFiles
 #define edgeMeshFormat_H
 
 #include "edgeMesh.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "OFstream.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

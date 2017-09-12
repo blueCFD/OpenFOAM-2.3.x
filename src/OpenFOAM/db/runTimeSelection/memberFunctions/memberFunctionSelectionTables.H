@@ -34,7 +34,7 @@ Description
 #ifndef memberFunctionSelectionTables_H
 #define memberFunctionSelectionTables_H
 
-#include "HashTable.H"
+#include "HashTable.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -40,8 +40,8 @@ SourceFiles
 #define DelaunayMeshTools_H
 
 #include "fileName.H"
-#include "List.H"
-#include "point.H"
+#include "List.T.H"
+#include "point.T.H"
 #include "CGALTriangulation3Ddefs.H"
 #include "indexedVertexEnum.H"
 

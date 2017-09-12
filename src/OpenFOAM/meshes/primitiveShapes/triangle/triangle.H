@@ -39,9 +39,9 @@ SourceFiles
 #include "vector.H"
 #include "tensor.H"
 #include "pointHit.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "cachedRandom.H"
-#include "FixedList.H"
+#include "FixedList.T.H"
 #include "UList.H"
 #include "linePointRef.H"
 

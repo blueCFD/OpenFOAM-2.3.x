@@ -24,8 +24,8 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "LList.H"
-#include "Istream.H"
-#include "Ostream.H"
+#include "Istream.T.H"
+#include "Ostream.T.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

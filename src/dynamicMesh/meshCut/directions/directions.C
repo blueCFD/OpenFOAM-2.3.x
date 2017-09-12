@@ -27,11 +27,11 @@ License
 #include "polyMesh.H"
 #include "twoDPointCorrector.H"
 #include "directionInfo.H"
-#include "MeshWave.H"
+#include "MeshWave.T.H"
 #include "OFstream.H"
 #include "meshTools.H"
 #include "hexMatcher.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "globalMeshData.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //

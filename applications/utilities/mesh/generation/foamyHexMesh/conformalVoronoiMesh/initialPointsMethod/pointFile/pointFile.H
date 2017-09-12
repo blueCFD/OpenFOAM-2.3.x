@@ -38,7 +38,7 @@ SourceFiles
 
 #include "fileName.H"
 #include "pointIOField.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "initialPointsMethod.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

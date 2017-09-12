@@ -35,7 +35,7 @@ SourceFiles
 #ifndef bladeModel_H
 #define bladeModel_H
 
-#include "List.H"
+#include "List.T.H"
 #include "dictionary.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

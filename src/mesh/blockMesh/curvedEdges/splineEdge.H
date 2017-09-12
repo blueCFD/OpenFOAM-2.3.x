@@ -36,7 +36,7 @@ SourceFiles
 #define splineEdge_H
 
 #include "curvedEdge.H"
-#include "CatmullRomSpline.H"
+#include "CatmullRomSpline.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

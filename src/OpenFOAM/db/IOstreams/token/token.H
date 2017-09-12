@@ -41,7 +41,7 @@ SourceFiles
 #include "uLabel.H"
 #include "scalar.H"
 #include "word.H"
-#include "InfoProxy.H"
+#include "InfoProxy.T.H"
 #include "refCount.H"
 #include "typeInfo.H"
 
@@ -452,7 +452,7 @@ Ostream& operator<<(Ostream&, const token::compound&);
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #include "tokenI.H"
-#include "Istream.H"
+#include "Istream.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -37,7 +37,7 @@ SourceFiles
 #define yPlusRASFunctionObject_H
 
 #include "yPlusRAS.H"
-#include "OutputFilterFunctionObject.H"
+#include "OutputFilterFunctionObject.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

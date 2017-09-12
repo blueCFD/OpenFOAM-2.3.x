@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "pimpleControl.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

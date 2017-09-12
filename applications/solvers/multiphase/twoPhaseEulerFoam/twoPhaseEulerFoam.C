@@ -32,7 +32,7 @@ Description
 
 #include "fvCFD.H"
 #include "twoPhaseSystem.H"
-#include "PhaseIncompressibleTurbulenceModel.H"
+#include "PhaseIncompressibleTurbulenceModel.T.H"
 #include "pimpleControl.H"
 #include "IOMRFZoneList.H"
 #include "fixedFluxPressureFvPatchScalarField.H"

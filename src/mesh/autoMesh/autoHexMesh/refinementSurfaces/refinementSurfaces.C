@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "refinementSurfaces.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "searchableSurfaces.H"
 #include "shellSurfaces.H"
 #include "triSurfaceMesh.H"

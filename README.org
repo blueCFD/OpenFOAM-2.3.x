@@ -1,40 +1,55 @@
 #                            -*- mode: org; -*-
 #
-#+TITLE:            OpenFOAM README for version 2.3.0
-#+AUTHOR:               The OpenFOAM Foundation
-#+DATE:                     9th February 2014
-#+LINK:                  http://www.openfoam.org
+#+TITLE:          blueCFD-Core README for version 2.3-1
+#+AUTHOR:                      blueCAPE Lda
+#+DATE:                       21st March 2014
+#+LINK:                  http://bluecfd.com/Core
 #+OPTIONS: author:nil ^:{}
-# Copyright (c) 2014 OpenFOAM Foundation.
+# Copyright (c) 2013-2014 blueCAPE Lda.
 
-* About OpenFOAM
-  OpenFOAM is a free, open source computational fluid dynamcis (CFD) software
-  package released by the OpenFOAM Foundation. It has a large user base across
-  most areas of engineering and science, from both commercial and academic
-  organisations. OpenFOAM has an extensive range of features to solve anything
-  from complex fluid flows involving chemical reactions, turbulence and heat
-  transfer, to solid dynamics and electromagnetics.
+* About blueCFD-Core
+  blueCFD®-Core is a service package provided by blueCAPE Lda, of a high quality
+  build version of OpenFOAM® for up-to-date Windows 7 and 8 64bit, with some 
+  additional tweaks, executables and scripts, in order to maintain usability under
+  a Windows environment.
+  Building for 32 bit and running on Windows XP and Vista should be possible, but
+  it's no longer supported.
 
-* Copyright
   OpenFOAM is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.  See the file =COPYING= in this directory or
   [[http://www.gnu.org/licenses/]], for a description of the GNU General Public
   License terms under which you can copy the files.
+  
+  More information about OpenFOAM is provided in the file =README.OpenFOAM.org=
+
+* Information
+  This source code is a patched version of the original OpenFOAM source code.
+  The modifications made are tracked at the blueCFD-SingleCore project:
+      [[http://code.google.com/p/bluecfd-singlecore/]]
+
+  The modifications made for the blueCFD-Core project are based on Symscape's
+  modifications to the OpenFOAM source code, which are provided at their website:
+      [[http://www.symscape.com]]
+
+* Disclaimer
+  blueCAPE Lda is responsible for blueCFD®-Core. blueCAPE Lda is in no way associated
+  with OpenCFD (ESI Group), nor holds any copyrights over OpenFOAM®. This offering is 
+  not approved or endorsed by OpenCFD (ESI Group), the producer of the OpenFOAM software
+  and owner of the OPENFOAM® and OpenCFD® trade marks.
 
 * Download and installation instructions
-  + To install from this Git repository, see
-    [[http://www.OpenFOAM.org/git.php]]
+  [[http://code.google.com/p/bluecfd-singlecore/wiki/WikiLobby?tm=6]]
 
 * Release notes
-  [[http://www.OpenFOAM.org/version2.3.0]]
+  [[http://joomla.bluecape.com.pt/files/news/blueCFD-ReleaseNotes-2.3.pdf]]
 
 * Documentation
-  [[http://www.OpenFOAM.com/docs]]
+  [[http://code.google.com/p/bluecfd-singlecore/wiki/WikiLobby?tm=6]]
 
-* Support and development contracts
-  [[http://www.OpenFOAM.com/support]]
+* Support and development contracts related to blueCFD
+  [[http://joomla.bluecape.com.pt/index.php?option=com_contact]]
 
-* Reporting Bugs in OpenFOAM
-  [[http://www.OpenFOAM.com/bugs]]
+* Reporting Bugs in blueCFD
+  [[http://code.google.com/p/bluecfd-singlecore/wiki/IssueTracker?tm=3]]

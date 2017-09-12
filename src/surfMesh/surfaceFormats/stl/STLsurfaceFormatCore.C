@@ -26,9 +26,9 @@ License
 #include "STLsurfaceFormatCore.H"
 #include "gzstream.h"
 #include "OSspecific.H"
-#include "Map.H"
+#include "Map.T.H"
 #include "IFstream.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 
 #undef DEBUG_STLBINARY
 

@@ -37,7 +37,7 @@ SourceFiles
 #ifndef GAMGAgglomeration_H
 #define GAMGAgglomeration_H
 
-#include "MeshObject.H"
+#include "MeshObject.T.H"
 #include "lduPrimitiveMesh.H"
 #include "lduInterfacePtrsList.H"
 #include "primitiveFields.H"

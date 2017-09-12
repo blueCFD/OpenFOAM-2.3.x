@@ -1,6 +1,6 @@
 renumberMethod/renumberMethod.C
 manualRenumber/manualRenumber.C
-CuthillMcKeeRenumber/CuthillMcKeeRenumber.C
+CuthillMcKeeRenumber/CuthillMcKeeRenumber.T.C
 randomRenumber/randomRenumber.C
 springRenumber/springRenumber.C
 structuredRenumber/structuredRenumber.C

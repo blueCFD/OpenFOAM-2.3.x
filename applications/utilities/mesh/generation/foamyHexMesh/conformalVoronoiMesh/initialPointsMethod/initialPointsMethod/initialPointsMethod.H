@@ -35,12 +35,12 @@ SourceFiles
 #ifndef initialPointsMethod_H
 #define initialPointsMethod_H
 
-#include "point.H"
+#include "point.T.H"
 #include "conformalVoronoiMesh.H"
 #include "backgroundMeshDecomposition.H"
 #include "dictionary.H"
-#include "Random.H"
-#include "Switch.H"
+#include "Random.T.H"
+#include "Switch.T.H"
 #include "autoPtr.H"
 #include "runTimeSelectionTables.H"
 

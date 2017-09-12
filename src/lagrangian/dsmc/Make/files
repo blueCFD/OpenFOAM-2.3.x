@@ -2,7 +2,7 @@
 parcels/derived/dsmcParcel/dsmcParcel.C
 
 /* Cloud base classes */
-clouds/baseClasses/DsmcBaseCloud/DsmcBaseCloud.C
+clouds/baseClasses/DsmcBaseCloud/DsmcBaseCloud.T.C
 
 /* submodels */
 parcels/derived/dsmcParcel/defineDsmcParcel.C

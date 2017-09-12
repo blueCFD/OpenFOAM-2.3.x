@@ -20,3 +20,6 @@ EXE_LIBS = \
     -lODE \
     -lthermophysicalFunctions \
     -lspecie
+
+EXE_LIBS += \
+    -lcompressibleTurbulenceModel

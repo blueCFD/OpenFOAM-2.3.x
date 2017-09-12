@@ -78,7 +78,7 @@ SourceFiles
 #define SRFFreestreamVelocityFvPatchVectorField_H
 
 #include "inletOutletFvPatchFields.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

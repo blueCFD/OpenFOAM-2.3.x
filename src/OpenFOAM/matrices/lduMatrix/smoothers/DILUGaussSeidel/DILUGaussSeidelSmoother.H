@@ -38,7 +38,7 @@ SourceFiles
 #define DILUGaussSeidelSmoother_H
 
 #include "DILUSmoother.H"
-#include "GaussSeidelSmoother.H"
+#include "GaussSeidelSmoother.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

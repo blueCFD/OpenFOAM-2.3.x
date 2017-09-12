@@ -38,7 +38,7 @@ Description
 #define runTimeSelectionTables_H
 
 #include "autoPtr.H"
-#include "HashTable.H"
+#include "HashTable.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

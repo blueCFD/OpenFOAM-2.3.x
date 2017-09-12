@@ -38,7 +38,7 @@ SourceFiles
 #include "dictionary.H"
 #include "scalarField.H"
 #include "labelList.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

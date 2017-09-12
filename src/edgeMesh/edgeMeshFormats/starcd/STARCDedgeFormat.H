@@ -45,7 +45,7 @@ SourceFiles
 #include "STARCDCore.H"
 
 #include "IFstream.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "OFstream.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -37,8 +37,8 @@ SourceFiles
 #define cloudSolution_H
 
 #include "fvMesh.H"
-#include "Switch.H"
-#include "Tuple2.H"
+#include "Switch.T.H"
+#include "Tuple2.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

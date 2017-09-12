@@ -41,7 +41,7 @@ Description
 #include "nearWallDist.H"
 #include "wallFvPatch.H"
 #include "bound.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "pimpleControl.H"
 #include "fvIOoptionList.H"
 #include "fixedFluxPressureFvPatchScalarField.H"

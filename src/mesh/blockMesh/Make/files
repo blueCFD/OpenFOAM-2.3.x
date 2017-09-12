@@ -1,5 +1,5 @@
 curvedEdges/BSpline.C
-curvedEdges/CatmullRomSpline.C
+curvedEdges/CatmullRomSpline.T.C
 curvedEdges/polyLine.C
 
 curvedEdges/arcEdge.C

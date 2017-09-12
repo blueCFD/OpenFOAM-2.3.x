@@ -33,7 +33,7 @@ Description
 
 #include "fvCFD.H"
 #include "singlePhaseTransportModel.H"
-#include "IncompressibleTurbulenceModel.H"
+#include "IncompressibleTurbulenceModel.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

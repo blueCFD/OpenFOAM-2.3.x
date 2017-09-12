@@ -43,9 +43,9 @@ SourceFiles
 #define patchDataWave_H
 
 #include "cellDistFuncs.H"
-#include "FieldField.H"
+#include "FieldField.T.H"
 #include "UPtrList.H"
-#include "MeshWave.H"
+#include "MeshWave.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

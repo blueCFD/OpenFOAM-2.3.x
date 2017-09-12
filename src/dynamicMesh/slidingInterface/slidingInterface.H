@@ -55,9 +55,9 @@ SourceFiles
 #include "polyMeshModifier.H"
 #include "primitiveFacePatch.H"
 #include "polyPatchID.H"
-#include "ZoneIDs.H"
+#include "ZoneIDs.T.H"
 #include "intersection.H"
-#include "Pair.H"
+#include "Pair.T.H"
 #include "objectHit.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

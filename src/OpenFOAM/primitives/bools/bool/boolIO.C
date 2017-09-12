@@ -31,7 +31,7 @@ Description
 #include "error.H"
 
 #include "bool.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

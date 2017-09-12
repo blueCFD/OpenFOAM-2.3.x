@@ -26,7 +26,7 @@ License
 #include "GAMGAgglomeration.H"
 #include "lduMesh.H"
 #include "lduMatrix.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "GAMGInterface.H"
 #include "GAMGProcAgglomeration.H"
 #include "IOmanip.H"

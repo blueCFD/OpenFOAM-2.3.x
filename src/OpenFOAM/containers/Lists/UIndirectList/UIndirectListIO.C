@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "UIndirectList.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "token.H"
 #include "contiguous.H"
 

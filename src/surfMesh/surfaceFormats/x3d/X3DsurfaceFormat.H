@@ -35,9 +35,9 @@ SourceFiles
 #ifndef X3DsurfaceFormat_H
 #define X3DsurfaceFormat_H
 
-#include "MeshedSurface.H"
-#include "MeshedSurfaceProxy.H"
-#include "UnsortedMeshedSurface.H"
+#include "MeshedSurface.T.H"
+#include "MeshedSurfaceProxy.T.H"
+#include "UnsortedMeshedSurface.T.H"
 #include "X3DsurfaceFormatCore.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

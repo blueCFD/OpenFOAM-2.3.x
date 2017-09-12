@@ -26,7 +26,7 @@ License
 #include "AMIInterpolation.H"
 #include "cyclicAMIGAMGInterface.H"
 #include "addToRunTimeSelectionTable.H"
-#include "Map.H"
+#include "Map.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

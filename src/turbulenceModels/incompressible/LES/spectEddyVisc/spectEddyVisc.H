@@ -57,7 +57,7 @@ SourceFiles
 #ifndef spectEddyVisc_H
 #define spectEddyVisc_H
 
-#include "GenEddyVisc.H"
+#include "GenEddyVisc.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -85,7 +85,7 @@ inline Scalar func(const Scalar s) \
     return ::func(s);              \
 }
 
-#include "Scalar.H"
+#include "Scalar.T.H"
 
 inline Scalar hypot(const Scalar x, const Scalar y)
 {

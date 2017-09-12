@@ -32,7 +32,7 @@ Description
 #include "IOobject.H"
 #include "IOstreams.H"
 #include "IFstream.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include <climits>
 
 

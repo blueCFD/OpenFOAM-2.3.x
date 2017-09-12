@@ -25,7 +25,7 @@ License
 
 #include "IOstream.H"
 #include "error.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include <sstream>
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //

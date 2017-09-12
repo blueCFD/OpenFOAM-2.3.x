@@ -29,7 +29,7 @@ Description
 #include "mpi.h"
 
 #include "UOPstream.H"
-#include "PstreamGlobals.H"
+#include "PstreamGlobals.T.H"
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 

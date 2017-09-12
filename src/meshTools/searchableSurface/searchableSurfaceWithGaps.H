@@ -44,7 +44,7 @@ SourceFiles
 
 #include "searchableSurface.H"
 #include "UPtrList.H"
-#include "Pair.H"
+#include "Pair.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

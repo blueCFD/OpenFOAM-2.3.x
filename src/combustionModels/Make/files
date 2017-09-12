@@ -13,7 +13,7 @@ rhoCombustionModel/rhoChemistryCombustion/rhoChemistryCombustion.C
 diffusion/diffusions.C
 infinitelyFastChemistry/infinitelyFastChemistrys.C
 
-PaSR/PaSRs.C
+PaSR/PaSRs.T.C
 
 laminar/laminars.C
 

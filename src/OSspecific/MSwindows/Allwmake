@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+unset COMP_FLAGS LINK_FLAGS
+
+# Build the stub library... but only after OpenFOAM
+#wmake libso stubLibrary
+
+# make (non-shared) object
+wmake libo
+
+# ----------------------------------------------------------------- end-of-file

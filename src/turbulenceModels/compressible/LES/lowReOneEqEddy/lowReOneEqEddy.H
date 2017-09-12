@@ -53,7 +53,7 @@ SourceFiles
 #ifndef compressibleLowReOneEqEddy_H
 #define compressibleLowReOneEqEddy_H
 
-#include "GenEddyVisc.H"
+#include "GenEddyVisc.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "backwardsCompatibilityWallFunctions.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "OSspecific.H"
 
 #include "wallFvPatch.H"

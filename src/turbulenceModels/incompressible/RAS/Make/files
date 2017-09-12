@@ -8,14 +8,14 @@ kOmega/kOmega.C
 kOmegaSST/kOmegaSST.C
 SpalartAllmaras/SpalartAllmaras.C
 LRR/LRR.C
-LaunderGibsonRSTM/LaunderGibsonRSTM.C
-LaunderSharmaKE/LaunderSharmaKE.C
+LaunderGibsonRSTM/LaunderGibsonRSTM.T.C
+LaunderSharmaKE/LaunderSharmaKE.T.C
 qZeta/qZeta.C
-LienCubicKE/LienCubicKE.C
-LienCubicKELowRe/LienCubicKELowRe.C
-NonlinearKEShih/NonlinearKEShih.C
-LienLeschzinerLowRe/LienLeschzinerLowRe.C
-LamBremhorstKE/LamBremhorstKE.C
+LienCubicKE/LienCubicKE.T.C
+LienCubicKELowRe/LienCubicKELowRe.T.C
+NonlinearKEShih/NonlinearKEShih.T.C
+LienLeschzinerLowRe/LienLeschzinerLowRe.T.C
+LamBremhorstKE/LamBremhorstKE.T.C
 kkLOmega/kkLOmega.C
 v2f/v2f.C
 

@@ -45,7 +45,7 @@ SourceFiles
 #include "surfaceFieldsFwd.H"
 #include "pointFieldFwd.H"
 #include "OFstream.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

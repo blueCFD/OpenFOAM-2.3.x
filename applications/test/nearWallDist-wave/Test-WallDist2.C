@@ -29,7 +29,7 @@ Description
 
 #include "fvCFD.H"
 #include "wallFvPatch.H"
-#include "FaceCellWave.H"
+#include "FaceCellWave.T.H"
 #include "wallPoint.H"
 
 

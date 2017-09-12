@@ -37,7 +37,7 @@ SourceFiles
 
 #include "scalarMatrices.H"
 #include "labelList.H"
-#include "FieldField.H"
+#include "FieldField.T.H"
 #include "lduInterfaceFieldPtrsList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

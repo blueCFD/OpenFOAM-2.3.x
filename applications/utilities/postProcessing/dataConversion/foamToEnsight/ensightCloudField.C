@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "ensightCloudField.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "IOField.H"
 #include "OFstream.H"
 #include "IOmanip.H"

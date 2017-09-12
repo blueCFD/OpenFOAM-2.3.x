@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "STLsurfaceFormat.H"
-#include "ListOps.H"
+#include "ListOps.T.H"
 #include "triPointRef.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //

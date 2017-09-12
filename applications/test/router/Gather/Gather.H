@@ -35,7 +35,7 @@ SourceFiles
 #ifndef Gather_H
 #define Gather_H
 
-#include "List.H"
+#include "List.T.H"
 #include "labelList.H"
 #include "GatherBase.H"
 

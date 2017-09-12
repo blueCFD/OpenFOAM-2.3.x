@@ -24,12 +24,12 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "triSurfaceMesh.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "addToRunTimeSelectionTable.H"
-#include "EdgeMap.H"
+#include "EdgeMap.T.H"
 #include "triSurfaceFields.H"
-#include "Time.H"
-#include "PatchTools.H"
+#include "Time.T.H"
+#include "PatchTools.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

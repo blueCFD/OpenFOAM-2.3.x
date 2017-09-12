@@ -41,9 +41,9 @@ SourceFiles
 #ifndef SMESHsurfaceFormat_H
 #define SMESHsurfaceFormat_H
 
-#include "MeshedSurface.H"
-#include "MeshedSurfaceProxy.H"
-#include "UnsortedMeshedSurface.H"
+#include "MeshedSurface.T.H"
+#include "MeshedSurfaceProxy.T.H"
+#include "UnsortedMeshedSurface.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

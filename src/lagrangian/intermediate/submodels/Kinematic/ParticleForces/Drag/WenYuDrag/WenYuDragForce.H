@@ -32,7 +32,7 @@ Description
 #ifndef WenYuDragForce_H
 #define WenYuDragForce_H
 
-#include "ParticleForce.H"
+#include "ParticleForce.T.H"
 #include "volFieldsFwd.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -58,7 +58,7 @@ SourceFiles
 #define displacementLayeredMotionMotionSolver_H
 
 #include "displacementMotionSolver.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

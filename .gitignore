@@ -24,6 +24,7 @@
 
 # derived files
 lex.yy.c
+smart.make*
 
 # Corefiles
 core
@@ -63,6 +64,7 @@ doc/Doxygen/DTAGS
 /etc/prefs.sh
 /etc/config/prefs.csh
 /etc/config/prefs.sh
+/etc/config.d
 
 # source packages - anywhere
 *.tar.bz2

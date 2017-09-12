@@ -32,8 +32,8 @@ Description
 #ifndef uindirectPrimitivePatch_H
 #define uindirectPrimitivePatch_H
 
-#include "PrimitivePatch.H"
-#include "face.H"
+#include "PrimitivePatch.T.H"
+#include "face.T.H"
 #include "UIndirectList.H"
 #include "pointField.H"
 

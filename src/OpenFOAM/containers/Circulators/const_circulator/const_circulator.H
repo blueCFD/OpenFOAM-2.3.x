@@ -76,7 +76,7 @@ SourceFiles
 #ifndef const_circulator_H
 #define const_circulator_H
 
-#include "CirculatorBase.H"
+#include "CirculatorBase.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

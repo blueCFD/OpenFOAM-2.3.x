@@ -42,9 +42,9 @@ SourceFiles
 #ifndef syncTools_H
 #define syncTools_H
 
-#include "Pstream.H"
-#include "EdgeMap.H"
-#include "PackedBoolList.H"
+#include "Pstream.T.H"
+#include "EdgeMap.T.H"
+#include "PackedBoolList.T.H"
 #include "polyMesh.H"
 #include "coupledPolyPatch.H"
 #include "mapDistribute.H"

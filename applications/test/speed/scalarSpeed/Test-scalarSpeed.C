@@ -1,5 +1,5 @@
 #include "primitiveFields.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "cpuTime.H"
 #include "IOstreams.H"
 #include "OFstream.H"

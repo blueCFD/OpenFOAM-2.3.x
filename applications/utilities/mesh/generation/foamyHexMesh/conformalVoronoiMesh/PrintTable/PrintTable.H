@@ -53,8 +53,8 @@ SourceFiles
 #ifndef PrintTable_H
 #define PrintTable_H
 
-#include "HashTable.H"
-#include "Ostream.H"
+#include "HashTable.T.H"
+#include "Ostream.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

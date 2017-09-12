@@ -47,7 +47,7 @@ SourceFiles
 
 #include "RASModel.H"
 #include "eddyViscosity.H"
-#include "PhaseIncompressibleTurbulenceModel.H"
+#include "PhaseIncompressibleTurbulenceModel.T.H"
 #include "phaseModel.H"
 #include "dragModel.H"
 #include "viscosityModel.H"

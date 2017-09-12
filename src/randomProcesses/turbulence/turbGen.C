@@ -25,9 +25,9 @@ License
 
 #include "fft.H"
 #include "turbGen.H"
-#include "Kmesh.H"
+#include "Kmesh.T.H"
 #include "primitiveFields.H"
-#include "Ek.H"
+#include "Ek.T.H"
 #include "mathematicalConstants.H"
 
 

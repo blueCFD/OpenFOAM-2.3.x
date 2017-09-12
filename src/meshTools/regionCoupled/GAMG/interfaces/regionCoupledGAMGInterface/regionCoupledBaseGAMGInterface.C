@@ -26,7 +26,7 @@ License
 #include "AMIInterpolation.H"
 #include "regionCoupledBaseGAMGInterface.H"
 #include "addToRunTimeSelectionTable.H"
-#include "Map.H"
+#include "Map.T.H"
 #include "polyMesh.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //

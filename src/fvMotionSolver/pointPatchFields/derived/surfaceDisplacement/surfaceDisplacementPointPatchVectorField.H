@@ -60,7 +60,7 @@ SourceFiles
 #include "pointPatchFields.H"
 #include "fixedValuePointPatchFields.H"
 #include "searchableSurfaces.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

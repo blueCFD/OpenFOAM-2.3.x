@@ -36,7 +36,7 @@ SourceFiles
 #define cvControls_H
 
 #include "dictionary.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "vector.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

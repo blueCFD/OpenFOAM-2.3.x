@@ -33,9 +33,9 @@ Description
 #include "bandCompression.H"
 #include "SLList.H"
 #include "IOstreams.H"
-#include "DynamicList.H"
-#include "ListOps.H"
-#include "PackedBoolList.H"
+#include "DynamicList.T.H"
+#include "ListOps.T.H"
+#include "PackedBoolList.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -39,12 +39,12 @@ SourceFiles
 #ifndef tetrahedron_H
 #define tetrahedron_H
 
-#include "point.H"
+#include "point.T.H"
 #include "primitiveFieldsFwd.H"
 #include "pointHit.H"
 #include "cachedRandom.H"
-#include "Random.H"
-#include "FixedList.H"
+#include "Random.T.H"
+#include "FixedList.T.H"
 #include "UList.H"
 #include "triPointRef.H"
 

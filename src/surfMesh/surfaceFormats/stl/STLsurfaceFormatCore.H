@@ -39,7 +39,7 @@ SourceFiles
 #include "STLtriangle.H"
 #include "triFace.H"
 #include "IFstream.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

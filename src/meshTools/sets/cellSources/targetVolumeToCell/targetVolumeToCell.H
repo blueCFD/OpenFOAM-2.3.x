@@ -37,7 +37,7 @@ SourceFiles
 #define targetVolumeToCell_H
 
 #include "topoSetSource.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -63,7 +63,7 @@ Description
 #include "XiModel.H"
 #include "PDRDragModel.H"
 #include "ignition.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "bound.H"
 #include "dynamicRefineFvMesh.H"
 #include "pimpleControl.H"

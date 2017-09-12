@@ -42,7 +42,7 @@ Description
 
 #include "argList.H"
 #include "timeSelector.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "volFields.H"
 #include "surfaceFields.H"
 #include "pointFields.H"

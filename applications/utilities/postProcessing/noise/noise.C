@@ -78,7 +78,7 @@ SeeAlso
 
 #include "noiseFFT.H"
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "functionObjectFile.H"
 #include "CSV.H"
 

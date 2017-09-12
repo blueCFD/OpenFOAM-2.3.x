@@ -24,14 +24,14 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "fvMesh.H"
 #include "volFields.H"
-#include "LduMatrix.H"
+#include "LduMatrix.T.H"
 #include "diagTensorField.H"
 #include "TPCG.H"
 #include "TPBiCG.H"
-#include "NoPreconditioner.H"
+#include "NoPreconditioner.T.H"
 
 using namespace Foam;
 

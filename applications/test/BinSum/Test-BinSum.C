@@ -29,10 +29,10 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-#include "List.H"
-#include "BinSum.H"
+#include "List.T.H"
+#include "BinSum.T.H"
 #include "IOstreams.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "scalarField.H"
 
 using namespace Foam;

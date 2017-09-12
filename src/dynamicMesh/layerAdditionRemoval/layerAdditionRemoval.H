@@ -39,7 +39,7 @@ SourceFiles
 
 #include "polyMeshModifier.H"
 #include "primitiveFacePatch.H"
-#include "ZoneIDs.H"
+#include "ZoneIDs.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -32,14 +32,14 @@ Description
 #include "argList.H"
 #include "fvMesh.H"
 #include "volFields.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "OFstream.H"
 #include "meshTools.H"
 #include "removeFaces.H"
 #include "mapPolyMesh.H"
 #include "polyTopoChange.H"
 #include "fvcDiv.H"
-#include "Random.H"
+#include "Random.T.H"
 
 using namespace Foam;
 

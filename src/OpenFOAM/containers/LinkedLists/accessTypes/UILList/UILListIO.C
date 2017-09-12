@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "UILList.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "token.H"
 
 // * * * * * * * * * * * * * * * Ostream Operator  * * * * * * * * * * * * * //

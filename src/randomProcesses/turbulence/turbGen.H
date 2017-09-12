@@ -37,7 +37,7 @@ SourceFiles
 #ifndef turbGen_H
 #define turbGen_H
 
-#include "Random.H"
+#include "Random.T.H"
 #include "primitiveFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

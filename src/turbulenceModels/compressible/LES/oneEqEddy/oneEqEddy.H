@@ -57,7 +57,7 @@ SourceFiles
 #ifndef compressibleOneEqEddy_H
 #define compressibleOneEqEddy_H
 
-#include "GenEddyVisc.H"
+#include "GenEddyVisc.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

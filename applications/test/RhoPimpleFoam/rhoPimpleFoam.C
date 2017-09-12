@@ -35,7 +35,7 @@ Description
 
 #include "fvCFD.H"
 #include "psiThermo.H"
-#include "CompressibleTurbulenceModel.H"
+#include "CompressibleTurbulenceModel.T.H"
 #include "bound.H"
 #include "pimpleControl.H"
 #include "fvIOoptionList.H"

@@ -26,9 +26,9 @@ License
 #include "fvCFD.H"
 #include "polyMeshTetDecomposition.H"
 
-#include "Basic.H"
-#include "Dual.H"
-#include "Moment.H"
+#include "Basic.T.H"
+#include "Dual.T.H"
+#include "Moment.T.H"
 
 namespace Foam
 {

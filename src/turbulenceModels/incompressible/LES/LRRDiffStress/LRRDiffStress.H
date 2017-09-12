@@ -54,7 +54,7 @@ SourceFiles
 #ifndef LRRDiffStress_H
 #define LRRDiffStress_H
 
-#include "GenSGSStress.H"
+#include "GenSGSStress.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

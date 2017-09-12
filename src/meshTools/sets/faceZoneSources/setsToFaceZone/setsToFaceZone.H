@@ -36,7 +36,7 @@ SourceFiles
 #define setsToFaceZone_H
 
 #include "topoSetSource.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

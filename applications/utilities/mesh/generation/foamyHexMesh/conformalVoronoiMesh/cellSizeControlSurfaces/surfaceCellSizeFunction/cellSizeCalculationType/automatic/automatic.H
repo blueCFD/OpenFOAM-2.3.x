@@ -36,8 +36,8 @@ SourceFiles
 
 #include "cellSizeCalculationType.H"
 #include "triSurfaceFields.H"
-#include "PrimitivePatchInterpolation.H"
-#include "Switch.H"
+#include "PrimitivePatchInterpolation.T.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

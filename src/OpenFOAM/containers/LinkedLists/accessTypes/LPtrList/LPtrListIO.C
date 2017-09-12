@@ -24,8 +24,8 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "LPtrList.H"
-#include "Istream.H"
-#include "Ostream.H"
+#include "Istream.T.H"
+#include "Ostream.T.H"
 #include "INew.H"
 
 // * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * * //

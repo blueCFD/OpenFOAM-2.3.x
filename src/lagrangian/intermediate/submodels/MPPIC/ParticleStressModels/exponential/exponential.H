@@ -36,7 +36,7 @@ SourceFiles
 #ifndef exponential_H
 #define exponential_H
 
-#include "ParticleStressModel.H"
+#include "ParticleStressModel.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

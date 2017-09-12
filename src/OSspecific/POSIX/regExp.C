@@ -27,8 +27,8 @@ License
 
 #include "regExp.H"
 #include "label.H"
-#include "string.H"
-#include "List.H"
+#include "string.T.H"
+#include "List.T.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //

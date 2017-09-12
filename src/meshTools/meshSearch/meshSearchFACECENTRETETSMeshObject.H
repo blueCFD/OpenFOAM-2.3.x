@@ -34,7 +34,7 @@ SourceFiles
 #ifndef meshSearchFACECENTRETETSMeshObject_H
 #define meshSearchFACECENTRETETSMeshObject_H
 
-#include "MeshObject.H"
+#include "MeshObject.T.H"
 #include "meshSearch.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

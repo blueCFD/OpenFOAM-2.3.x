@@ -66,7 +66,7 @@ SourceFiles
 #include "triSurface.H"
 #include "labelPair.H"
 #include "pointIndexHit.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include "volFields.H"
 #include "slicedVolFields.H"
 

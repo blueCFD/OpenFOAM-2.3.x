@@ -36,7 +36,7 @@ Description
 #ifndef COxidationDiffusionLimitedRate_H
 #define COxidationDiffusionLimitedRate_H
 
-#include "SurfaceReactionModel.H"
+#include "SurfaceReactionModel.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

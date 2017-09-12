@@ -34,7 +34,7 @@ Description
 #include "nearWallDist.H"
 #include "wallFvPatch.H"
 #include "bound.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "plasticViscosity.H"
 #include "yieldStress.H"
 #include "pimpleControl.H"

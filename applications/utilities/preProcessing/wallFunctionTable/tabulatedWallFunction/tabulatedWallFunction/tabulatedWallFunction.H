@@ -38,7 +38,7 @@ SourceFiles
 #include "dictionary.H"
 #include "polyMesh.H"
 #include "runTimeSelectionTables.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "uniformInterpolationTable.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

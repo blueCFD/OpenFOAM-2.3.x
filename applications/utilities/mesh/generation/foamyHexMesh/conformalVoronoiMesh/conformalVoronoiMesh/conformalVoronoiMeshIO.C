@@ -28,7 +28,7 @@ License
 #include "OFstream.H"
 #include "pointMesh.H"
 #include "pointFields.H"
-#include "ListOps.H"
+#include "ListOps.T.H"
 #include "polyMeshFilter.H"
 #include "polyTopoChange.H"
 #include "PrintTable.H"

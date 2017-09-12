@@ -25,7 +25,7 @@ License
 
 #include "loadOrCreateMesh.H"
 #include "processorPolyPatch.H"
-#include "Time.H"
+#include "Time.T.H"
 
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
 

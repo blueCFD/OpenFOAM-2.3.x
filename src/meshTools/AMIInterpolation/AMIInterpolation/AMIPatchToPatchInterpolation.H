@@ -27,9 +27,9 @@ License
 #define AMIPatchToPatchInterpolation_H
 
 #include "AMIInterpolation.H"
-#include "PrimitivePatch.H"
-#include "face.H"
-#include "SubList.H"
+#include "PrimitivePatch.T.H"
+#include "face.T.H"
+#include "SubList.T.H"
 #include "pointField.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

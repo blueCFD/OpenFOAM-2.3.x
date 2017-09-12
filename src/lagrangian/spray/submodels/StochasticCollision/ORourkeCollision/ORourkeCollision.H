@@ -33,7 +33,7 @@ Description
 #ifndef ORourkeCollision_H
 #define ORourkeCollision_H
 
-#include "StochasticCollisionModel.H"
+#include "StochasticCollisionModel.T.H"
 #include "liquidMixtureProperties.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -51,7 +51,7 @@ SourceFiles
 #define polynomialFunction_H
 
 #include "scalarList.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "runTimeSelectionTables.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

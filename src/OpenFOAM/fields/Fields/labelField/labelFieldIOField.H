@@ -34,7 +34,7 @@ Description
 
 #include "labelField.H"
 #include "IOField.H"
-#include "CompactIOField.H"
+#include "CompactIOField.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

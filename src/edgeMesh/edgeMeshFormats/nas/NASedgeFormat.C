@@ -26,7 +26,7 @@ License
 #include "NASedgeFormat.H"
 #include "IFstream.H"
 #include "IStringStream.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

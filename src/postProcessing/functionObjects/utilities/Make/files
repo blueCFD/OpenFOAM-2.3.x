@@ -1,13 +1,13 @@
 codedFunctionObject/codedFunctionObject.C
 
 CourantNo/CourantNo.C
-CourantNo/CourantNoFunctionObject.C
+CourantNo/CourantNoFunctionObject.T.C
 
 Lambda2/Lambda2.C
-Lambda2/Lambda2FunctionObject.C
+Lambda2/Lambda2FunctionObject.T.C
 
-Peclet/Peclet.C
-Peclet/PecletFunctionObject.C
+Peclet/Peclet.T.C
+Peclet/PecletFunctionObject.T.C
 
 Q/Q.C
 Q/QFunctionObject.C

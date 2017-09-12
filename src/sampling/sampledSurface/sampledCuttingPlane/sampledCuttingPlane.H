@@ -39,7 +39,7 @@ SourceFiles
 #include "isoSurface.H"
 //#include "isoSurfaceCell.H"
 #include "plane.H"
-#include "ZoneIDs.H"
+#include "ZoneIDs.T.H"
 #include "fvMeshSubset.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

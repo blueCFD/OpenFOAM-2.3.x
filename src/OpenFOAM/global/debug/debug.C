@@ -30,7 +30,7 @@ Description
 #include "dictionary.H"
 #include "IFstream.H"
 #include "OSspecific.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "demandDrivenData.H"
 #include "simpleObjectRegistry.H"
 

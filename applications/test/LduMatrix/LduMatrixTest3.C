@@ -30,7 +30,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "LduMatrix.H"
+#include "LduMatrix.T.H"
 #include "diagTensorField.H"
 
 typedef LduMatrix<vector, scalar, scalar> lduVectorMatrix;

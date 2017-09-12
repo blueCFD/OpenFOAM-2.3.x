@@ -40,7 +40,7 @@ SourceFiles
 #define createShellMesh_H
 
 #include "primitiveFacePatch.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include "labelPair.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

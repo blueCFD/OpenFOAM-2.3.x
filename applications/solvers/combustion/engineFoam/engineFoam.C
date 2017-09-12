@@ -55,7 +55,7 @@ Description
 #include "turbulenceModel.H"
 #include "laminarFlameSpeed.H"
 #include "ignition.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "OFstream.H"
 #include "mathematicalConstants.H"
 #include "pimpleControl.H"

@@ -35,9 +35,9 @@ SourceFiles
 #ifndef WRLsurfaceFormatCore_H
 #define WRLsurfaceFormatCore_H
 
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "OFstream.H"
-#include "MeshedSurface.H"
+#include "MeshedSurface.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

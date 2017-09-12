@@ -38,14 +38,14 @@ Description
 
 #include "cyclicPolyPatch.H"
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "polyMesh.H"
 #include "polyTopoChange.H"
 #include "polyMeshZipUpCells.H"
 #include "wallPolyPatch.H"
 #include "symmetryPolyPatch.H"
 #include "oldCyclicPolyPatch.H"
-#include "Swap.H"
+#include "Swap.T.H"
 #include "IFstream.H"
 #include "readHexLabel.H"
 
@@ -137,6 +137,7 @@ int yyFlexLexer::yywrap()
 one_space                  [ \t\f]
 space                      {one_space}*
 some_space                 {one_space}+
+comma                      ","
 cspace                     ","{space}
 
 alpha                      [_[:alpha:]]
@@ -740,6 +741,10 @@ endOfSection               {space}")"{space}
 <*>{some_space}|\r {
     }
 
+ /* ------              Ignore commas. (Symscape, circa 2009)         ------  */
+
+<*>{comma} {
+    }
 
  /* ------              Any other characters are errors.              ------ */
 

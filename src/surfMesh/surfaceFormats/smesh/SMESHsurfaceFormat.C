@@ -27,7 +27,7 @@ License
 #include "clock.H"
 #include "IFstream.H"
 #include "OFstream.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

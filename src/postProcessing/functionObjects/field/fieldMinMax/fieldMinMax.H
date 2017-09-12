@@ -79,10 +79,10 @@ SourceFiles
 #include "functionObjectFile.H"
 #include "primitiveFieldsFwd.H"
 #include "volFieldsFwd.H"
-#include "HashSet.H"
+#include "HashSet.T.H"
 #include "OFstream.H"
-#include "Switch.H"
-#include "NamedEnum.H"
+#include "Switch.T.H"
+#include "NamedEnum.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

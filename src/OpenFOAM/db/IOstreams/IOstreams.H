@@ -38,7 +38,7 @@ Description
 #include "ISstream.H"
 #include "prefixOSstream.H"
 #include "token.H"
-#include "char.H"
+#include "char.T.H"
 #include "int.H"
 #include "uint.H"
 

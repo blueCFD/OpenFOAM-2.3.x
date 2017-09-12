@@ -39,10 +39,10 @@ SourceFiles
 #define fieldValue_H
 
 #include "functionObjectFile.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "OFstream.H"
 #include "dictionary.H"
-#include "Field.H"
+#include "Field.T.H"
 #include "runTimeSelectionTables.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -37,7 +37,7 @@ SourceFiles
 
 #include "complexFields.H"
 #include "scalar.H"
-#include "Random.H"
+#include "Random.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -41,11 +41,11 @@ Description
 #include "vector.H"
 #include "labelVector.H"
 #include "tensor.H"
-#include "Distribution.H"
-#include "Random.H"
+#include "Distribution.T.H"
+#include "Random.T.H"
 #include "dimensionedTypes.H"
 #include "argList.H"
-#include "PstreamReduceOps.H"
+#include "PstreamReduceOps.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

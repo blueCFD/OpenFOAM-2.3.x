@@ -52,16 +52,16 @@ Note
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "polyMesh.H"
 #include "triSurface.H"
 #include "surfMesh.H"
 #include "surfFields.H"
 #include "surfPointFields.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 
-#include "MeshedSurfaces.H"
-#include "UnsortedMeshedSurfaces.H"
+#include "MeshedSurfaces.T.H"
+#include "UnsortedMeshedSurfaces.T.H"
 
 using namespace Foam;
 

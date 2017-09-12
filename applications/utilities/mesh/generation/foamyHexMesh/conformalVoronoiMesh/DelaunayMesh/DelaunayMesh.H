@@ -37,13 +37,13 @@ SourceFiles
 #ifndef DelaunayMesh_H
 #define DelaunayMesh_H
 
-#include "Pair.H"
-#include "HashSet.H"
-#include "FixedList.H"
+#include "Pair.T.H"
+#include "HashSet.T.H"
+#include "FixedList.T.H"
 #include "boundBox.H"
 #include "indexedVertex.H"
 #include "CGALTriangulation3Ddefs.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "autoPtr.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

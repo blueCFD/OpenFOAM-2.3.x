@@ -28,7 +28,7 @@ License
 #include "fvMatrices.H"
 #include "volFields.H"
 #include "fvsPatchFields.H"
-#include "ListOps.H"
+#include "ListOps.T.H"
 #include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //

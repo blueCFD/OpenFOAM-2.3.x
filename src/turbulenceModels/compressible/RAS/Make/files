@@ -3,9 +3,9 @@ RASModel/RASModel.C
 laminar/laminar.C
 kEpsilon/kEpsilon.C
 RNGkEpsilon/RNGkEpsilon.C
-LaunderSharmaKE/LaunderSharmaKE.C
+LaunderSharmaKE/LaunderSharmaKE.T.C
 LRR/LRR.C
-LaunderGibsonRSTM/LaunderGibsonRSTM.C
+LaunderGibsonRSTM/LaunderGibsonRSTM.T.C
 realizableKE/realizableKE.C
 SpalartAllmaras/SpalartAllmaras.C
 kOmegaSST/kOmegaSST.C

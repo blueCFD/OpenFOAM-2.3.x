@@ -25,7 +25,7 @@ License
 
 #include "lduMatrix.H"
 #include "IOstreams.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

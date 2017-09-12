@@ -26,7 +26,7 @@ License
 #include "metisDecomp.H"
 #include "addToRunTimeSelectionTable.H"
 #include "floatScalar.H"
-#include "Time.H"
+#include "Time.T.H"
 
 extern "C"
 {

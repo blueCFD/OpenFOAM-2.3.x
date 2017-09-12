@@ -77,9 +77,9 @@ SourceFiles
 #define argList_H
 
 #include "stringList.H"
-#include "SubList.H"
+#include "SubList.T.H"
 #include "SLList.H"
-#include "HashTable.H"
+#include "HashTable.T.H"
 #include "word.H"
 #include "fileName.H"
 #include "parRun.H"

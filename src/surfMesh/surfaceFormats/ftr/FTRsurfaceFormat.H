@@ -40,8 +40,8 @@ SourceFiles
 #define FTRsurfaceFormat_H
 
 #include "IFstream.H"
-#include "MeshedSurface.H"
-#include "UnsortedMeshedSurface.H"
+#include "MeshedSurface.T.H"
+#include "UnsortedMeshedSurface.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

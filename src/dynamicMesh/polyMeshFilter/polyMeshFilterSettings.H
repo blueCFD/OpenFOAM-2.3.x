@@ -37,7 +37,7 @@ SourceFiles
 #define polyMeshFilterSettings_H
 
 #include "dictionary.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "scalar.H"
 #include "label.H"
 

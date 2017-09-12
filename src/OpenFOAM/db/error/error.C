@@ -27,8 +27,8 @@ License
 #include "OStringStream.H"
 #include "fileName.H"
 #include "dictionary.H"
-#include "JobInfo.H"
-#include "Pstream.H"
+#include "JobInfo.T.H"
+#include "Pstream.T.H"
 #include "OSspecific.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

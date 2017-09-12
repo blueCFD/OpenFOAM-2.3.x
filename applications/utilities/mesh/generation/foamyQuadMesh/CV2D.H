@@ -119,12 +119,12 @@ SourceFiles
 
 #include "CGALTriangulation2Ddefs.H"
 
-#include "Time.H"
+#include "Time.T.H"
 #include "point2DFieldFwd.H"
 #include "dictionary.H"
-#include "Switch.H"
-#include "PackedBoolList.H"
-#include "EdgeMap.H"
+#include "Switch.T.H"
+#include "PackedBoolList.T.H"
+#include "EdgeMap.T.H"
 #include "cv2DControls.H"
 #include "tolerances.H"
 #include "meshTools.H"

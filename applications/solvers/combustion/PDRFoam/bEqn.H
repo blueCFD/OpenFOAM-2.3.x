@@ -54,7 +54,7 @@ if (ign.ignited())
     surfaceScalarField nf("nf", mesh.Sf() & nfVec);
     n /= mgb;
 
-    #include "StCorr.H"
+    #include "StCorr.T.H"
 
     // Calculate turbulent flame speed flux
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

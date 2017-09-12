@@ -26,9 +26,9 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "UIndirectList.H"
-#include "DynamicList.H"
+#include "DynamicList.T.H"
 #include "IOstreams.H"
-#include "ListOps.H"
+#include "ListOps.T.H"
 #include "OFstream.H"
 
 using namespace Foam;

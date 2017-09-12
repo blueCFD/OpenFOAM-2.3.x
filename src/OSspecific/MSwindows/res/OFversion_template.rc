@@ -1,0 +1,28 @@
+#define IDR_VERSION1 1
+
+IDR_VERSION1 VERSIONINFO
+FILEVERSION 2,3,1,0
+PRODUCTVERSION 2,3,1,0
+FILEOS 0x00000000
+FILETYPE 0x00000000
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "FFFF0000"
+    BEGIN
+      VALUE "FileVersion", "2.3.1.0\0"
+      VALUE "ProductVersion", "2.3.1.0\0"
+      VALUE "FileDescription", "tmpintname - Built for blueCFD, by blueCAPE.\0"
+      VALUE "LegalCopyright", "OpenFOAM is Copyright (C) 2011-14 OpenFOAM Foundation.\0"
+      VALUE "LegalTrademarks", "OpenFOAM is Copyright (C) 2011-14 OpenFOAM Foundation.\0"
+      VALUE "ProductName", "OpenFOAM (unofficial build)\0"
+      VALUE "InternalName", "tmpintname\0"
+      VALUE "OriginalFilename", "tmporigname\0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0xFFFF, 0x0000
+  END
+END
+

@@ -51,9 +51,9 @@ SourceFiles
 #ifndef CSV_H
 #define CSV_H
 
-#include "DataEntry.H"
-#include "TableBase.H"
-#include "Tuple2.H"
+#include "DataEntry.T.H"
+#include "TableBase.T.H"
+#include "Tuple2.T.H"
 #include "labelList.H"
 #include "ISstream.H"
 

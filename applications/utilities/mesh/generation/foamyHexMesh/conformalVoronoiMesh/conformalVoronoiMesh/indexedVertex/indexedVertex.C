@@ -24,9 +24,9 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "indexedVertex.H"
-#include "point.H"
-#include "Istream.H"
-#include "Ostream.H"
+#include "point.T.H"
+#include "Istream.T.H"
+#include "Ostream.T.H"
 #include "OStringStream.H"
 #include "IStringStream.H"
 

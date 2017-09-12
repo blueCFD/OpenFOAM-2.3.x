@@ -36,7 +36,7 @@ SourceFiles
 #define sixDoFRigidBodyMotionPointConstraint_H
 
 #include "sixDoFRigidBodyMotionConstraint.H"
-#include "point.H"
+#include "point.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

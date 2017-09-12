@@ -40,7 +40,7 @@ Usage
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "timeSelector.H"
 #include "IOdictionary.H"
 #include "polyMesh.H"
@@ -52,7 +52,7 @@ Usage
 #include "volFields.H"
 #include "pointFields.H"
 #include "surfaceFields.H"
-#include "string.H"
+#include "string.T.H"
 
 using namespace Foam;
 

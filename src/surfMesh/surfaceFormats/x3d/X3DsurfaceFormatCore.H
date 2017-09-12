@@ -35,9 +35,9 @@ SourceFiles
 #ifndef X3DsurfaceFormatCore_H
 #define X3DsurfaceFormatCore_H
 
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "OFstream.H"
-#include "MeshedSurface.H"
+#include "MeshedSurface.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -1,0 +1,165 @@
+#!/bin/sh
+#----------------------------------*-sh-*--------------------------------------
+# License
+#     Copyright (C) 2014 blueCAPE Lda
+#
+#     This file is part of blueCAPE's unofficial mingw patches for OpenFOAM.
+#     For more information about these patches, visit:
+#         http://bluecfd.com/Core
+#
+#     This file is a derivative work of OpenFOAM.
+#
+#     OpenFOAM is free software: you can redistribute it and/or modify it
+#     under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+#     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+#     for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+#
+# File
+#     wmake/smartSchedulerManager
+#
+# Description
+#     Part of the smart scheduling scripts created for blueCFD-Core, to rely on
+#     shell scripting to handle multicore compiling.
+#
+#------------------------------------------------------------------------------
+
+if [ $# -eq 0 ]; then
+  echo "No object paths were given. Aborting."
+  exit 1
+fi
+
+WM_NCOMPPROCS_SCHEDULED=$WM_NCOMPPROCS_SCHEDULE
+
+# Need to reset these environment variables, otherwise they'll influence the
+# applications launched next.
+unset WM_SCHEDULER
+unset WM_SCHEDULER_MANAGER
+unset WM_NCOMPPROCS_SCHEDULE
+
+
+function currentStatus()
+{
+  if [ $runningThreads -ge 1 ]; then
+    # show the current counter for completed and launched applications.
+    echo "SCHEDULER: Progress (started,completed - total): $started_count,$done_count - $total_count"
+  fi
+}
+
+function waitingLoopContent()
+{
+  # wait for all threads
+  for x in $THREADS_AVAILABLE; do
+    if [ -n "${TUT_THREAD[$x]}" ] && ! kill -0 ${TUT_THREADID[$x]} > /dev/null 2>&1; then
+      #show the log file for the finished application
+      if [ $(wc -l < ${TUT_THREAD[$x]}.log) -gt 1 ]; then
+        #echo "SCHEDULER: Contents of ${TUT_THREAD[$x]}.log:"
+        cat "${TUT_THREAD[$x]}.log"
+
+        #remove the log file, since it isn't used for anything else
+        rm "${TUT_THREAD[$x]}.log"
+      fi
+
+      # clear the array point for each free thread
+      TUT_THREAD[$x]=""
+      TUT_THREADID[$x]=0
+
+      done_count=$(expr $done_count + 1)
+      runningThreads=$(expr $runningThreads - 1)
+
+      currentStatus
+    fi
+  done
+}
+
+#initiate array for worker threads
+export THREADS_AVAILABLE=$(seq 1 $WM_NCOMPPROCS_SCHEDULED)
+for x in $THREADS_AVAILABLE; do
+  TUT_THREAD[$x]=""
+  TUT_THREADID[$x]=0
+done
+export TUT_THREAD
+export TUT_THREADID
+
+#outer loop - cycle through the list of objects
+started_count=0
+done_count=0
+total_count=$#
+runningThreads=0
+
+echo "SCHEDULER: Started processing the $total_count scheduled items..."
+
+for objectItem in $@; do
+
+  #count just the same, otherwise it will seem strange
+  started_count=$(expr $started_count + 1)
+
+  case "$(file -b "${objectItem}")" in
+    *ASCII*)
+      : # do nothing
+      ;;
+    *)
+      done_count=$(expr $done_count + 1)
+      continue
+      ;;
+  esac
+
+  #first inner loop:
+  for x in $THREADS_AVAILABLE; do
+    if [ -z "${TUT_THREAD[$x]}" ]; then
+      # assign execution code to each available thread
+      TUT_THREAD[$x]="${objectItem}"
+
+      lineToExecute=$(cat "${objectItem}")
+      rm "${objectItem}"
+      
+      #filter line
+      lineToExecute=$(echo "${lineToExecute}" | sed -e 's/="/="\\"/g' -e 's/"\ /\\"" /')
+      
+      echo "${lineToExecute}" > "${objectItem}.log"
+      eval ${lineToExecute} >> "${objectItem}.log" 2>&1 &
+      TUT_THREADID[$x]=$!
+
+      runningThreads=$(expr $runningThreads + 1)
+      break
+    fi
+  done
+
+  [ $runningThreads -lt $WM_NCOMPPROCS_SCHEDULED ] && continue
+
+  currentStatus
+
+  #second inner loop:
+  while : ; do
+    waitingLoopContent
+
+    # break out if any free (no need to count)
+    if [ $runningThreads -lt $WM_NCOMPPROCS_SCHEDULED ]; then
+      break
+    else  # or sleep for 0.2 second
+      sleep 0.2
+    fi
+  done
+
+done
+
+currentStatus
+
+#second outer loop - wait for the last few threads to complete.
+while true; do
+  waitingLoopContent
+
+  [ $runningThreads -gt 0 ] && sleep 0.2 || break
+done
+
+echo "SCHEDULER: All $total_count scheduled items have been processed."
+echo "           Note: If there are any missing object files, it implies that they were not built."
+
+#------------------------------------------------------------------------------

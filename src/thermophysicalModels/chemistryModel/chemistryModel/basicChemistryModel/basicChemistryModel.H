@@ -37,11 +37,11 @@ SourceFiles
 #define basicChemistryModel_H
 
 #include "IOdictionary.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "scalarField.H"
 #include "volFieldsFwd.H"
 #include "volMesh.H"
-#include "DimensionedField.H"
+#include "DimensionedField.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -35,8 +35,8 @@ SourceFile
 #ifndef optionList_H
 #define optionList_H
 
-#include "PtrList.H"
-#include "GeometricField.H"
+#include "PtrList.T.H"
+#include "GeometricField.T.H"
 #include "fvPatchField.H"
 #include "fvOption.H"
 

@@ -25,19 +25,19 @@ License
 
 #include "distributedTriSurfaceMesh.H"
 #include "mapDistribute.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "addToRunTimeSelectionTable.H"
 #include "triangleFuncs.H"
 #include "matchPoints.H"
 #include "globalIndex.H"
-#include "Time.H"
+#include "Time.T.H"
 
 #include "IFstream.H"
 #include "decompositionMethod.H"
 #include "geomDecomp.H"
 #include "vectorList.H"
-#include "PackedBoolList.H"
-#include "PatchTools.H"
+#include "PackedBoolList.T.H"
+#include "PatchTools.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

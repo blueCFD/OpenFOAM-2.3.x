@@ -37,7 +37,7 @@ Description
 #ifndef COxidationMurphyShaddix_H
 #define COxidationMurphyShaddix_H
 
-#include "SurfaceReactionModel.H"
+#include "SurfaceReactionModel.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

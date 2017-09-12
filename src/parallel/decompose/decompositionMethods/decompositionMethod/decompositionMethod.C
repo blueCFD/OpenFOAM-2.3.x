@@ -29,7 +29,7 @@ InClass
 #include "decompositionMethod.H"
 #include "globalIndex.H"
 #include "syncTools.H"
-#include "Tuple2.H"
+#include "Tuple2.T.H"
 #include "faceSet.H"
 #include "regionSplit.H"
 #include "localPointRegion.H"

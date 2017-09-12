@@ -9,7 +9,7 @@ turbulence                  = turbulence
 
 noise                       = noise
 
-$(Kmesh)/Kmesh.C
+$(Kmesh)/Kmesh.T.C
 
 $(fft)/fft.C
 $(fft)/fftRenumber.C

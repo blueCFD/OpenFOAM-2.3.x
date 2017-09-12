@@ -35,7 +35,7 @@ SourceFiles
 #ifndef cellMotionFvPatchField_H
 #define cellMotionFvPatchField_H
 
-#include "Random.H"
+#include "Random.T.H"
 #include "fixedValueFvPatchFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

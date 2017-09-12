@@ -118,7 +118,7 @@ SourceFiles
 #define fieldAverage_H
 
 #include "volFieldsFwd.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

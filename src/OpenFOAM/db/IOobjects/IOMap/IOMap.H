@@ -35,7 +35,7 @@ SourceFiles
 #ifndef IOMap_H
 #define IOMap_H
 
-#include "Map.H"
+#include "Map.T.H"
 #include "regIOobject.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

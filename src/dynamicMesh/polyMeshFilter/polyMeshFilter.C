@@ -31,7 +31,7 @@ License
 #include "syncTools.H"
 #include "polyTopoChange.H"
 #include "globalIndex.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include "pointSet.H"
 #include "faceSet.H"
 #include "cellSet.H"

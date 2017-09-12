@@ -25,7 +25,7 @@ License
 
 #include "randomRenumber.H"
 #include "addToRunTimeSelectionTable.H"
-#include "Random.H"
+#include "Random.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

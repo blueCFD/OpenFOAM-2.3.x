@@ -57,7 +57,7 @@ SourceFiles
 #ifndef oneEqEddy_H
 #define oneEqEddy_H
 
-#include "GenEddyVisc.H"
+#include "GenEddyVisc.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

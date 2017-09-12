@@ -45,10 +45,10 @@ SourceFiles
 #ifndef polynomial_H
 #define polynomial_H
 
-#include "DataEntry.H"
-#include "Tuple2.H"
+#include "DataEntry.T.H"
+#include "Tuple2.T.H"
 #include "dimensionSet.H"
-#include "DataEntryFwd.H"
+#include "DataEntryFwd.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

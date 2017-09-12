@@ -28,17 +28,17 @@ License
 
 #include "ArrheniusReactionRate.H"
 #include "infiniteReactionRate.H"
-#include "LandauTellerReactionRate.H"
+#include "LandauTellerReactionRate.T.H"
 #include "thirdBodyArrheniusReactionRate.H"
 
-#include "ChemicallyActivatedReactionRate.H"
-#include "JanevReactionRate.H"
+#include "ChemicallyActivatedReactionRate.T.H"
+#include "JanevReactionRate.T.H"
 #include "powerSeriesReactionRate.H"
 
-#include "FallOffReactionRate.H"
-#include "LindemannFallOffFunction.H"
+#include "FallOffReactionRate.T.H"
+#include "LindemannFallOffFunction.T.H"
 #include "SRIFallOffFunction.H"
-#include "TroeFallOffFunction.H"
+#include "TroeFallOffFunction.T.H"
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

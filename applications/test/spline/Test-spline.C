@@ -29,7 +29,7 @@ License
 #include "IFstream.H"
 
 #include "BSpline.H"
-#include "CatmullRomSpline.H"
+#include "CatmullRomSpline.T.H"
 
 using namespace Foam;
 

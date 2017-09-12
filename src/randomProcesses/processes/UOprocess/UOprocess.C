@@ -26,7 +26,7 @@ License
 #include "error.H"
 
 #include "UOprocess.H"
-#include "Kmesh.H"
+#include "Kmesh.T.H"
 #include "dictionary.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

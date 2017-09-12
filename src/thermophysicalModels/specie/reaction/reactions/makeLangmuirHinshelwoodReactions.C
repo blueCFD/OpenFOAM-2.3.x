@@ -25,7 +25,7 @@ License
 
 #include "makeReaction.H"
 #include "reactionTypes.H"
-#include "LangmuirHinshelwoodReactionRate.H"
+#include "LangmuirHinshelwoodReactionRate.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

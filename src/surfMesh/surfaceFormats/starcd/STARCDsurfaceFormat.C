@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "STARCDsurfaceFormat.H"
-#include "ListOps.H"
+#include "ListOps.T.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 

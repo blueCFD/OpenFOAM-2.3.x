@@ -41,7 +41,7 @@ SourceFiles
 #define structuredRenumber_H
 
 #include "renumberMethod.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 namespace Foam
 {

@@ -37,7 +37,7 @@ SourceFiles
 #define regionModel_H
 
 #include "IOdictionary.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "labelList.H"
 #include "volFields.H"
 #include "mappedPatchBase.H"

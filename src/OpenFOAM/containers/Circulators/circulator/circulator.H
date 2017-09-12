@@ -60,7 +60,7 @@ SourceFiles
 #ifndef circulator_H
 #define circulator_H
 
-#include "CirculatorBase.H"
+#include "CirculatorBase.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

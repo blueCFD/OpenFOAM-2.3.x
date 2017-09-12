@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "UPtrList.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 
 // * * * * * * * * * * * * * * * Ostream Operators * * * * * * * * * * * * * //
 

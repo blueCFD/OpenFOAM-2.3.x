@@ -50,8 +50,8 @@ SourceFiles
 #ifndef fieldAverageItem_H
 #define fieldAverageItem_H
 
-#include "NamedEnum.H"
-#include "Switch.H"
+#include "NamedEnum.T.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

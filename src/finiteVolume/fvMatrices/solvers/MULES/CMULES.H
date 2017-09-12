@@ -47,7 +47,7 @@ SourceFiles
 #define CMULES_H
 
 #include "MULES.H"
-#include "EulerDdtScheme.H"
+#include "EulerDdtScheme.T.H"
 #include "localEulerDdtScheme.H"
 #include "gaussConvectionScheme.H"
 

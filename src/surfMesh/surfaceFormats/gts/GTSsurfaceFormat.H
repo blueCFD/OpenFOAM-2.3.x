@@ -37,9 +37,9 @@ SourceFiles
 #ifndef GTSsurfaceFormat_H
 #define GTSsurfaceFormat_H
 
-#include "MeshedSurface.H"
-#include "MeshedSurfaceProxy.H"
-#include "UnsortedMeshedSurface.H"
+#include "MeshedSurface.T.H"
+#include "MeshedSurfaceProxy.T.H"
+#include "UnsortedMeshedSurface.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

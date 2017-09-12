@@ -40,7 +40,7 @@ SourceFiles
 #include "treeBoundBox.H"
 #include "coordinateSystem.H"
 #include "UPtrList.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -30,9 +30,9 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "IStringStream.H"
-#include "Polynomial.H"
+#include "Polynomial.T.H"
 #include "polynomialFunction.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "cpuTime.H"
 
 using namespace Foam;

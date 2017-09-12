@@ -32,7 +32,7 @@ Description
 #ifndef IOPeclet_H
 #define IOPeclet_H
 
-#include "Peclet.H"
+#include "Peclet.T.H"
 #include "IOOutputFilter.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

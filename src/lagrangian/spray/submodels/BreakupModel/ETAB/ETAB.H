@@ -50,7 +50,7 @@ See Also
 #ifndef ETAB_H
 #define ETAB_H
 
-#include "BreakupModel.H"
+#include "BreakupModel.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

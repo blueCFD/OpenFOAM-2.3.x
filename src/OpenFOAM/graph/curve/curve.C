@@ -25,7 +25,7 @@ License
 
 #include "curve.H"
 //#include "curveTools.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

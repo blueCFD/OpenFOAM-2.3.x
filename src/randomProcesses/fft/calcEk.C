@@ -11,7 +11,7 @@
 
 #include "calcEk.H"
 #include "fft.H"
-#include "Kmesh.H"
+#include "Kmesh.T.H"
 #include "kShellIntegration.H"
 #include "volFields.H"
 #include "graph.H"

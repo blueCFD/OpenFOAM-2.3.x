@@ -46,8 +46,8 @@ See Also
 #ifndef TAB_H
 #define TAB_H
 
-#include "BreakupModel.H"
-#include "FixedList.H"
+#include "BreakupModel.T.H"
+#include "FixedList.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -63,8 +63,8 @@ SourceFiles
 #define general_H
 
 #include "tabulatedWallFunction.H"
-#include "NamedEnum.H"
-#include "Switch.H"
+#include "NamedEnum.T.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -72,7 +72,7 @@ SourceFiles
 #ifndef homogeneousDynSmagorinsky_H
 #define homogeneousDynSmagorinsky_H
 
-#include "Smagorinsky.H"
+#include "Smagorinsky.T.H"
 #include "LESfilter.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

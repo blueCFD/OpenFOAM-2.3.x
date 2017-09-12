@@ -25,9 +25,9 @@ License
 
 #include "cyclicAMIPolyPatch.H"
 #include "transformField.H"
-#include "SubField.H"
+#include "SubField.T.H"
 #include "polyMesh.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "addToRunTimeSelectionTable.H"
 #include "faceAreaIntersect.H"
 #include "ops.H"

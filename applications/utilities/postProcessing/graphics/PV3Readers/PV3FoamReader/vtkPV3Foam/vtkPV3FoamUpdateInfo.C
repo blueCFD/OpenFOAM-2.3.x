@@ -33,7 +33,7 @@ License
 #include "IOPtrList.H"
 #include "polyBoundaryMeshEntries.H"
 #include "entry.H"
-#include "Cloud.H"
+#include "Cloud.T.H"
 #include "vtkPV3FoamReader.h"
 
 // local headers

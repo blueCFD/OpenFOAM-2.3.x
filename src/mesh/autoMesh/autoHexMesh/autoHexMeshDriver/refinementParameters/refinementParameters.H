@@ -37,7 +37,7 @@ SourceFiles
 
 #include "dictionary.H"
 #include "pointField.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -52,7 +52,7 @@ SourceFiles
 #include "fvMatrices.H"
 #include "incompressible/transportModel/transportModel.H"
 #include "IOdictionary.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "bound.H"
 #include "autoPtr.H"
 #include "runTimeSelectionTables.H"

@@ -91,7 +91,7 @@ SourceFiles
 
 #include "fvOption.H"
 #include "cylindricalCS.H"
-#include "NamedEnum.H"
+#include "NamedEnum.T.H"
 #include "bladeModel.H"
 #include "profileModelList.H"
 #include "volFieldsFwd.H"

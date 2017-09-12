@@ -35,7 +35,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "dimensionedTypes.H"
 #include "IFstream.H"
 #include "polyTopoChange.H"
@@ -45,7 +45,7 @@ Description
 #include "perfectInterface.H"
 #include "addPatchCellLayer.H"
 #include "fvMesh.H"
-#include "MeshedSurfaces.H"
+#include "MeshedSurfaces.T.H"
 #include "globalIndex.H"
 
 #include "extrudedMesh.H"

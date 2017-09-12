@@ -40,7 +40,7 @@ SourceFiles
 #ifndef relative_H
 #define relative_H
 
-#include "CorrectionLimitingMethod.H"
+#include "CorrectionLimitingMethod.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

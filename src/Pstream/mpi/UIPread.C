@@ -29,7 +29,7 @@ Description
 #include "mpi.h"
 
 #include "UIPstream.H"
-#include "PstreamGlobals.H"
+#include "PstreamGlobals.T.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * * * Constructor * * * * * * * * * * * * * * * //

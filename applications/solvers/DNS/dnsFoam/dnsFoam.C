@@ -30,7 +30,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "Kmesh.H"
+#include "Kmesh.T.H"
 #include "UOprocess.H"
 #include "fft.H"
 #include "calcEk.H"

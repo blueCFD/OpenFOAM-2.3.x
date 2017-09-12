@@ -36,13 +36,13 @@ SourceFiles
 #define hexRef8_H
 
 #include "labelIOList.H"
-#include "face.H"
-#include "HashSet.H"
-#include "DynamicList.H"
+#include "face.T.H"
+#include "HashSet.T.H"
+#include "DynamicList.T.H"
 #include "primitivePatch.H"
 #include "removeFaces.H"
 #include "refinementHistory.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include "uniformDimensionedFields.H"
 #include "cellShapeList.H"
 

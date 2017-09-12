@@ -26,14 +26,14 @@ License
 #include "processorPolyPatch.H"
 #include "addToRunTimeSelectionTable.H"
 #include "dictionary.H"
-#include "SubField.H"
+#include "SubField.T.H"
 #include "demandDrivenData.H"
 #include "matchPoints.H"
 #include "OFstream.H"
 #include "polyMesh.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "transformList.H"
-#include "PstreamBuffers.H"
+#include "PstreamBuffers.T.H"
 #include "const_circulator.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

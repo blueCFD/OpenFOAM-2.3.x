@@ -90,7 +90,7 @@ SourceFiles
 
 #include "fvPatchFields.H"
 #include "fixedValueFvPatchFields.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

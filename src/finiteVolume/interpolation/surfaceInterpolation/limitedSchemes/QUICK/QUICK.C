@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "LimitedScheme.H"
+#include "LimitedScheme.T.H"
 #include "QUICK.H"
 #include "QUICKV.H"
 

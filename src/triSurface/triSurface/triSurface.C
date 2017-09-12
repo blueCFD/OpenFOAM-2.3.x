@@ -27,10 +27,10 @@ License
 #include "demandDrivenData.H"
 #include "IFstream.H"
 #include "OFstream.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "boundBox.H"
-#include "SortableList.H"
-#include "PackedBoolList.H"
+#include "SortableList.T.H"
+#include "PackedBoolList.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

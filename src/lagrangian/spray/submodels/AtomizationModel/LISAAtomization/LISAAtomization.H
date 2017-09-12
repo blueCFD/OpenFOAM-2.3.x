@@ -47,7 +47,7 @@ Description
 #ifndef LISAAtomization_H
 #define LISAAtomization_H
 
-#include "AtomizationModel.H"
+#include "AtomizationModel.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

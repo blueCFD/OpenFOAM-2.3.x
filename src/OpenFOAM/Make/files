@@ -7,8 +7,8 @@ global/clock/clock.C
 bools = primitives/bools
 $(bools)/bool/bool.C
 $(bools)/bool/boolIO.C
-$(bools)/Switch/Switch.C
-$(bools)/Switch/SwitchIO.C
+$(bools)/Switch/Switch.T.C
+$(bools)/Switch/SwitchIO.T.C
 $(bools)/lists/boolList.C
 
 chars = primitives/chars
@@ -89,13 +89,13 @@ $(strings)/wordRe/wordRe.C
 $(strings)/lists/hashedWordList.C
 $(strings)/stringOps/stringOps.C
 
-primitives/hashes/Hasher/Hasher.C
+primitives/hashes/Hasher/Hasher.T.C
 
 sha1 = primitives/hashes/SHA1
 $(sha1)/SHA1.C
 $(sha1)/SHA1Digest.C
 
-primitives/random/Random/Random.C
+primitives/random/Random/Random.T.C
 primitives/random/cachedRandom/cachedRandom.H
 
 ranges = primitives/ranges
@@ -105,12 +105,12 @@ $(ranges)/scalarRange/scalarRange.C
 $(ranges)/scalarRange/scalarRanges.C
 
 
-containers/HashTables/HashTable/HashTableCore.C
-containers/HashTables/StaticHashTable/StaticHashTableCore.C
-containers/Lists/SortableList/ParSortableListName.C
-containers/Lists/PackedList/PackedListCore.C
-containers/Lists/PackedList/PackedBoolList.C
-containers/Lists/ListOps/ListOps.C
+containers/HashTables/HashTable/HashTableCore.T.C
+containers/HashTables/StaticHashTable/StaticHashTableCore.T.C
+containers/Lists/SortableList/ParSortableListName.T.C
+containers/Lists/PackedList/PackedListCore.T.C
+containers/Lists/PackedList/PackedBoolList.T.C
+containers/Lists/ListOps/ListOps.T.C
 containers/LinkedLists/linkTypes/SLListBase/SLListBase.C
 containers/LinkedLists/linkTypes/DLListBase/DLListBase.C
 
@@ -119,13 +119,13 @@ $(Streams)/token/tokenIO.C
 
 IOstreams = $(Streams)/IOstreams
 $(IOstreams)/IOstream.C
-$(IOstreams)/Istream.C
-$(IOstreams)/Ostream.C
+$(IOstreams)/Istream.T.C
+$(IOstreams)/Ostream.T.C
 
 Sstreams = $(Streams)/Sstreams
 $(Sstreams)/ISstream.C
 $(Sstreams)/OSstream.C
-$(Sstreams)/SstreamsPrint.C
+$(Sstreams)/SstreamsPrint.T.C
 $(Sstreams)/readHexLabel.C
 $(Sstreams)/prefixOSstream.C
 
@@ -140,17 +140,17 @@ Tstreams = $(Streams)/Tstreams
 $(Tstreams)/ITstream.C
 
 StringStreams = $(Streams)/StringStreams
-$(StringStreams)/StringStreamsPrint.C
+$(StringStreams)/StringStreamsPrint.T.C
 
 Pstreams = $(Streams)/Pstreams
 $(Pstreams)/UIPstream.C
 $(Pstreams)/IPstream.C
 /* $(Pstreams)/UPstream.C in global.Cver */
 $(Pstreams)/UPstreamCommsStruct.C
-$(Pstreams)/Pstream.C
+$(Pstreams)/Pstream.T.C
 $(Pstreams)/UOPstream.C
 $(Pstreams)/OPstream.C
-$(Pstreams)/PstreamBuffers.C
+$(Pstreams)/PstreamBuffers.T.C
 
 dictionary = db/dictionary
 $(dictionary)/dictionary.C
@@ -196,7 +196,7 @@ $(regIOobject)/regIOobjectWrite.C
 
 db/IOobjectList/IOobjectList.C
 db/objectRegistry/objectRegistry.C
-db/CallbackRegistry/CallbackRegistryName.C
+db/CallbackRegistry/CallbackRegistryName.T.C
 
 dll = db/dynamicLibrary
 $(dll)/dlLibraryTable/dlLibraryTable.C
@@ -211,10 +211,10 @@ db/functionObjects/outputFilterOutputControl/outputFilterOutputControl.C
 
 
 Time = db/Time
-$(Time)/TimePaths.C
-$(Time)/TimeState.C
-$(Time)/Time.C
-$(Time)/TimeIO.C
+$(Time)/TimePaths.T.C
+$(Time)/TimeState.T.C
+$(Time)/Time.T.C
+$(Time)/TimeIO.T.C
 $(Time)/findTimes.C
 $(Time)/subCycleTime.C
 $(Time)/findInstance.C
@@ -257,7 +257,7 @@ $(lduMatrix)/solvers/PBiCG/PBiCG.C
 $(lduMatrix)/solvers/ICCG/ICCG.C
 $(lduMatrix)/solvers/BICCG/BICCG.C
 
-$(lduMatrix)/smoothers/GaussSeidel/GaussSeidelSmoother.C
+$(lduMatrix)/smoothers/GaussSeidel/GaussSeidelSmoother.T.C
 $(lduMatrix)/smoothers/symGaussSeidel/symGaussSeidelSmoother.C
 $(lduMatrix)/smoothers/nonBlockingGaussSeidel/nonBlockingGaussSeidelSmoother.C
 $(lduMatrix)/smoothers/DIC/DICSmoother.C
@@ -344,7 +344,7 @@ meshes/lduMesh/lduPrimitiveMesh.C
 LduMatrix = matrices/LduMatrix
 $(LduMatrix)/LduMatrix/lduMatrices.C
 $(LduMatrix)/LduMatrix/solverPerformance.C
-$(LduMatrix)/LduMatrix/LduInterfaceField/LduInterfaceFields.C
+$(LduMatrix)/LduMatrix/LduInterfaceField/LduInterfaceFields.T.C
 $(LduMatrix)/Smoothers/lduSmoothers.C
 $(LduMatrix)/Preconditioners/lduPreconditioners.C
 $(LduMatrix)/Solvers/lduSolvers.C
@@ -505,8 +505,8 @@ $(mapPolyMesh)/mapDistribute/mapDistribute.C
 $(mapPolyMesh)/mapDistribute/mapDistributePolyMesh.C
 $(mapPolyMesh)/mapAddedPolyMesh.C
 
-PrimitivePatch = $(primitiveMesh)/PrimitivePatch
-$(PrimitivePatch)/PrimitivePatchName.C
+PrimitivePatch = $(primitiveMesh)/PrimitivePatch.T
+$(PrimitivePatch)/PrimitivePatchName.T.C
 
 pointMesh = meshes/pointMesh
 $(pointMesh)/pointMesh.C
@@ -619,7 +619,7 @@ meshes/preservePatchTypes/preservePatchTypes.C
 
 interpolations = interpolations
 interpolation = $(interpolations)/interpolation
-$(interpolations)/patchToPatchInterpolation/PatchToPatchInterpolationName.C
+$(interpolations)/patchToPatchInterpolation/PatchToPatchInterpolationName.T.C
 
 $(interpolations)/interpolationTable/tableReaders/tableReaders.C
 $(interpolations)/interpolationTable/tableReaders/openFoam/openFoamTableReaders.C

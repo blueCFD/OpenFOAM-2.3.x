@@ -35,7 +35,7 @@ SourceFiles
 #ifndef IOList_H
 #define IOList_H
 
-#include "List.H"
+#include "List.T.H"
 #include "regIOobject.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -41,7 +41,7 @@ SourceFiles
 #include "autoPtr.H"
 #include "boolList.H"
 #include "labelList.H"
-#include "Switch.H"
+#include "Switch.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

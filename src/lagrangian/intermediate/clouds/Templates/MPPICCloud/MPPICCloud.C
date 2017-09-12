@@ -24,11 +24,11 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "MPPICCloud.H"
-#include "PackingModel.H"
-#include "ParticleStressModel.H"
-#include "DampingModel.H"
-#include "IsotropyModel.H"
-#include "TimeScaleModel.H"
+#include "PackingModel.T.H"
+#include "ParticleStressModel.T.H"
+#include "DampingModel.T.H"
+#include "IsotropyModel.T.H"
+#include "TimeScaleModel.T.H"
 
 // * * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * //
 

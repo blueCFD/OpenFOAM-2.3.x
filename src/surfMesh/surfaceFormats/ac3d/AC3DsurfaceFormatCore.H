@@ -36,9 +36,9 @@ SourceFiles
 #define AC3DsurfaceFormatCore_H
 
 #include "IFstream.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 #include "OFstream.H"
-#include "MeshedSurface.H"
+#include "MeshedSurface.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

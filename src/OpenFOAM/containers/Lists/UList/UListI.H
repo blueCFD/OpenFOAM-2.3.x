@@ -25,7 +25,7 @@ License
 
 #include "error.H"
 #include "pTraits.H"
-#include "Swap.H"
+#include "Swap.T.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

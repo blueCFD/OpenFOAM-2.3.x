@@ -26,7 +26,7 @@ License
 #include "OFSsurfaceFormat.H"
 #include "IFstream.H"
 #include "IStringStream.H"
-#include "ListOps.H"
+#include "ListOps.T.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

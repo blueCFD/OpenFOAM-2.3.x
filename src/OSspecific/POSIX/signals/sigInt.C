@@ -25,7 +25,7 @@ License
 
 #include "sigInt.H"
 #include "error.H"
-#include "JobInfo.H"
+#include "JobInfo.T.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //

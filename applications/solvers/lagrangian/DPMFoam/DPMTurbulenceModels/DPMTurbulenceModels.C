@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "PhaseIncompressibleTurbulenceModel.H"
+#include "PhaseIncompressibleTurbulenceModel.T.H"
 #include "singlePhaseTransportModel.H"
 #include "addToRunTimeSelectionTable.H"
 #include "makeTurbulenceModel.H"
@@ -52,7 +52,7 @@ makeBaseTurbulenceModel
 #include "kEpsilon.H"
 makeRASModel(kEpsilon);
 
-#include "Smagorinsky.H"
+#include "Smagorinsky.T.H"
 makeLESModel(Smagorinsky);
 
 #include "kEqn.H"

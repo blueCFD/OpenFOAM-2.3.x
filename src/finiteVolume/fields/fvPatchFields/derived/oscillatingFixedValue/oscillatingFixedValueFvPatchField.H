@@ -84,9 +84,9 @@ SourceFiles
 #ifndef oscillatingFixedValueFvPatchField_H
 #define oscillatingFixedValueFvPatchField_H
 
-#include "Random.H"
+#include "Random.T.H"
 #include "fixedValueFvPatchFields.H"
-#include "DataEntry.H"
+#include "DataEntry.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

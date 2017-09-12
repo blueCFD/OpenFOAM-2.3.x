@@ -39,7 +39,7 @@ SourceFiles
 #ifndef UDictionary_H
 #define UDictionary_H
 
-#include "DictionaryBase.H"
+#include "DictionaryBase.T.H"
 #include "UIDLList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

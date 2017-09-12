@@ -75,7 +75,7 @@ SourceFiles
 
 #include "functionObjectFile.H"
 #include "volFieldsFwd.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "OFstream.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

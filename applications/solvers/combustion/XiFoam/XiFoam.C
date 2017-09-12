@@ -54,7 +54,7 @@ Description
 #include "turbulenceModel.H"
 #include "laminarFlameSpeed.H"
 #include "ignition.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "pimpleControl.H"
 #include "fvIOoptionList.H"
 

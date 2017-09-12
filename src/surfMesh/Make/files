@@ -2,13 +2,13 @@ surfZone/surfZone/surfZone.C
 surfZone/surfZone/surfZoneIOList.C
 surfZone/surfZoneIdentifier/surfZoneIdentifier.C
 
-MeshedSurfaceAllocator/MeshedSurfaceIOAllocator.C
+MeshedSurfaceAllocator/MeshedSurfaceIOAllocator.T.C
 
-MeshedSurface/MeshedSurfaceCore.C
-MeshedSurface/MeshedSurfaces.C
-UnsortedMeshedSurface/UnsortedMeshedSurfaces.C
+MeshedSurface/MeshedSurfaceCore.T.C
+MeshedSurface/MeshedSurfaces.T.C
+UnsortedMeshedSurface/UnsortedMeshedSurfaces.T.C
 
-MeshedSurfaceProxy/MeshedSurfaceProxyCore.C
+MeshedSurfaceProxy/MeshedSurfaceProxyCore.T.C
 
 surfaceRegistry/surfaceRegistry.C
 surfMesh/surfMesh.C

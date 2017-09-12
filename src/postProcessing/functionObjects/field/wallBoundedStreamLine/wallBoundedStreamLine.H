@@ -105,8 +105,8 @@ SourceFiles
 
 #include "volFieldsFwd.H"
 #include "pointFieldFwd.H"
-#include "Switch.H"
-#include "DynamicList.H"
+#include "Switch.T.H"
+#include "DynamicList.T.H"
 #include "scalarList.H"
 #include "vectorList.H"
 #include "polyMesh.H"

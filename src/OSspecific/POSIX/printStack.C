@@ -28,7 +28,7 @@ License
 #include "OStringStream.H"
 #include "OSspecific.H"
 #include "IFstream.H"
-#include "ReadHex.H"
+#include "ReadHex.T.H"
 
 #include <cxxabi.h>
 #include <execinfo.h>

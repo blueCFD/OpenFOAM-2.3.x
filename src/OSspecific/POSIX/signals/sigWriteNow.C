@@ -25,9 +25,9 @@ License
 
 #include "sigWriteNow.H"
 #include "error.H"
-#include "JobInfo.H"
+#include "JobInfo.T.H"
 #include "IOstreams.H"
-#include "Time.H"
+#include "Time.T.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

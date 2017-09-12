@@ -49,7 +49,7 @@ const char* const Foam::FOAMbuild = "BUILD_STRING";
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "JobInfo.H"
+#include "JobInfo.T.H"
 bool Foam::JobInfo::constructed(false);
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -89,6 +89,6 @@ bool Foam::JobInfo::constructed(false);
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 // Create the jobInfo file in the $FOAM_JOB_DIR/runningJobs directory
 
-#include "JobInfo.C"
+#include "JobInfo.T.C"
 
 // ************************************************************************* //

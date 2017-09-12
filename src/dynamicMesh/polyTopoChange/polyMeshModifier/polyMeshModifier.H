@@ -37,7 +37,7 @@ SourceFiles
 
 #include "label.H"
 #include "word.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "typeInfo.H"
 #include "runTimeSelectionTables.H"
 #include "autoPtr.H"

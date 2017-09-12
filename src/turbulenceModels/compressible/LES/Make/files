@@ -1,13 +1,13 @@
 LESModel/LESModel.C
 DESModel/DESModel.C
-GenEddyVisc/GenEddyVisc.C
-GenSGSStress/GenSGSStress.C
+GenEddyVisc/GenEddyVisc.T.C
+GenSGSStress/GenSGSStress.T.C
 
-Smagorinsky/Smagorinsky.C
+Smagorinsky/Smagorinsky.T.C
 oneEqEddy/oneEqEddy.C
 lowReOneEqEddy/lowReOneEqEddy.C
 homogeneousDynOneEqEddy/homogeneousDynOneEqEddy.C
-DeardorffDiffStress/DeardorffDiffStress.C
+DeardorffDiffStress/DeardorffDiffStress.T.C
 SpalartAllmaras/SpalartAllmaras.C
 
 compressibleLESdelta/compressibleLESdelta.C

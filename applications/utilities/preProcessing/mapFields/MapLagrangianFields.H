@@ -34,10 +34,10 @@ Description
 #define MapLagrangianFields_H
 
 #include "cloud.H"
-#include "GeometricField.H"
+#include "GeometricField.T.H"
 #include "meshToMesh.H"
 #include "IOobjectList.H"
-#include "CompactIOField.H"
+#include "CompactIOField.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -48,7 +48,7 @@ SourceFiles
 #include "surfaceFields.H"
 #include "fvMatricesFwd.H"
 #include "mapPolyMesh.H"
-#include "DataEntry.H"
+#include "DataEntry.T.H"
 #include "autoPtr.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

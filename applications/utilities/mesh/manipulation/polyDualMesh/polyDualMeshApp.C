@@ -58,16 +58,16 @@ Usage
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "fvMesh.H"
 #include "unitConversion.H"
 #include "polyTopoChange.H"
 #include "mapPolyMesh.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include "meshTools.H"
 #include "OFstream.H"
 #include "meshDualiser.H"
-#include "ReadFields.H"
+#include "ReadFields.T.H"
 #include "volFields.H"
 #include "surfaceFields.H"
 

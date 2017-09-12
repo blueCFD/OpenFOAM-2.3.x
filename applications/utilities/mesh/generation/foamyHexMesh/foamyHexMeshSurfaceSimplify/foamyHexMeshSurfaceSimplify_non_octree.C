@@ -32,12 +32,12 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "searchableSurfaces.H"
 #include "conformationSurfaces.H"
 #include "triSurfaceMesh.H"
 
-#include "MarchingCubes.h"
+#include "MarchingCubes.T.h"
 
 
 using namespace Foam;

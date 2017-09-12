@@ -5,8 +5,8 @@ LESModel/LESModel.C
 
 DESModel/DESModel.C
 
-GenEddyVisc/GenEddyVisc.C
-GenSGSStress/GenSGSStress.C
+GenEddyVisc/GenEddyVisc.T.C
+GenSGSStress/GenSGSStress.T.C
 
 laminar/laminar.C
 SpalartAllmaras/SpalartAllmaras.C
@@ -17,10 +17,10 @@ SpalartAllmarasIDDES/IDDESDelta/IDDESDelta.C
 oneEqEddy/oneEqEddy.C
 homogeneousDynOneEqEddy/homogeneousDynOneEqEddy.C
 dynOneEqEddy/dynOneEqEddy.C
-Smagorinsky/Smagorinsky.C
+Smagorinsky/Smagorinsky.T.C
 homogeneousDynSmagorinsky/homogeneousDynSmagorinsky.C
 LRRDiffStress/LRRDiffStress.C
-DeardorffDiffStress/DeardorffDiffStress.C
+DeardorffDiffStress/DeardorffDiffStress.T.C
 spectEddyVisc/spectEddyVisc.C
 dynLagrangian/dynLagrangian.C
 

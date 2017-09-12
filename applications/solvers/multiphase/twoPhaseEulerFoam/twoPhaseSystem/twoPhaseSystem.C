@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "twoPhaseSystem.H"
-#include "PhaseIncompressibleTurbulenceModel.H"
+#include "PhaseIncompressibleTurbulenceModel.T.H"
 #include "BlendedInterfacialModel.H"
 #include "dragModel.H"
 #include "virtualMassModel.H"
@@ -47,7 +47,7 @@ License
 #include "fixedValueFvsPatchFields.H"
 
 #include "blendingMethod.H"
-#include "HashPtrTable.H"
+#include "HashPtrTable.T.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

@@ -33,12 +33,12 @@ Usage
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 
 #include "triSurfaceMesh.H"
 #include "indexedOctree.H"
 #include "treeBoundBox.H"
-#include "PackedBoolList.H"
+#include "PackedBoolList.T.H"
 #include "unitConversion.H"
 #include "searchableSurfaces.H"
 

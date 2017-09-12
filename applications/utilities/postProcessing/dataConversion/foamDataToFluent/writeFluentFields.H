@@ -30,7 +30,7 @@ InClass
 #define writeFluentFields_H
 
 #include "volFields.H"
-#include "Ostream.H"
+#include "Ostream.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

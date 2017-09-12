@@ -24,10 +24,10 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "dsmcParcel.H"
-#include "DsmcCloud.H"
-#include "MaxwellianThermal.H"
-#include "SpecularReflection.H"
-#include "MixedDiffuseSpecular.H"
+#include "DsmcCloud.T.H"
+#include "MaxwellianThermal.T.H"
+#include "SpecularReflection.T.H"
+#include "MixedDiffuseSpecular.T.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

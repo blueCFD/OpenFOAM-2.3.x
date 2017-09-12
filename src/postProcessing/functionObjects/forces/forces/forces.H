@@ -118,10 +118,10 @@ SourceFiles
 #include "coordinateSystems.H"
 #include "primitiveFieldsFwd.H"
 #include "volFieldsFwd.H"
-#include "HashSet.H"
-#include "Tuple2.H"
+#include "HashSet.T.H"
+#include "Tuple2.T.H"
 #include "OFstream.H"
-#include "Switch.H"
+#include "Switch.T.H"
 #include "writer.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

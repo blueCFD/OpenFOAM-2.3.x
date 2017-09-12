@@ -31,14 +31,14 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "argList.H"
-#include "Time.H"
+#include "Time.T.H"
 #include "volFields.H"
 #include "surfaceFields.H"
 #include "pointFields.H"
 #include "hexRef8.H"
 #include "mapPolyMesh.H"
 #include "polyTopoChange.H"
-#include "Random.H"
+#include "Random.T.H"
 #include "zeroGradientFvPatchFields.H"
 #include "calculatedPointPatchFields.H"
 #include "pointConstraints.H"

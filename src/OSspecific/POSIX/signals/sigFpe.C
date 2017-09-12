@@ -25,7 +25,7 @@ License
 
 #include "sigFpe.H"
 #include "error.H"
-#include "JobInfo.H"
+#include "JobInfo.T.H"
 #include "OSspecific.H"
 #include "IOstreams.H"
 
